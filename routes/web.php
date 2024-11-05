@@ -11,6 +11,12 @@ Route::get('/', function () {
     return view('/admin/dashboard');
 });
 
+Route::get('/sesi/login', function () {
+    return view('/sesi/login');
+});
+
+
+
 // Route::get('/admin/register', [AdminController::class, 'showRegister'])->name('admin.register');
 // Route::post('/admin/register', [AdminController::class, 'register'])->name('admin.register.submit');
 

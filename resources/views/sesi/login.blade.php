@@ -5,6 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login</title>
+    <!-- Link Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <!-- Link Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Link Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <link href="{{ asset('css/logindanregis.css') }}" rel="stylesheet">
     <link rel="stylesheet" href="/vendors/feather/feather.css">
     <link rel="stylesheet" href="/vendors/ti-icons/css/themify-icons.css">
     <link rel="stylesheet" href="/vendors/css/vendor.bundle.base.css">
@@ -25,18 +32,45 @@
 </head>
 
 <body>
-    <div class="container-fluid">
+    <nav class="navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row">
+        <div class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-center">
+            <a class="navbar-brand brand-logo mr-5" href="index.html"><img src="/images/logo.png" class="mr-2"
+                    alt="logo" /></a>
+        </div>
+        <div class="navbar-menu-wrapper d-flex align-items-center justify-content-end">
+            <ul class="navbar-nav navbar-nav-right">
+                <li class="nav-item nav-profile dropdown">
+                    <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
+                    </a>
+                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
+                        aria-labelledby="profileDropdown">
+                        <form action="{{ route('admin.logout') }}" method="POST">
+                            @csrf
+                            <button type="submit" class="dropdown-item">
+                                <i class="ti-power-off text-primary"></i>
+                                Logout
+                            </button>
+                        </form>
+                    </div>
+                </li>
+            </ul>
+            <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
+                data-toggle="offcanvas">
+                <span class="icon-menu"></span>
+            </button>
+        </div>
+    </nav>
+
+    <div class="container-fluid" style="padding-top: 120px;">
         <div class="row no-gutters">
             <!-- Left side: Login/Register Form -->
             <div class="col-lg-6 d-flex align-items-center justify-content-center">
                 <div class="w-75">
                     <!-- Login Form -->
                     <div class="login-container form-container" id="loginForm">
-                        <div class="logo">
-                            <img src="{{ asset('images/logoGA.png') }}" alt="Golden Activities Logo">
-                        </div>
+
                         <h2>Halo,<br> Selamat Datang Kembali</h2>
-                        <p>Ini merupakan tempat spesial kamu untuk bermain!</p>
+                        <p>Silahkan melakukan login terlebih dahulu</p>
 
                         <form method="POST" action="" class="sign-in-form">
                             @csrf
@@ -47,7 +81,7 @@
                             <div class="form-group position-relative">
                                 <label for="password">Password</label>
                                 <input type="password" name="password" class="form-control" id="password" placeholder="Masukkan password">
-                                <i class="fas fa-eye eye-toggle" id="login-toggleBtn"></i> <!-- Eye icon for toggle -->
+                                <i class="fas fa-eye eye-toggle" id="login-toggleBtn" style="position: absolute; right: 10px; top: 58%; cursor: pointer;"></i>
                             </div>
                             <div class="form-check d-flex justify-content-between align-items-center">
                                 <div>
@@ -56,7 +90,7 @@
                                 </div>
                                 <a href="#" class="forgot-password">Forgot password?</a>
                             </div>
-                            <button type="submit" class="btn btn-primaryy mt-4">Masuk</button>
+                            <button type="submit" class="btn btn-primary mt-4">Masuk</button>
                         </form>
 
                         <div class="signup-container">
@@ -69,10 +103,17 @@
             </div>
 
             <!-- Right side: Image -->
-            <div class="col-lg-6 d-none d-lg-block login-image">
-                <img src="{{ asset('images/daftar.jpg') }}" alt="Login/Register Image" class="img-fluid">
+            <div class="col-lg-6 d-none d-lg-block login-image ml-10">
+                <img src="/images/logo.png" alt="Login/Register Image" class="img-fluid" style="width: 50%; height: auto; object-fit: cover; margin-left: 100px;">
             </div>
+
         </div>
+
+        <footer class="footer">
+            <div class="d-sm-flex justify-content-center justify-content-sm-between">
+                <span class="text-muted text-center text-sm-left d-block d-sm-inline-block">©2024, Queen Bakery</span>
+            </div>
+        </footer>
     </div>
 
     <!-- Bootstrap JS and dependencies -->
