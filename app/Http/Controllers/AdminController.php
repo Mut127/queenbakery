@@ -242,4 +242,26 @@ class AdminController extends Controller
     {
         return view('admin.kehadiran');
     }
+
+    public function showPelamar()
+    {
+        return view('admin.pelamar');
+    }
+
+    public function showLowongan()
+    {
+        return view('admin.lowongan');
+    }
+
+    public function showNilai()
+    {
+        return view('admin.nilai');
+    }
+
+    public function showPengumuman()
+    {
+        return view('admin.pengumuman');
+    }
+
+
 }

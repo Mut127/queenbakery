@@ -94,22 +94,26 @@
                         </a>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Kelola Pelamar</a></li>
+                                <li class="nav-item"><a class="nav-link {{ Route::is('admin.pelamar') ? 'active' : '' }}" href="{{ route('admin.pelamar') }}">
+                                    Kelola Pelamar</a></li>
                             </ul>
                         </div>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Kelola Lowongan</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.lowongan') ? 'active' : '' }}" href="{{ route('admin.lowongan') }}">
+                                    Kelola Lowongan</a> </li>
                             </ul>
                         </div>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">Kelola Nilai</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.nilai') ? 'active' : '' }}" href="{{ route('admin.nilai') }}">
+                                    Kelola Nilai</a> </li>
                             </ul>
                         </div>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/tables/basic-table.html">kelola Pengumuman</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.pengumuman') ? 'active' : '' }}" href="{{ route('admin.pengumuman') }}">
+                                    Kelola Pengumuman</a> </li>
                             </ul>
                         </div>
                     </li>

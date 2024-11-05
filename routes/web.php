@@ -39,3 +39,9 @@ Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.lo
 // Route absensi dan kehadiran
 Route::get('/admin/absensi', [AdminController::class, 'showAbsensi'])->name('admin.absensi');
 Route::get('/admin/kehadiran', [AdminController::class, 'showKehadiran'])->name('admin.kehadiran');
+
+// Route kelola pelamar, kelola lowongan, kelola nilai, kelola pengumuman
+Route::get('/admin/pelamar', [AdminController::class, 'showPelamar'])->name('admin.pelamar');
+Route::get('/admin/lowongan', [AdminController::class, 'showLowongan'])->name('admin.lowongan');
+Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
+Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
