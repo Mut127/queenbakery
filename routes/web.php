@@ -35,3 +35,7 @@ Route::post('/users', [AdminController::class, 'store'])->name('users.store');
 Route::put('/users/{id}', [AdminController::class, 'update'])->name('users.update');
 Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
 Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+// Route absensi dan kehadiran
+Route::get('/admin/absensi', [AdminController::class, 'showAbsensi'])->name('admin.absensi');
+Route::get('/admin/kehadiran', [AdminController::class, 'showKehadiran'])->name('admin.kehadiran');

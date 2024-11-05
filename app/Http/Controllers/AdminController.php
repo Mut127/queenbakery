@@ -231,4 +231,15 @@ class AdminController extends Controller
 
         return redirect()->route('admin.user')->with('success', 'User deleted successfully.');
     }
+
+    // Di dalam AdminController.php
+    public function showAbsensi()
+    {
+        return view('admin.absensi'); // Sesuaikan dengan path view absensi
+    }
+
+    public function showKehadiran()
+    {
+        return view('admin.kehadiran');
+    }
 }

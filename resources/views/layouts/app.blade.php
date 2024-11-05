@@ -63,22 +63,24 @@
                         </div>
                     </li>
 
+                    <!-- Bagian Absensi -->
                     <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false"
-                            aria-controls="charts">
+                        <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
                             <i class="icon-bar-graph menu-icon"></i>
                             <span class="menu-title">Absensi</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="charts">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">Absensi</a>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('admin.absensi') ? 'active' : '' }}" href="{{ route('admin.absensi') }}">
+                                        Absensi
+                                    </a>
                                 </li>
-                            </ul>
-                        </div>
-                        <div class="collapse" id="charts">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/charts/chartjs.html">Kehadiran</a>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('admin.kehadiran') ? 'active' : '' }}" href="{{ route('admin.kehadiran') }}">
+                                        Kehadiran
+                                    </a>
                                 </li>
                             </ul>
                         </div>
