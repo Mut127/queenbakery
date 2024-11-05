@@ -15,9 +15,9 @@
                             <div class="card-body">
                                 <h4 class="card-title">Informasi Toko</h4>
                                 <p><strong>Nama Toko:</strong> Queen Bakery</p>
-                                <p><strong>Alamat:</strong> Jalan Mawar No. 123, Jakarta</p>
-                                <p><strong>Email:</strong> queenbakery@example.com</p>
-                                <p><strong>Logo:</strong> <img src="logo.jpg" alt="Logo Queen Bakery" width="100"></p>
+                                <p><strong>Alamat:</strong> Jl. Ahmad Yani No.32-34, Purbalingga</p>
+                                <p><strong>Email:</strong> queenbakery@gmail.com</p>
+                                <p><strong>Logo:</strong> <img src="logo.jpg" alt="Queen Bakery" width="100"></p>
                             </div>
                         </div>
                     </div>
