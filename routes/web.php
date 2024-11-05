@@ -3,15 +3,19 @@
 use App\Http\Controllers\AdminController;
 use Illuminate\Support\Facades\Route;
 
+// Route::get('/', function () {
+//     return view('welcome');
+// });
+
 Route::get('/', function () {
-    return view('welcome');
+    return view('/admin/dashboard');
 });
 
-Route::get('/admin/register', [AdminController::class, 'showRegister'])->name('admin.register');
-Route::post('/admin/register', [AdminController::class, 'register'])->name('admin.register.submit');
+// Route::get('/admin/register', [AdminController::class, 'showRegister'])->name('admin.register');
+// Route::post('/admin/register', [AdminController::class, 'register'])->name('admin.register.submit');
 
-Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
-Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.submit');
+// Route::get('/admin/login', [AdminController::class, 'showLogin'])->name('admin.login');
+// Route::post('/admin/login', [AdminController::class, 'login'])->name('admin.login.submit');
 
 Route::get('/admin/dashboard', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
 
@@ -23,5 +27,5 @@ Route::get('/admin/user', [AdminController::class, 'showUserList'])->name('admin
 Route::post('/users', [AdminController::class, 'store'])->name('users.store');
 
 Route::put('/users/{id}', [AdminController::class, 'update'])->name('users.update');
-Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy'); 
+Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('users.destroy');
 Route::post('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');

@@ -41,23 +41,17 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            @if ($LoggedAdminInfo->picture)
 
-                            <img src="{{ asset('storage/' . $LoggedAdminInfo->picture) }}">
-
-                            @else
-                            <p>Admin Picture not available</p>
-                            @endif
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
                             <form action="{{ route('admin.logout') }}" method="POST">
-    @csrf
-    <button type="submit" class="dropdown-item">
-        <i class="ti-power-off text-primary"></i>
-        Logout
-    </button>
-</form>
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="ti-power-off text-primary"></i>
+                                    Logout
+                                </button>
+                            </form>
                         </div>
                     </li>
                 </ul>
@@ -290,21 +284,12 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h4 class="card-title">Admin Information</h4>
-                                        <p><strong>Name:</strong> {{ $LoggedAdminInfo->name }}</p>
-                                        <p><strong>Email:</strong> {{ $LoggedAdminInfo->email }}</p>
-                                        <p><strong>Bio:</strong> {{ $LoggedAdminInfo->bio }}</p>
+                                        <p><strong>Name:</strong> </p>
+                                        <p><strong>Email:</strong> </p>
+                                        <p><strong>Bio:</strong></p>
                                         <p><strong>Picture:</strong></p>
 
-                                        @if ($LoggedAdminInfo->picture)
-                                        <div style="max-width: 300px; margin: auto;">
-                                            <!-- Adjust max-width and margin as needed -->
-                                            <img src="{{ asset('storage/' . $LoggedAdminInfo->picture) }}"
-                                                class="img-fluid rounded" alt="Admin Picture"
-                                                style="max-width: 50%; height: auto;">
-                                        </div>
-                                        @else
-                                        <p>Admin Picture not available</p>
-                                        @endif
+
                                     </div>
                                 </div>
                             </div>
@@ -320,17 +305,17 @@
                                             <div class="form-group">
                                                 <label for="name">Name</label>
                                                 <input type="text" id="name" name="name" class="form-control"
-                                                    value="{{ $LoggedAdminInfo->name }}" required>
+                                                    value="" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="email">Email</label>
                                                 <input disabled type="email" id="email" name="email"
-                                                    class="form-control" value="{{ $LoggedAdminInfo->email }}" required>
+                                                    class="form-control" value="" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="bio">Bio</label>
                                                 <textarea id="bio" name="bio"
-                                                    class="form-control">{{ $LoggedAdminInfo->bio }}</textarea>
+                                                    class="form-control"></textarea>
                                             </div>
                                             <div class="form-group">
                                                 <label for="picture">Profile Picture</label>
@@ -389,5 +374,3 @@
 </body>
 
 </html>
-
-

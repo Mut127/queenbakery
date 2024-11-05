@@ -37,22 +37,15 @@
                 <ul class="navbar-nav navbar-nav-right">
                     <li class="nav-item nav-profile dropdown">
                         <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
-                            @if ($LoggedAdminInfo->picture)
-
-                            <img src="{{ asset('storage/' . $LoggedAdminInfo->picture) }}">
-
-                            @else
-                            <p>Admin Picture not available</p>
-                            @endif
                         </a>
                         <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
                             aria-labelledby="profileDropdown">
                             <form action="{{ route('admin.logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="dropdown-item">
-                                <i class="ti-power-off text-primary"></i>
-                                Logout
-                            </button>
+                                @csrf
+                                <button type="submit" class="dropdown-item">
+                                    <i class="ti-power-off text-primary"></i>
+                                    Logout
+                                </button>
                             </form>
                         </div>
                     </li>
@@ -349,16 +342,7 @@
                         <div class="col-md-12 grid-margin">
                             <div class="row">
                                 <div class="col-12 col-xl-8 mb-4 mb-xl-0">
-                                    <h3 class="font-weight-bold">
-                                        Welcome
-                                        @if (session('LoggedAdminInfo'))
-                                        {{ $LoggedAdminInfo->name }}
-                                        <!-- Add more user information as needed -->
-                                        @else
-                                        <p>Access denied. Please <a href="{{ route('admin.login') }}">login</a> to view
-                                            this page.</p>
-                                        @endif
-                                    </h3>
+
 
                                     <h6 class="font-weight-normal mb-0">All systems are running smoothly! You have <span
                                             class="text-primary">3 unread alerts!</span></h6>
