@@ -263,5 +263,15 @@ class AdminController extends Controller
         return view('admin.pengumuman');
     }
 
+    public function showCuti()
+    {
+        return view('admin.cuti');
+    }
+
+    public function showPenilaian()
+    {
+        return view('admin.penilaian');
+    }
+
 
 }

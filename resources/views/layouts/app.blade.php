@@ -126,7 +126,8 @@
                         </a>
                         <div class="collapse" id="icons">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/icons/mdi.html">Input Cuti</a></li>
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.cuti') ? 'active' : '' }}" href="{{ route('admin.cuti') }}">
+                                    Input Cuti</a> </li>
                             </ul>
                         </div>
                     </li>
@@ -139,7 +140,8 @@
                         </a>
                         <div class="collapse" id="auth">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link" href="pages/samples/login.html"> Penilaian Kinerja </a>
+                                <li class="nav-item"> <li class="nav-item"> <a class="nav-link {{ Route::is('admin.penilaian') ? 'active' : '' }}" href="{{ route('admin.penilaian') }}">
+                                    Penilaian Kinerja</a>
                                 </li>
                             </ul>
                         </div>

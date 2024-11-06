@@ -73,7 +73,7 @@
                                             <th>Nama</th>
                                             <th>Jabatan</th>
                                             <th>Email</th>
-                                            <th>Passoword</th>
+                                            <th>Password</th>
                                             <th>Aksi</th>
                                         </tr>
                                     </thead>

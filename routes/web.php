@@ -45,3 +45,9 @@ Route::get('/admin/pelamar', [AdminController::class, 'showPelamar'])->name('adm
 Route::get('/admin/lowongan', [AdminController::class, 'showLowongan'])->name('admin.lowongan');
 Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
 Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
+
+// Route cuti
+Route::get('/admin/cuti', [AdminController::class, 'showCuti'])->name('admin.cuti');
+
+// Route penilaian kinerja
+Route::get('/admin/penilaian', [AdminController::class, 'showPenilaian'])->name('admin.penilaian');
