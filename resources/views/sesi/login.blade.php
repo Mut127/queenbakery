@@ -90,7 +90,8 @@
                                 </div>
                                 <a href="#" class="forgot-password">Forgot password?</a>
                             </div>
-                            <button type="submit" class="btn btn-primary mt-4">Masuk</button>
+                            <!-- <button type="submit" class="btn btn-primary mt-4">Masuk</button> -->
+                            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mt-4">Masuk</a>
                         </form>
 
                         <div class="signup-container">
