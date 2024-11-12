@@ -107,7 +107,7 @@
                                         @foreach($users as $user)
                                         <tr>
                                             <td>{{ Str::limit($user->name, 20) }}</td>
-                                            <td>{{ $user->usertpe }}</td>
+                                            <td>{{ $user->usertype }}</td>
                                             <td>{{ Str::limit($user->email, 20) }}</td>
                                             <td>{{ $user->number }}</td>
                                             <td>
