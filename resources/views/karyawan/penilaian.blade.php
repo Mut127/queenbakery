@@ -80,7 +80,7 @@
                                         <!-- Loop data penilaian kinerja dari database -->
                                             <tr>
                                                 <td>5-11-2024</td>
-                                                <td>Rose</td>
+                                                <td>Alice</td>
                                                 <td>Displin, Kerja sesuai jobdesc</td>
                                                 <td>Baik Sekali</td>
                                                 <td>
