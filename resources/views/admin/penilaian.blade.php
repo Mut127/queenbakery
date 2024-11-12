@@ -62,9 +62,21 @@
                                             <option value="Kurang">Kurang</option>
                                         </select>
                                     </div>
-                                    <button type="submit" class="btn btn-success" style="font-size: 14px; padding: 14px 18px;">Simpan</button>
+                                    <button type="submit" class="btn btn-purple btn-lg" style="font-size: 14px; padding: 14px 18px;">Simpan</button>
                                 </form>
                             </div>
+                            <style>
+                                .btn-purple {
+                                    background-color: #6f42c1; /* Warna ungu */
+                                    color: white;
+                                    border-color: #6f42c1;
+                                }
+                            
+                                .btn-purple:hover {
+                                    background-color: #5a30a0; /* Warna ungu yang lebih gelap saat hover */
+                                    border-color: #5a30a0;
+                                }
+                            </style>
 
                             <!-- Tabel Penilaian Kinerja -->
                             <div class="table-responsive mt-4">
