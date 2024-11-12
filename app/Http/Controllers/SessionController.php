@@ -13,7 +13,7 @@ class SessionController extends Controller
 {
     function index()
     {
-        return view('sesi/logindanregister');
+        return view('sesi/login');
     }
 
     public function login(Request $request)
@@ -46,7 +46,7 @@ class SessionController extends Controller
             } elseif ($user->usertype === 'owner') {
                 return redirect()->route('owner.dashboard')->with('success', 'Selamat Datang, ' . $user->name);
             } else {
-                return redirect('/')->with('success', 'Selamat Datang, ' . $user->name);
+                return redirect()->route('karyawan.dashboard')->with('success', 'Selamat Datang, ' . $user->name);
             }
         } else {
             // Jika login gagal, kembali ke halaman login dengan pesan error
