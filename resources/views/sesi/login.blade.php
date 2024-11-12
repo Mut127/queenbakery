@@ -42,16 +42,7 @@
                 <li class="nav-item nav-profile dropdown">
                     <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                     </a>
-                    <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                        aria-labelledby="profileDropdown">
-                        <form action="{{ route('admin.logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="dropdown-item">
-                                <i class="ti-power-off text-primary"></i>
-                                Logout
-                            </button>
-                        </form>
-                    </div>
+
                 </li>
             </ul>
             <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
@@ -72,7 +63,7 @@
                         <h2>Halo,<br> Selamat Datang Kembali</h2>
                         <p>Silahkan melakukan login terlebih dahulu</p>
 
-                        <form method="POST" action="" class="sign-in-form">
+                        <form method="POST" action="{{ route('sesi.login') }}" class="sign-in-form">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -90,8 +81,8 @@
                                 </div>
                                 <a href="#" class="forgot-password">Forgot password?</a>
                             </div>
-                            <!-- <button type="submit" class="btn btn-primary mt-4">Masuk</button> -->
-                            <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mt-4">Masuk</a>
+                            <button type="submit" class="btn btn-primary mt-4">Masuk</button>
+                            <!-- <a href="{{ route('admin.dashboard') }}" class="btn btn-primary mt-4">Masuk</a> -->
                         </form>
 
                         <div class="signup-container">

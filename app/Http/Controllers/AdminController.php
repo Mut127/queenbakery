@@ -11,62 +11,6 @@ use Illuminate\Support\Facades\Storage;
 
 class AdminController extends Controller
 {
-    public function showRegister()
-    {
-        return view('admin.register');
-    }
-
-    public function showLogin()
-    {
-        return view('admin.login');
-    }
-    public function register(Request $request)
-    {
-        // Validate the form data
-        $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|string|email|max:255|unique:admins',
-            'password' => 'required|string|min:6',
-        ]);
-
-        // Create a new admin
-        $admin = new Admin();
-        $admin->name = $request->name;
-        $admin->email = $request->email;
-        $admin->password = Hash::make($request->password); // Hash the password before saving
-        $admin->save();
-
-        // Redirect to the login page with a success message
-        return redirect()->route('admin.login')->with('success', 'Registration successful. Please login.');
-    }
-
-    public function login(Request $request)
-    {
-        // Validate the form data
-        $request->validate([
-            'email' => 'required|email',
-            'password' => 'required|min:5|max:12',
-        ]);
-
-        // Find the admin by email
-        $adminInfo = Admin::where('email', $request->input('email'))->first();
-
-        // Check if admin exists
-        if (!$adminInfo) {
-            return back()->withInput()->withErrors(['email' => 'Email not found']);
-        }
-
-        // Check if the provided password matches the hashed password
-        if (!Hash::check($request->input('password'), $adminInfo->password)) {
-            return back()->withInput()->withErrors(['password' => 'Incorrect password']);
-        }
-
-        // Store admin ID in the session
-        $request->session()->put('LoggedAdminInfo', $adminInfo->id);
-
-        // Redirect to the dashboard
-        return redirect()->route('admin.dashboard');
-    }
     public function showDashboard()
     {
         // $LoggedAdminInfo = Admin::find(session('LoggedAdminInfo'));
@@ -148,20 +92,9 @@ class AdminController extends Controller
 
     public function showUserList()
     {
-        // Fetch users from the database (assuming you have a User model)
-        // $users = User::all(); // You might want to paginate or filter users
-        // $LoggedAdminInfo = Admin::find(session('LoggedAdminInfo'));
+        $users = User::all(); // You might want to paginate or filter users
 
-        // if (!$LoggedAdminInfo) {
-        //     return redirect()->route('admin.login')->with('fail', 'You must be logged in to access the profile page');
-        // }
-
-        // // Pass the admin data to the profile view
-        // return view('admin.user', [
-        //     'LoggedAdminInfo' => $LoggedAdminInfo,
-        //     'users' => $users
-        // ]);
-        return view('admin.user');
+        return view('admin.user', compact('users'));
         // Pass the users data to the view
     }
 
@@ -272,6 +205,4 @@ class AdminController extends Controller
     {
         return view('admin.penilaian');
     }
-
-
 }
