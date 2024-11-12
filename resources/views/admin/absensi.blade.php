@@ -6,7 +6,7 @@
         <!-- Konten Utama -->
         <main class="flex-fill">
             <div class="body-content">
-                <h4 class="text-center mt-4">Tabel Absensi</h4>
+                <h4 class="text-center mt-4">Rekap Kehadiran</h4>
                 <div class="d-flex align-items-center justify-content-center mb-3">
                     <button class="btn btn-primary me-2">&lt;</button>
                     <span class="btn btn-outline-secondary mx-3">Oktober</span>

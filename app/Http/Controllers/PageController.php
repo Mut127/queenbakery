@@ -60,6 +60,11 @@ class PageController extends Controller
         return $this->redirectByUsertype('absensi');
     }
 
+    public function showIzin() //izin
+    {
+        return $this->redirectByUsertype('izin');
+    }
+
     public function showKehadiran()
     {
         return $this->redirectByUsertype('kehadiran');

@@ -34,6 +34,7 @@ Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('admin.u
 
 // Absensi and Kehadiran routes
 Route::get('/admin/absensi', [AdminController::class, 'showAbsensi'])->name('admin.absensi');
+Route::get('/admin/izin', [AdminController::class, 'showIzin'])->name('admin.izin');
 Route::get('/admin/kehadiran', [AdminController::class, 'showKehadiran'])->name('admin.kehadiran');
 
 // Additional admin routes
