@@ -10,16 +10,6 @@
             <li class="nav-item nav-profile dropdown">
                 <a class="nav-link dropdown-toggle" href="#" data-toggle="dropdown" id="profileDropdown">
                 </a>
-                <div class="dropdown-menu dropdown-menu-right navbar-dropdown"
-                    aria-labelledby="profileDropdown">
-                    <form action="{{ route('admin.logout') }}" method="POST">
-                        @csrf
-                        <button type="submit" class="dropdown-item">
-                            <i class="ti-power-off text-primary"></i>
-                            Logout
-                        </button>
-                    </form>
-                </div>
             </li>
         </ul>
         <button class="navbar-toggler navbar-toggler-right d-lg-none align-self-center" type="button"
