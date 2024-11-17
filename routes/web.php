@@ -56,6 +56,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
     Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
     Route::get('/admin/cuti', [AdminController::class, 'showCuti'])->name('admin.cuti');
+    Route::get('/admin/izin', [AdminController::class, 'showIzin'])->name('admin.izin');
     Route::get('/admin/penilaian', [AdminController::class, 'showPenilaian'])->name('admin.penilaian');
 });
 
