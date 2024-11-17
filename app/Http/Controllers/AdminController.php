@@ -162,6 +162,11 @@ class AdminController extends Controller
         return view('admin.absensi'); // Sesuaikan dengan path view absensi
     }
 
+    public function showIzin()
+    {
+        return view('admin.izin'); // Page izin
+    }
+
     public function showKehadiran()
     {
         return view('admin.kehadiran');
