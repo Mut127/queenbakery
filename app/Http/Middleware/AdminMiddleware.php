@@ -16,10 +16,17 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->usertype === 'admin') {
+        // Pastikan jika pengguna belum login, mereka diarahkan ke login terlebih dahulu
+        if (!Auth::check()) {
+            return redirect('admin/dashboard');  // Halaman login
+        }
+
+        // Jika pengguna sudah login, dan role-nya admin, lanjutkan request
+        if (Auth::user()->usertype === 'admin') {
             return $next($request);
         }
 
+        // Pengguna tidak punya akses
         return redirect('/')->with('error', 'You do not have admin access');
     }
 }

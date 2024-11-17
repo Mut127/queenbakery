@@ -16,9 +16,15 @@ class OwnerMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->usertype == 'owner') {
+        if (!Auth::check()) {
+            return redirect('owner/dashboard');  // Halaman login
+        }
+
+        // Jika pengguna sudah login, dan role-nya owner, lanjutkan request
+        if (Auth::user()->usertype == 'owner') {
             return $next($request);
         }
+
         return redirect('/')->with('error', 'You do not have user access');
     }
 }

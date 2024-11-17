@@ -13,30 +13,12 @@ class AdminController extends Controller
 {
     public function showDashboard()
     {
-        // $LoggedAdminInfo = Admin::find(session('LoggedAdminInfo'));
 
-        // if (!$LoggedAdminInfo) {
-        //     return redirect()->route('admin.login')->with('fail', 'You must be logged in to access the dashboard');
-        // }
-
-        // return view('admin.dashboard', [
-        //     'LoggedAdminInfo' => $LoggedAdminInfo,
-        // ]);
         return view('admin.dashboard');
     }
     public function showProfile(Request $request)
     {
-        // Get the logged-in admin's information from the session
-        // $LoggedAdminInfo = Admin::find(session('LoggedAdminInfo'));
 
-        // if (!$LoggedAdminInfo) {
-        //     return redirect()->route('admin.login')->with('fail', 'You must be logged in to access the profile page');
-        // }
-
-        // // Pass the admin data to the profile view
-        // return view('admin.profile', [
-        //     'LoggedAdminInfo' => $LoggedAdminInfo,
-        // ]);
         return view('admin.profile');
     }
     public function updateProfile(Request $request)
@@ -92,10 +74,19 @@ class AdminController extends Controller
 
     public function showUserList()
     {
-        $users = User::all(); // You might want to paginate or filter users
+        if (!Auth::check()) {
+            return redirect()->route('login')->with('fail', 'You must be logged in to access this page');
+        }
 
-        return view('admin.user', compact('users'));
-        // Pass the users data to the view
+        $users = User::all();
+
+        if (Auth::user()->usertype == 'admin') {
+            return view('admin.user', compact('users'));
+        } elseif (Auth::user()->usertype == 'owner') {
+            return view('owner.user', compact('users'));
+        } else {
+            return redirect('/');
+        }
     }
 
     public function store(Request $request)

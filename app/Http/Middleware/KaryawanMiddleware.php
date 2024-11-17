@@ -16,9 +16,15 @@ class KaryawanMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if (Auth::check() && Auth::user()->usertype == 'karyawan') {
+        if (!Auth::check()) {
+            return redirect('karyawan/kehadiran');  // Halaman login
+        }
+
+        // Jika pengguna sudah login, dan role-nya karyawan, lanjutkan request
+        if (Auth::user()->usertype == 'karyawan') {
             return $next($request);
         }
+
         return redirect('/')->with('error', 'You do not have user access');
     }
 }

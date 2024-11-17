@@ -30,7 +30,7 @@
         <div class="row">
             <nav class="sidebar sidebar-offcanvas" id="sidebar">
                 <ul class="nav">
-
+                    @if(Auth::user()->usertype == 'admin')
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/dashboard') ? 'active' : '' }}"
                             href="{{ route('admin.dashboard') }}">
@@ -147,7 +147,187 @@
                             </ul>
                         </div>
                     </li>
+                    <!-- untuk owner -->
+                    @elseif(Auth::user()->usertype == 'owner')
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('owner/dashboard') ? 'active' : '' }}"
+                            href="{{ route('owner.dashboard') }}">
+                            <i class="icon-grid menu-icon"></i>
+                            <span class="menu-title">Dashboard</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('owner.profile') ? 'active' : '' }}"
+                            href="{{ route('owner.profile') }}">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Profile</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {{ request()->is('owner/user*') ? 'active' : '' }}" data-toggle="collapse"
+                            href="#form-elements" aria-expanded="false" aria-controls="form-elements">
+                            <i class="icon-columns menu-icon"></i>
+                            <span class="menu-title">Pegawai</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse {{ request()->is('owner/user*') ? 'show' : '' }}" id="form-elements">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a
+                                        class="nav-link {{ request()->is('owner/user') ? 'active' : '' }}"
+                                        href="{{ route('owner.user') }}">Pegawai List</a></li>
+                                <!-- Add more sub-menu items if needed -->
+                            </ul>
+                        </div>
+                    </li>
 
+                    <!-- Bagian Absensi -->
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+                            <i class="icon-bar-graph menu-icon"></i>
+                            <span class="menu-title">Absensi</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="charts">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('owner.absensi') ? 'active' : '' }}" href="{{ route('owner.absensi') }}">
+                                        Absensi
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('owner.kehadiran') ? 'active' : '' }}" href="{{ route('owner.kehadiran') }}">
+                                        Kehadiran
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false"
+                            aria-controls="tables">
+                            <i class="icon-grid-2 menu-icon"></i>
+                            <span class="menu-title">Rekrutmen</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link {{ Route::is('owner.pelamar') ? 'active' : '' }}" href="{{ route('owner.pelamar') }}">
+                                        Kelola Pelamar</a></li>
+                            </ul>
+                        </div>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.lowongan') ? 'active' : '' }}" href="{{ route('owner.lowongan') }}">
+                                        Kelola Lowongan</a> </li>
+                            </ul>
+                        </div>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.nilai') ? 'active' : '' }}" href="{{ route('owner.nilai') }}">
+                                        Kelola Nilai</a> </li>
+                            </ul>
+                        </div>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.pengumuman') ? 'active' : '' }}" href="{{ route('owner.pengumuman') }}">
+                                        Kelola Pengumuman</a> </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false"
+                            aria-controls="icons">
+                            <i class="icon-contract menu-icon"></i>
+                            <span class="menu-title">Cuti</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="icons">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.cuti') ? 'active' : '' }}" href="{{ route('owner.cuti') }}">
+                                        Input Cuti</a> </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false"
+                            aria-controls="auth">
+                            <i class="icon-head menu-icon"></i>
+                            <span class="menu-title">Penilaian Kinerja</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="auth">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.penilaian') ? 'active' : '' }}" href="{{ route('owner.penilaian') }}">
+                                        Penilaian Kinerja</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    @else
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
+                            <i class="icon-bar-graph menu-icon"></i>
+                            <span class="menu-title">Absensi</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="charts">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('karyawan.absensi') ? 'active' : '' }}" href="{{ route('karyawan.absensi') }}">
+                                        Absensi
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('karyawan.kehadiran') ? 'active' : '' }}" href="{{ route('karyawan.kehadiran') }}">
+                                        Kehadiran
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#icons" aria-expanded="false"
+                            aria-controls="icons">
+                            <i class="icon-contract menu-icon"></i>
+                            <span class="menu-title">Cuti</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="icons">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('karyawan.cuti') ? 'active' : '' }}" href="{{ route('karyawan.cuti') }}">
+                                        Input Cuti</a> </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#auth" aria-expanded="false"
+                            aria-controls="auth">
+                            <i class="icon-head menu-icon"></i>
+                            <span class="menu-title">Penilaian Kinerja</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="auth">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('karyawan.penilaian') ? 'active' : '' }}" href="{{ route('karyawan.penilaian') }}">
+                                        Penilaian Kinerja</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+                    @endif
+
+                    <li class="nav-item">
+                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                            @csrf
+                        </form>
+                        <a class="nav-link"
+                            href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span class="menu-title">Logout</span>
+                        </a>
+                    </li>
                 </ul>
 
             </nav>

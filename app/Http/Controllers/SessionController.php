@@ -45,8 +45,8 @@ class SessionController extends Controller
                 return redirect()->route('admin.dashboard')->with('success', 'Selamat Datang, ' . $user->name);
             } elseif ($user->usertype === 'owner') {
                 return redirect()->route('owner.dashboard')->with('success', 'Selamat Datang, ' . $user->name);
-            } else {
-                return redirect()->route('karyawan.dashboard')->with('success', 'Selamat Datang, ' . $user->name);
+            } elseif ($user->usertype === 'karyawan') {
+                return redirect()->route('karyawan.absensi')->with('success', 'Selamat Datang, ' . $user->name);
             }
         } else {
             // Jika login gagal, kembali ke halaman login dengan pesan error
