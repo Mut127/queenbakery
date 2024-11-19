@@ -55,7 +55,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::match(['get', 'post'], '/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('admin.kehadiran');
     Route::post('/store-izin', [KehadiranController::class, 'storeIzin'])->name('admin.storeIzin');
 
-    //Cuti routes
+    //Cuti routesg
     Route::get('/admin/cuti', [KehadiranController::class, 'showCuti'])->name('admin.cuti');
     Route::post('/admin/cuti', [KehadiranController::class, 'submitCuti'])->name('admin.cuti');
     // Rute untuk persetujuan dan penolakan cuti
