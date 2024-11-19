@@ -191,22 +191,22 @@ class AdminController extends Controller
     public function storePelamar(Request $request)
     {
         $request->validate([
-            'name' => 'required|string',
+            'name' => 'required|string|max:255',
             'dob' => 'required|string',
             'address' => 'required|string',
             'education' => 'required|string',
             'institution_name' => 'required|string',
-            'entry_year' => 'required|string',
-            'exit_year' => 'required|string',
+            'entry_year' => 'required|numeric',
+            'exit_year' => 'required|numeric',
             'position' => 'required|string',
             'company_name' => 'required|string',
-            'work_entry_year' => 'required|string',
-            'work_exit_year' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'work_entry_year' => 'required|numeric',
+            'work_exit_year' => 'required|numeric',
+            'photo' => 'nullable|image|max:2048',
         ]);
 
         $data = $request->all();
-        
+
         // Handle file upload
         if ($request->hasFile('photo')) {
             $data['photo'] = $request->file('photo')->store('photos', 'public');
@@ -218,16 +218,20 @@ class AdminController extends Controller
     }
 
     // Show edit form
-    public function editPelamar($id)
+    /*public function editPelamar($id)
     {
-        $pelamar = Pelamar::findOrFail($id);
-        return view('admin.editPelamar', compact('pelamar'));
-    }
+        $pelamars = Pelamar::findOrFail($id);
+        return view('admin.pelamar', compact('pelamar'));
+    }*/
+
 
     // Update an applicant
     public function updatePelamar(Request $request, $id)
     {
-        $request->validate([
+
+        $pelamars = Pelamar::findOrFail($id);
+
+        $data = $request->validate([
             'name' => 'required|string',
             'dob' => 'required|string',
             'address' => 'required|string',
@@ -242,13 +246,13 @@ class AdminController extends Controller
             'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        $pelamar = Pelamar::findOrFail($id);
-        $pelamar->update($request->all());
+        $pelamars = Pelamar::findOrFail($id);
+        $pelamars->update($request->all());
 
         // Handle file upload
         if ($request->hasFile('photo')) {
-            $pelamar->photo = $request->file('photo')->store('photos', 'public');
-            $pelamar->save();
+            $pelamars->photo = $request->file('photo')->store('photos', 'public');
+            $pelamars->save();
         }
 
         return redirect()->route('admin.pelamar')->with('success', 'Pelamar updated successfully!');
@@ -257,11 +261,11 @@ class AdminController extends Controller
     // Delete an applicant
     public function destroyPelamar($id)
     {
-        $pelamar = Pelamar::findOrFail($id);
-        if ($pelamar->photo) {
-            unlink(storage_path('app/public/' . $pelamar->photo));
+        $pelamars = Pelamar::findOrFail($id);
+        if ($pelamars->photo) {
+            unlink(storage_path('app/public/' . $pelamars->photo));
         }
-        $pelamar->delete();
+        $pelamars->delete();
 
         return redirect()->route('admin.pelamar')->with('success', 'Pelamar deleted successfully!');
     }

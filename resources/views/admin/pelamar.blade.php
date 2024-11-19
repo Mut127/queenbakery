@@ -3,9 +3,10 @@
 @section('content')
     <div class="container-scroller">
         <div class="main-panel">
-            <div class="ml-2 mr-2 content-wrapper">
+            <div class="content-wrapper pl-5 " style="background-color: transparent";>
+                <!--  <div class="ml-2 mr-2 content-wrapper"> -->
                 <div class="row">
-                    <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="col-lg-20 grid-margin stretch-card">
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex justify-content-between align-items-center mb-3">
@@ -144,27 +145,18 @@
                                                     <td>{{ $applicant->position }}</td>
                                                     <td>
                                                         <!-- Edit Button -->
-                                                        <button class="btn btn-sm btn-outline-secondary"
-                                                            data-toggle="modal" data-target="#editApplicantModal"
-                                                            data-id="{{ $applicant->id }}"
-                                                            data-name="{{ $applicant->name }}"
-                                                            data-dob="{{ $applicant->dob }}"
-                                                            data-address="{{ $applicant->address }}"
-                                                            data-education="{{ $applicant->education }}"
-                                                            data-position="{{ $applicant->position }}"
-                                                            data-photo="{{ $applicant->photo }}">
-                                                            <i class="fas fa-pencil-alt"></i>Edit
-                                                        </button>
-
-                                                        <!-- Delete Button -->
+                                                        <a href="{{ route('admin.pelamar', $applicant->id) }}" class="btn btn-sm btn-outline-primary">
+                                                            <i class="fas fa-edit"></i> Edit
+                                                        </a>
                                                         <form
                                                             action="{{ route('admin.pelamar.destroyPelamar', $applicant->id) }}"
-                                                            method="POST" class="delete-form mt-2">
+                                                            method="POST" class="d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-outline-danger mr-1 mb-2">
-                                                                <i class="fas fa-trash-alt"></i>Delete
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-outline-danger delete-btn"
+                                                                data-id="{{ $applicant->id }}">
+                                                                <i class="fas fa-trash-alt"></i> delete
                                                             </button>
                                                         </form>
                                                     </td>
@@ -186,10 +178,12 @@
         aria-labelledby="editApplicantModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
-                <!-- Form ini diubah menjadi generic karena data akan diisi menggunakan JavaScript -->
-                <form id="editApplicantForm" method="POST" action="">
-                    @method('PUT')
+                <!-- Form Edit -->
+                <form id="editApplicantForm" method="POST"
+                    action="{{ route('admin.pelamar.updatePelamar', $applicant->id ?? '') }}"
+                    enctype="multipart/form-data">
                     @csrf
+                    @method('PUT')
                     <div class="modal-header">
                         <h5 class="modal-title" id="editApplicantModalLabel">Edit Pelamar</h5>
                         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -202,24 +196,27 @@
                             <div class="col-md-4">
                                 <h5><b>Biodata</b></h5>
                                 <div class="form-group text-center">
-                                    <label for="editApplicantPhoto" class="d-block">Foto</label>
+                                    <label for="editApplicantPhoto" class="d-block">Foto Lama</label>
+                                    <img id="editPreviewPhoto" src="{{ asset('storage/' . ($applicant->photo ?? '')) }}"
+                                        alt="Foto Lama" width="100" class="img-thumbnail">
+                                    <label for="editApplicantPhoto" class="d-block mt-3">Ganti Foto</label>
                                     <input type="file" class="form-control-file" id="editApplicantPhoto"
                                         name="photo">
                                 </div>
                                 <div class="form-group">
                                     <label for="editApplicantName">Nama</label>
                                     <input type="text" class="form-control" id="editApplicantName" name="name"
-                                        required>
+                                        value="{{ $applicant->name ?? '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editApplicantDob">Tempat Tanggal Lahir</label>
                                     <input type="text" class="form-control" id="editApplicantDob" name="dob"
-                                        required>
+                                        value="{{ $applicant->dob ?? '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editApplicantAddress">Alamat</label>
                                     <input type="text" class="form-control" id="editApplicantAddress" name="address"
-                                        required>
+                                        value="{{ $applicant->address ?? '' }}" required>
                                 </div>
                             </div>
 
@@ -229,22 +226,23 @@
                                 <div class="form-group">
                                     <label for="editEducationField">Riwayat Pendidikan</label>
                                     <input type="text" class="form-control" id="editEducationField" name="education"
-                                        required>
+                                        value="{{ $applicant->education ?? '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editInstitutionName">Nama Instansi</label>
                                     <input type="text" class="form-control" id="editInstitutionName"
-                                        name="institution_name" required>
+                                        name="institution_name" value="{{ $applicant->institution_name ?? '' }}"
+                                        required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editEntryYear">Tahun Masuk</label>
                                     <input type="text" class="form-control" id="editEntryYear" name="entry_year"
-                                        required>
+                                        value="{{ $applicant->entry_year ?? '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editExitYear">Tahun Keluar</label>
                                     <input type="text" class="form-control" id="editExitYear" name="exit_year"
-                                        required>
+                                        value="{{ $applicant->exit_year ?? '' }}" required>
                                 </div>
                             </div>
 
@@ -254,22 +252,22 @@
                                 <div class="form-group">
                                     <label for="editJobPosition">Posisi</label>
                                     <input type="text" class="form-control" id="editJobPosition" name="position"
-                                        required>
+                                        value="{{ $applicant->position ?? '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editCompanyName">Nama Perusahaan</label>
                                     <input type="text" class="form-control" id="editCompanyName" name="company_name"
-                                        required>
+                                        value="{{ $applicant->company_name ?? '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editWorkEntryYear">Tahun Masuk</label>
                                     <input type="text" class="form-control" id="editWorkEntryYear"
-                                        name="work_entry_year" required>
+                                        name="work_entry_year" value="{{ $applicant->work_entry_year ?? '' }}" required>
                                 </div>
                                 <div class="form-group">
                                     <label for="editWorkExitYear">Tahun Keluar</label>
                                     <input type="text" class="form-control" id="editWorkExitYear"
-                                        name="work_exit_year" required>
+                                        name="work_exit_year" value="{{ $applicant->work_exit_year ?? '' }}" required>
                                 </div>
                             </div>
                         </div>
@@ -282,30 +280,39 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
-        $('#editApplicantModal').on('show.bs.modal', function(event) {
-            var button = $(event.relatedTarget); // Tombol yang memicu modal
-            var id = button.data('id'); // Mengambil ID dari data-id
-            var name = button.data('name');
-            var dob = button.data('dob');
-            var address = button.data('address');
-            var education = button.data('education');
-            var position = button.data('position');
-            var photo = button.data('photo');
+        document.addEventListener('DOMContentLoaded', function() {
+            const deleteButtons = document.querySelectorAll('.delete-btn');
 
-            var modal = $(this);
-
-            // Isi form dengan data pelamar
-            modal.find('#editApplicantName').val(name);
-            modal.find('#editApplicantDob').val(dob);
-            modal.find('#editApplicantAddress').val(address);
-            modal.find('#editEducationField').val(education);
-            modal.find('#editJobPosition').val(position);
-            modal.find('#editApplicantPhoto').val(photo); // Anda bisa menyesuaikan foto jika diperlukan
-
-            // Update action form dengan ID yang sesuai
-            modal.find('#editApplicantForm').attr('action', '/admin/pelamar/' +
-            id); // Sesuaikan URL dengan ID pelamar
+            deleteButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const applicantId = this.getAttribute('data-id');
+                    Swal.fire({
+                        title: 'Yakin ingin menghapus?',
+                        text: "Data ini tidak dapat dikembalikan!",
+                        icon: 'warning',
+                        showCancelButton: true,
+                        confirmButtonColor: '#3085d6',
+                        cancelButtonColor: '#d33',
+                        confirmButtonText: 'Ya, hapus!',
+                        cancelButtonText: 'Batal'
+                    }).then((result) => {
+                        if (result.isConfirmed) {
+                            // Submit form untuk menghapus
+                            const form = document.createElement('form');
+                            form.method = 'POST';
+                            form.action = `/admin/pelamar/${applicantId}`;
+                            form.innerHTML = `
+                            @csrf
+                            @method('DELETE')
+                        `;
+                            document.body.appendChild(form);
+                            form.submit();
+                        }
+                    });
+                });
+            });
         });
     </script>
 @endsection
