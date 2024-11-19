@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProfileController;
@@ -12,6 +13,8 @@ use App\Http\Middleware\KaryawanMiddleware;
 use App\Http\Middleware\OwnerMiddleware;
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\Attendance;
+use App\Models\Kehadiran;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
@@ -43,8 +46,18 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     // Absensi and Kehadiran routes
-    Route::get('/admin/absensi', [AdminController::class, 'showAbsensi'])->name('admin.absensi');
-    Route::get('/admin/kehadiran', [AdminController::class, 'showKehadiran'])->name('admin.kehadiran');
+    Route::get('/admin/absensi', [KehadiranController::class, 'showAbsensi'])->name('admin.absensi');
+    Route::get('/admin/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('admin.kehadiran');
+    Route::match(['get', 'post'], '/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('admin.kehadiran');
+    Route::post('/store-izin', [KehadiranController::class, 'storeIzin'])->name('admin.storeIzin');
+
+    //Cuti routesg
+    Route::get('/admin/cuti', [KehadiranController::class, 'showCuti'])->name('admin.cuti');
+    Route::post('/admin/cuti', [KehadiranController::class, 'submitCuti'])->name('admin.cuti');
+    // Rute untuk persetujuan dan penolakan cuti
+    Route::put('/admin/cuti/approve/{id}', [KehadiranController::class, 'approveCuti'])->name('admin.cuti.approve');
+    Route::put('/admin/cuti/reject/{id}', [KehadiranController::class, 'rejectCuti'])->name('admin.cuti.reject');
+
 
     // Rekruitmen
     Route::get('/admin/pelamar', [AdminController::class, 'showPelamar'])->name('admin.pelamar');
@@ -58,7 +71,6 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/lowongan', [AdminController::class, 'showLowongan'])->name('admin.lowongan');
     Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
     Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
-    Route::get('/admin/cuti', [AdminController::class, 'showCuti'])->name('admin.cuti');
     Route::get('/admin/izin', [AdminController::class, 'showIzin'])->name('admin.izin');
     Route::get('/admin/penilaian', [AdminController::class, 'showPenilaian'])->name('admin.penilaian');
 });
@@ -86,6 +98,7 @@ Route::middleware(['auth', OwnerMiddleware::class])->group(function () {
     Route::get('/owner/cuti', [OwnerController::class, 'ownerCuti'])->name('owner.cuti');
     Route::get('/owner/penilaian', [OwnerController::class, 'ownerPenilaian'])->name('owner.penilaian');
 });
+
 Route::middleware(['auth', KaryawanMiddleware::class])->group(function () {
     // Absensi and Kehadiran routes
     Route::get('/karyawan/absensi', [KaryawanController::class, 'karyawanAbsensi'])->name('karyawan.absensi');

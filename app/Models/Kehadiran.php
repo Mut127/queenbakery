@@ -8,4 +8,15 @@ use Illuminate\Database\Eloquent\Model;
 class Kehadiran extends Model
 {
     use HasFactory;
+
+    protected $table = 'kehadirans';
+
+    protected $fillable = [
+        'tanggal',
+        'date',
+        'status',
+        'ket',
+        'user_id',
+        'created_at',
+    ];
 }
