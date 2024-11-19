@@ -48,11 +48,11 @@
                                                     <label class="form-check-label" for="statusHadir">Hadir</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="status" id="statusIzin" value="Izin" onclick="toggleFields()">
+                                                    <input class="form-check-input" type="radio" name="status" id="statusIzin" value="Izin">
                                                     <label class="form-check-label" for="statusIzin">Izin</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="status" id="statusSakit" value="Sakit" onclick="toggleFields()">
+                                                    <input class="form-check-input" type="radio" name="status" id="statusSakit" value="Sakit">
                                                     <label class="form-check-label" for="statusSakit">Sakit</label>
                                                 </div>
                                             </div>
