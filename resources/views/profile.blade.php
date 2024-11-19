@@ -15,17 +15,17 @@
                             <div class="card-body">
                                 <h4 class="card-title">Admin Information</h4>
                                 <!-- Menampilkan data pengguna yang sedang login -->
+                                <div>
+                                    @if(auth()->user()->profile_image)
+                                    <img src="{{ asset('images/profile/' . auth()->user()->profile_image) }}" alt="Profile Photo" class="img-fluid" width="200">
+                                    @else
+                                    <img src="{{ asset('images/default-profile.png') }}" alt="Default Profile Photo" class="img-fluid">
+                                    @endif
+                                </div>
                                 <p><strong>Name:</strong> {{ Auth::user()->name }}</p>
                                 <p><strong>Email:</strong> {{ Auth::user()->email }}</p>
                                 <p><strong>No Telepon:</strong> {{ Auth::user()->number }}</p>
                                 <p><strong>Jabatan:</strong> {{ Auth::user()->usertype}}</p>
-                                <p><strong>Picture:</strong>
-                                    @if (Auth::user()->profile_picture)
-                                    <img src="{{ asset('storage/' . Auth::user()->profile_picture) }}" alt="Profile Picture" width="100">
-                                    @else
-                                    <img src="default-profile.jpg" alt="Default Profile Picture" width="100">
-                                    @endif
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -36,7 +36,7 @@
                             <div class="card-body">
                                 <h4 class="card-title">Update Profile</h4>
                                 <!-- Form untuk mengupdate profil pengguna -->
-                                <form action="" method="POST" enctype="multipart/form-data">
+                                <form action="{{ route('user.updateProfile') }}" method="POST" enctype="multipart/form-data">
                                     @csrf
                                     @method('PUT') <!-- Untuk method PUT saat update -->
 
@@ -56,8 +56,8 @@
                                     </div>
 
                                     <div class="form-group">
-                                        <label for="picture">Profile Picture</label>
-                                        <input type="file" id="picture" name="picture" class="form-control-file">
+                                        <label for="profile_image">Profile Picture</label>
+                                        <input type="file" id="profile_image" name="profile_image" value="{{ Auth::user()->profile_image }}" class="form-control-file">
                                     </div>
 
                                     <button type="submit" class="btn btn-primary">Update Profile</button>

@@ -26,6 +26,7 @@ Route::post('/sesi/login', [SessionController::class, 'login'])->name('sesi.logi
 
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
+    Route::put('/profile', [ProfileController::class, 'updateProfile'])->name('user.updateProfile');
     Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
 });
 
@@ -51,7 +52,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     //Route::get('/admin/pelamar/{id}/edit', [AdminController::class, 'editPelamar'])->name('admin.pelamar.editPelamar');
     Route::put('/admin/pelamar/{id}', [AdminController::class, 'updatePelamar'])->name('admin.pelamar.updatePelamar');
     Route::delete('/admin/pelamar/{id}', [AdminController::class, 'destroyPelamar'])->name('admin.pelamar.destroyPelamar');
-    
+
 
 
     Route::get('/admin/lowongan', [AdminController::class, 'showLowongan'])->name('admin.lowongan');

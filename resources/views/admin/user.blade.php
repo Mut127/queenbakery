@@ -110,8 +110,31 @@
                                             <td>{{ $user->number }}</td>
                                             <td>
                                                 <div class="d-inline-flex align-items-center">
+                                                    <!-- detail button -->
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-outline-info view-user mr-1 mb-2"
+                                                        data-toggle="modal"
+                                                        data-target="#detailUserModal"
+                                                        data-id="{{ $user->id }}"
+                                                        data-name="{{ $user->name }}"
+                                                        data-email="{{ $user->email }}"
+                                                        data-number="{{ $user->number }}"
+                                                        data-usertype="{{ $user->usertype }}"
+                                                        data-image="{{ $user->profile_image }}">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" height="20" width="25" viewBox="0 0 576 512">
+                                                            <path fill="#0dcaf0" d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z" />
+                                                        </svg>
+                                                    </a>
                                                     <!-- Edit Button -->
-                                                    <a href="#" class="btn btn-sm btn-outline-secondary edit-user mr-1 mb-2" data-toggle="modal" data-target="#editUserModal" data-id="{{ $user->id }}" data-name="{{ $user->name }}" data-email="{{ $user->email }}" data-number="{{ $user->number }}" data-usertype="{{ $user->usertype }}">
+                                                    <a href="#"
+                                                        class="btn btn-sm btn-outline-secondary edit-user mr-1 mb-2"
+                                                        data-toggle="modal"
+                                                        data-target="#editUserModal"
+                                                        data-id="{{ $user->id }}"
+                                                        data-name="{{ $user->name }}"
+                                                        data-email="{{ $user->email }}"
+                                                        data-number="{{ $user->number }}"
+                                                        data-usertype="{{ $user->usertype }}">
                                                         <svg xmlns="http://www.w3.org/2000/svg" height="20" width="25" viewBox="0 0 640 512">
                                                             <path fill="#FFB200" d="M224 256A128 128 0 1 0 224 0a128 128 0 1 0 0 256zm-45.7 48C79.8 304 0 383.8 0 482.3C0 498.7 13.3 512 29.7 512H322.8c-3.1-8.8-3.7-18.4-1.4-27.8l15-60.1c2.8-11.3 8.6-21.5 16.8-29.7l40.3-40.3c-32.1-31-75.7-50.1-123.9-50.1H178.3zm435.5-68.3c-15.6-15.6-40.9-15.6-56.6 0l-29.4 29.4 71 71 29.4-29.4c15.6-15.6 15.6-40.9 0-56.6l-14.4-14.4zM375.9 417c-4.1 4.1-7 9.2-8.4 14.9l-15 60.1c-1.4 5.5 .2 11.2 4.2 15.2s9.7 5.6 15.2 4.2l60.1-15c5.6-1.4 10.8 4.3 14.9-8.4L576.1 358.7l-71-71L375.9 417z" />
                                                         </svg>
@@ -143,7 +166,7 @@
             <div class="modal fade" id="editUserModal" tabindex="-1" role="dialog" aria-labelledby="editUserModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <form id="editUserForm" method="POST" action="{{ route('admin.update', ':id') }}" enctype="multipart/form-data">
+                        <form id="editUserForm" method="POST" action="">
                             @csrf
                             @method('PUT')
                             <div class="modal-header">
@@ -153,65 +176,27 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <input type="hidden" id="edit_user_id" name="id">
-
-                                <!-- Repeat similar fields as in the "Add User" modal -->
-                                <div class="row mb-3" data-aos="fade-up" data-aos-delay="200">
-                                    <label for="name" class="col-md-4 col-form-label text-md-end">{{ __('Email') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="email" type="email" class="form-control @error('email') is-invalid @enderror" name="email" value="{{ $user->email }}" readonly>
-
-                                        @error('email')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
+                                <div class="form-group">
+                                    <label for="editName">Name</label>
+                                    <input id="editName" type="text" class="form-control" name="name" required autocomplete="name" autofocus>
                                 </div>
-                                <div class="row mb-3" data-aos="fade-up" data-aos-delay="400">
-                                    <label for="email" class="col-md-4 col-form-label text-md-end">{{ __('Nama') }}</label>
-                                    <div class="col-md-6">
-                                        <input id="name" type="text" class="form-control @error('name') is-invalid @enderror" name="name" value="{{ $user->name }}" required autocomplete="name" autofocus>
-
-                                        @error('name')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
+                                <div class="form-group">
+                                    <label for="editEmail">Email</label>
+                                    <input id="editEmail" type="email" class="form-control" name="email" required autocomplete="email">
                                 </div>
-                                <div class="row mb-3" data-aos="fade-up" data-aos-delay="400">
-                                    <label for="number" class="col-md-4 col-form-label text-md-end">{{ __('Number Phone') }}</label>
-
-                                    <div class="col-md-6">
-                                        <input id="number" type="number" class="form-control @error('number') is-invalid @enderror" name="number" value="{{ $user->number }}" required autocomplete="number">
-
-                                        @error('number')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
+                                <div class="form-group">
+                                    <label for="editNumber">No Telpon</label>
+                                    <input id="editNumber" type="number" class="form-control" name="number" required>
                                 </div>
-                                <div class="row mb-3" data-aos="fade-up" data-aos-delay="500">
-                                    <label for="usertype" class="col-md-4 col-form-label text-md-end">{{ __('Role') }}</label>
-                                    <div class="col-md-6">
-                                        <select id="usertype" style="height:40px" class="form-control @error('usertype') is-invalid @enderror" name="usertype" required>
-                                            <option value="">-- Select Role --</option>
-                                            <option value="admin" {{ $user->usertype == 'admin' ? 'selected' : '' }}>Admin</option>
-                                            <option value="owner" {{ $user->usertype == 'owner' ? 'selected' : '' }}>Content Creator</option>
-                                            <option value="karyawan" {{ $user->usertype == 'karyawan' ? 'selected' : '' }}>Pengguna</option>
-                                        </select>
-
-                                        @error('usertype')
-                                        <span class="invalid-feedback" role="alert">
-                                            <strong>{{ $message }}</strong>
-                                        </span>
-                                        @enderror
-                                    </div>
+                                <div class="form-group">
+                                    <label for="editUsertype">Role</label>
+                                    <select id="editUsertype" class="form-control" name="usertype" required>
+                                        <option value="">-- Select Role --</option>
+                                        <option value="admin">Admin</option>
+                                        <option value="owner">Owner</option>
+                                        <option value="karyawan">Karyawan</option>
+                                    </select>
                                 </div>
-
-
                             </div>
                             <div class="modal-footer">
                                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -221,55 +206,139 @@
                     </div>
                 </div>
             </div>
+
+            <!-- detail modal -->
+            <div class="modal fade" id="detailUserModal" tabindex="-1" role="dialog" aria-labelledby="detailUserModalLabel" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="detailUserModalLabel">Detail Pegawai</h5>
+                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <strong>Profile</strong>
+                                </div>
+                                <div class="col-8" id="detailImage">
+                                    <!-- Gambar akan ditampilkan di sini -->
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <strong>Nama</strong>
+                                </div>
+                                <div class="col-8" id="detailName"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <strong>Email</strong>
+                                </div>
+                                <div class="col-8" id="detailEmail"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <strong>No Telepon</strong>
+                                </div>
+                                <div class="col-8" id="detailNumber"></div>
+                            </div>
+                            <div class="row mb-3">
+                                <div class="col-4">
+                                    <strong>Jabatan</strong>
+                                </div>
+                                <div class="col-8" id="detailUsertype"></div>
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
 
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
-    // Fungsi untuk membuka modal dan memuat data pengguna yang dipilih
-    $('#editUserModal').on('show.bs.modal', function(e) {
-        var button = $(e.relatedTarget); // Tombol yang memicu modal
-        var userId = button.data('id'); // Mendapatkan ID pengguna
+    $(document).ready(function() {
+        // Ketika modal edit akan ditampilkan
+        $('#editUserModal').on('show.bs.modal', function(event) {
+            // Ambil tombol yang memicu modal
+            var button = $(event.relatedTarget);
 
-        var modal = $(this);
+            // Ambil data dari atribut data-*
+            var userId = button.data('id');
+            var name = button.data('name');
+            var email = button.data('email');
+            var number = button.data('number');
+            var usertype = button.data('usertype');
 
-        // Kirim request AJAX untuk mendapatkan data pengguna
-        $.ajax({
-            url: '/admin/' + userId + '/edit', // URL untuk mendapatkan data pengguna
-            method: 'GET',
-            success: function(data) {
-                // Mengisi data ke dalam modal form
-                modal.find('.modal-body').html(`
-                    <div class="form-group">
-                        <label for="editName">Name</label>
-                        <input id="editName" type="text" class="form-control" name="name" value="${data.name}" required autocomplete="name" autofocus>
-                    </div>
-                    <div class="form-group">
-                        <label for="editEmail">Email</label>
-                        <input id="editEmail" type="email" class="form-control" name="email" value="${data.email}" required autocomplete="email">
-                    </div>
-                    <div class="form-group">
-                        <label for="editNumber">No Telpon</label>
-                        <input id="editNumber" type="number" class="form-control" name="number" value="${data.number}" required>
-                    </div>
-                    <div class="form-group">
-                        <label for="editUsertype">Role</label>
-                        <select id="editUsertype" class="form-control" name="usertype" required>
-                            <option value="admin" ${data.usertype === 'admin' ? 'selected' : ''}>Admin</option>
-                            <option value="owner" ${data.usertype === 'owner' ? 'selected' : ''}>Owner</option>
-                            <option value="karyawan" ${data.usertype === 'karyawan' ? 'selected' : ''}>Karyawan</option>
-                        </select>
-                    </div>
-                `);
-                // Update action form untuk mencocokkan user ID
-                modal.find('form').attr('action', '/admin/' + userId);
-            },
-            error: function(xhr, status, error) {
-                console.error("Terjadi kesalahan saat memuat data pengguna:", error);
-            }
+            // Debug untuk memastikan data terambil
+            console.log('User Data:', {
+                userId,
+                name,
+                email,
+                number,
+                usertype
+            });
+
+            // Update action URL form
+            var actionUrl = "{{ route('admin.update', ':id') }}".replace(':id', userId);
+            $('#editUserForm').attr('action', actionUrl);
+
+            // Isi form dengan data user
+            var modal = $(this);
+            modal.find('#editName').val(name);
+            modal.find('#editEmail').val(email);
+            modal.find('#editNumber').val(number);
+            modal.find('#editUsertype').val(usertype);
+
+            // Debug untuk memastikan data terisi
+            console.log('Form Values:', {
+                name: modal.find('#editName').val(),
+                email: modal.find('#editEmail').val(),
+                number: modal.find('#editNumber').val(),
+                usertype: modal.find('#editUsertype').val()
+            });
+        });
+
+        // Tambahan: Ketika modal ditutup, reset form
+        $('#editUserModal').on('hidden.bs.modal', function() {
+            $(this).find('form')[0].reset();
         });
     });
 </script>
+<script>
+    $(document).ready(function() {
+        $('#detailUserModal').on('show.bs.modal', function(event) {
+            var button = $(event.relatedTarget);
+            var profile_image = button.data('image');
+            var name = button.data('name');
+            var email = button.data('email');
+            var number = button.data('number');
+            var usertype = button.data('usertype');
+
+            var modal = $(this);
+
+            // Perbaikan untuk menampilkan gambar
+            if (profile_image) {
+                modal.find('#detailImage').html('<img src="/images/profile/' + profile_image + '" class="img-fluid" alt="Profile Image">');
+            } else {
+                modal.find('#detailImage').html('No image available');
+            }
+
+            modal.find('#detailName').text(name);
+            modal.find('#detailEmail').text(email);
+            modal.find('#detailNumber').text(number);
+            modal.find('#detailUsertype').text(usertype);
+        });
+    });
+</script>
+
+
 
 @endsection
