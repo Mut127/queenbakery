@@ -157,19 +157,10 @@ class AdminController extends Controller
     }
 
     // Di dalam AdminController.php
-    public function showAbsensi()
-    {
-        return view('admin.absensi'); // Sesuaikan dengan path view absensi
-    }
 
     public function showIzin()
     {
         return view('admin.izin'); // Page izin
-    }
-
-    public function showKehadiran()
-    {
-        return view('admin.kehadiran');
     }
 
     public function showPelamar()
@@ -190,11 +181,6 @@ class AdminController extends Controller
     public function showPengumuman()
     {
         return view('admin.pengumuman');
-    }
-
-    public function showCuti()
-    {
-        return view('admin.cuti');
     }
 
     public function showPenilaian()

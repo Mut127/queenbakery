@@ -26,18 +26,18 @@
                                 <div class="tab-pane fade show active" id="attendance" role="tabpanel" aria-labelledby="attendance-tab">
                                     <h4 class="mt-4">Form Kehadiran</h4>
                                     <!-- Form kehadiran -->
-                                    <form id="attendanceForm" onsubmit="return validateAttendanceForm()">
+                                    <form action="{{ route('admin.kehadiran') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
                                         <div class="mb-3 row">
                                             <label class="col-sm-4 col-form-label text-end">Pengguna :</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" value="Muthia Khanza" readonly>
+                                                <input type="text" class="form-control" value="{{ $user->name }}" readonly>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
                                             <label class="col-sm-4 col-form-label text-end">Tanggal :</label>
                                             <div class="col-sm-8">
-                                                <input type="text" class="form-control" value="5/10/2024" readonly>
+                                                <input type="text" class="form-control" id="currentDate" readonly>
                                             </div>
                                         </div>
                                         <div class="mb-3 row">
@@ -57,16 +57,16 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div id="suratDokterField" class="mb-3 row" style="display: none;">
-                                            <label class="col-sm-4 col-form-label text-end">Bukti Foto Surat Dokter :</label>
+                                        <div class="mb-3 row" id="suratDokterField" style="display: none;">
+                                            <label class="col-sm-4 col-form-label text-end">Surat Dokter:</label>
                                             <div class="col-sm-8">
-                                                <input type="file" class="form-control" id="suratDokter" accept="image/*">
+                                                <input type="file" class="form-control" name="surat" accept=".pdf,.jpg,.png">
                                             </div>
                                         </div>
-                                        <div id="pengajuanIzin" class="mb-3 row" style="display: none;">
-                                            <label class="col-sm-4 col-form-label text-end">Alasan Izin :</label>
+                                        <div class="mb-3 row" id="alasanIzinField" style="display: none;">
+                                            <label class="col-sm-4 col-form-label text-end">Alasan Izin/Sakit:</label>
                                             <div class="col-sm-8">
-                                                <textarea class="form-control" rows="3" id="alasanIzin" placeholder="Masukkan alasan pengajuan izin"></textarea>
+                                                <textarea name="reason" class="form-control" rows="3"></textarea>
                                             </div>
                                         </div>
                                         <div class="text-center mt-4">
@@ -76,36 +76,35 @@
                                     </form>
                                 </div>
 
-                                <!-- Cuti Tab -->
+                                <!-- Pengajuan Izin Tab -->
                                 <div class="tab-pane fade" id="leave" role="tabpanel" aria-labelledby="leave-tab">
                                     <h4 class="mt-4">Form Pengajuan Izin</h4>
-                                    <form id="leaveForm" onsubmit="return validateLeaveForm()">
+                                    <form action="{{ route('admin.storeIzin') }}" method="POST" enctype="multipart/form-data">
                                         @csrf
-                                        <!-- Pilihan Izin atau Sakit -->
                                         <div class="form-group">
                                             <label for="jenis_izin">Jenis Izin</label>
                                             <div>
                                                 <input type="radio" id="izin" name="jenis_izin" value="izin" required>
-                                                <label style="margin-right: 15px;" for="izin">Izin</label>
+                                                <label for="izin">Izin</label>
                                                 <input type="radio" id="sakit" name="jenis_izin" value="sakit" required>
-                                                <label style="margin-right: 15px;" for="sakit">Sakit</label>
+                                                <label for="sakit">Sakit</label>
                                             </div>
                                         </div>
 
-                                        <!-- Keterangan -->
                                         <div class="form-group">
                                             <label for="keterangan">Keterangan</label>
-                                            <textarea id="keterangan" name="keterangan" class="form-control" rows="3" required></textarea>
+                                            <textarea name="keterangan" class="form-control" rows="3" required></textarea>
                                         </div>
 
-                                        <!-- Input Surat -->
                                         <div class="form-group">
-                                            <label for="surat">Surat Keterangan (jika ada)</label>
-                                            <input type="file" id="surat" name="surat" class="form-control" accept=".pdf,.jpg,.png">
+                                            <label for="surat">Surat Izin</label>
+                                            <input type="file" name="surat" class="form-control">
                                         </div>
 
-                                        <!-- Submit Button -->
-                                        <button type="submit" class="btn btn-primary">Ajukan Izin</button>
+                                        <div class="text-center mt-4">
+                                            <button type="submit" class="btn btn-primary me-2">Ajukan Izin</button>
+                                            <button type="button" class="btn btn-danger">Batal</button>
+                                        </div>
                                     </form>
                                 </div>
                             </div>
@@ -118,45 +117,21 @@
 </div>
 
 <script>
+    document.getElementById('currentDate').value = new Date().toISOString().split('T')[0];
+
     function toggleFields() {
-        var suratDokterField = document.getElementById("suratDokterField");
-        var pengajuanIzin = document.getElementById("pengajuanIzin");
-        var statusIzin = document.getElementById("statusIzin").checked;
-        var statusSakit = document.getElementById("statusSakit").checked;
-
-        // Tampilkan field upload bukti foto surat dokter dan alasan izin hanya jika status "Izin" atau "Sakit" dipilih
-        if (statusIzin || statusSakit) {
-            suratDokterField.style.display = "flex";
-            pengajuanIzin.style.display = "flex";
+        const status = document.querySelector('input[name="status"]:checked').value;
+        if (status === 'Izin' || status === 'Sakit') {
+            document.getElementById('alasanIzinField').style.display = 'block';
+            if (status === 'Sakit') {
+                document.getElementById('suratDokterField').style.display = 'block';
+            } else {
+                document.getElementById('suratDokterField').style.display = 'none';
+            }
         } else {
-            suratDokterField.style.display = "none";
-            pengajuanIzin.style.display = "none";
+            document.getElementById('alasanIzinField').style.display = 'none';
+            document.getElementById('suratDokterField').style.display = 'none';
         }
-    }
-
-    function validateAttendanceForm() {
-        var statusIzin = document.getElementById("statusIzin").checked;
-        var statusSakit = document.getElementById("statusSakit").checked;
-        var suratDokter = document.getElementById("suratDokter");
-        var alasanIzin = document.getElementById("alasanIzin");
-
-        // Validasi untuk memastikan bukti foto surat dokter diunggah dan alasan izin diisi jika status "Izin" atau "Sakit" dipilih
-        if ((statusIzin || statusSakit) && !suratDokter.value) {
-            alert("Anda harus memasukkan bukti foto surat dokter.");
-            return false;
-        }
-
-        if ((statusIzin || statusSakit) && alasanIzin.value.trim() === "") {
-            alert("Anda harus memasukkan alasan pengajuan izin.");
-            return false;
-        }
-
-        return true;
-    }
-
-    function validateLeaveForm() {
-        // Validasi form cuti jika perlu
-        return true;
     }
 </script>
 @endsection

@@ -27,34 +27,38 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <!-- Contoh data statis -->
+                                        @foreach($cuti as $cutiItem)
                                         <tr>
-                                            <td>John Doe</td>
-                                            <td>Tahunan</td>
-                                            <td>2024-12-01</td>
-                                            <td>2024-12-05</td>
-                                            <td>5</td>
-                                            <td>Liburan keluarga</td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
+                                            <!-- Menampilkan nama karyawan menggunakan relasi user -->
+                                            <td>{{ $cutiItem->user->name }}</td>
+                                            <td>{{ $cutiItem->jenis }}</td>
+                                            <td>{{ $cutiItem->tgl_awal }}</td>
+                                            <td>{{ $cutiItem->tgl_akhir }}</td>
+                                            <td>{{ $cutiItem->jml_cuti }}</td>
+                                            <td>{{ $cutiItem->ket }}</td>
                                             <td>
-                                                <button class="btn btn-success btn-sm">Setujui</button>
-                                                <button class="btn btn-danger btn-sm">Tolak</button>
+                                                @if($cutiItem->status == 'Pending')
+                                                <span class="badge badge-warning">Pending</span>
+                                                @elseif($cutiItem->status == 'Disetujui')
+                                                <span class="badge badge-success">Disetujui</span>
+                                                @elseif($cutiItem->status == 'Ditolak')
+                                                <span class="badge badge-danger">Ditolak</span>
+                                                @endif
+                                            </td>
+                                            <td>
+                                                <form action="{{ route('admin.cuti.approve', $cutiItem->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button class="btn btn-success btn-sm">Setujui</button>
+                                                </form>
+                                                <form action="{{ route('admin.cuti.reject', $cutiItem->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('PUT')
+                                                    <button class="btn btn-danger btn-sm">Tolak</button>
+                                                </form>
                                             </td>
                                         </tr>
-                                        <tr>
-                                            <td>Jane Smith</td>
-                                            <td>Sakit</td>
-                                            <td>2024-11-20</td>
-                                            <td>2024-11-22</td>
-                                            <td>3</td>
-                                            <td>Sakit demam</td>
-                                            <td><span class="badge badge-warning">Pending</span></td>
-                                            <td>
-                                                <button class="btn btn-success btn-sm">Setujui</button>
-                                                <button class="btn btn-danger btn-sm">Tolak</button>
-                                            </td>
-                                        </tr>
-                                        <!-- Tambahkan data statis lainnya jika diperlukan -->
+                                        @endforeach
                                     </tbody>
                                 </table>
                             </div>
