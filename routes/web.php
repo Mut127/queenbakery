@@ -5,6 +5,7 @@ use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PelamarController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
@@ -15,6 +16,7 @@ use App\Models\Admin;
 use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Kehadiran;
+use App\Models\Pelamar;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
 
@@ -59,12 +61,15 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/admin/cuti/reject/{id}', [KehadiranController::class, 'rejectCuti'])->name('admin.cuti.reject');
 
 
-    // Rekruitmen
-    Route::get('/admin/pelamar', [AdminController::class, 'showPelamar'])->name('admin.pelamar');
-    Route::post('/admin/pelamar', [AdminController::class, 'storePelamar'])->name('admin.pelamar.storePelamar');
-    //Route::get('/admin/pelamar/{id}/edit', [AdminController::class, 'editPelamar'])->name('admin.pelamar.editPelamar');
-    Route::put('/admin/pelamar/{id}', [AdminController::class, 'updatePelamar'])->name('admin.pelamar.updatePelamar');
-    Route::delete('/admin/pelamar/{id}', [AdminController::class, 'destroyPelamar'])->name('admin.pelamar.destroyPelamar');
+    // Rekrutmen
+
+    // Kelola Pelamar
+    Route::get('/admin/pelamar', [PelamarController::class, 'indexPelamar'])->name('admin.pelamar.indexPelamar');
+    Route::post('/admin/pelamar', [PelamarController::class, 'storePelamar'])->name('admin.pelamar.storePelamar');
+    Route::get('/admin/pelamar/{id}/edit', [PelamarController::class, 'editPelamar'])->name('admin.pelamar.editPelamar');
+    Route::put('/admin/pelamar/{id}', [PelamarController::class, 'updatePelamar'])->name('admin.pelamar.updatePelamar');
+    Route::delete('/admin/pelamar/{id}', [PelamarController::class, 'destroyPelamar'])->name('admin.pelamar.destroyPelamar');
+
 
 
 

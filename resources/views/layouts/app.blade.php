@@ -91,7 +91,7 @@
                         </a>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link {{ Route::is('admin.pelamar') ? 'active' : '' }}" href="{{ route('admin.pelamar') }}">
+                                <li class="nav-item"><a class="nav-link {{ Route::is('admin.pelamar.indexPelamar') ? 'active' : '' }}" href="{{ route('admin.pelamar.indexPelamar') }}">
                                         Kelola Pelamar</a></li>
                             </ul>
                         </div>
