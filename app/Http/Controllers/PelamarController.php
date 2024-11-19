@@ -94,10 +94,10 @@ class PelamarController extends Controller
         // Menemukan pelamar berdasarkan ID
         $pelamars = Pelamar::findOrFail($id);
 
-        // Hapus foto jika ada
+        /* Hapus foto jika ada
         if ($pelamars->photo) {
             unlink(storage_path('app/public/' . $pelamars->photo));
-        }
+        }*/
 
         // Hapus pelamar dari database
         $pelamars->delete();

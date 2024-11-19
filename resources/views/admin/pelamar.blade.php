@@ -140,7 +140,7 @@
                                                     </td>
                                                     <td>
                                                         <!-- Edit Button -->
-                                                        <button class="btn btn-sm btn-outline-secondary edit-pelamar"
+                                                        <button class="btn btn-sm btn-outline-secondary edit-pelamar mr-2"
                                                             data-toggle="modal" data-target="#editPelamarModal"
                                                             data-id="{{ $item->id }}"
                                                             data-name="{{ $item->name }}"
@@ -157,12 +157,11 @@
                                                         </button>
                                                         <form
                                                             action="{{ route('admin.pelamar.destroyPelamar', $item->id) }}"
-                                                            method="POST" class="delete-form mt-2"
-                                                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus pelamar ini?');">
+                                                            method="POST" class="delete-form d-inline">
                                                             @csrf
                                                             @method('DELETE')
-                                                            <button type="submit"
-                                                                class="btn btn-sm btn-outline-danger mr-1 mb-2">
+                                                            <button type="button"
+                                                                class="btn btn-sm btn-outline-danger delete-btn">
                                                                 <svg xmlns="http://www.w3.org/2000/svg" height="20"
                                                                     width="25" viewBox="0 0 448 512">
                                                                     <path fill="#FF0000"
@@ -238,8 +237,33 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.delete-btn').on('click', function(e) {
+                e.preventDefault(); // Mencegah submit form langsung
+    
+                const form = $(this).closest('form'); // Ambil form terdekat
+    
+                Swal.fire({
+                    title: 'Apakah Anda yakin?',
+                    text: "Data ini tidak bisa dikembalikan setelah dihapus!",
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Ya, hapus!',
+                    cancelButtonText: 'Batal'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        form.submit(); // Submit form jika user mengonfirmasi
+                    }
+                });
+            });
+        });
+    </script>    
     <script>
         $(document).ready(function() {
             // Populate the edit modal with data
@@ -263,7 +287,7 @@
                 modal.find('#editEducation').val(education);
                 modal.find('#editPosition').val(position);
                 modal.find('#editPhoto').val(photo);
-                
+
             });
             $('#editPelamarModal').on('hidden.bs.modal', function() {
                 $(this).find('form')[0].reset();
