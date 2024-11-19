@@ -39,14 +39,6 @@
                         </a>
                     </li>
 
-
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::is('admin.profile') ? 'active' : '' }}"
-                            href="{{ route('admin.profile') }}">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Profile</span>
-                        </a>
-                    </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/user*') ? 'active' : '' }}" data-toggle="collapse"
                             href="#form-elements" aria-expanded="false" aria-controls="form-elements">
@@ -161,13 +153,7 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link {{ Route::is('owner.profile') ? 'active' : '' }}"
-                            href="{{ route('owner.profile') }}">
-                            <i class="icon-layout menu-icon"></i>
-                            <span class="menu-title">Profile</span>
-                        </a>
-                    </li>
+
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('owner/user*') ? 'active' : '' }}" data-toggle="collapse"
                             href="#form-elements" aria-expanded="false" aria-controls="form-elements">
@@ -322,7 +308,13 @@
                         </div>
                     </li>
                     @endif
-
+                    <li class="nav-item">
+                        <a class="nav-link {{ Route::is('profile') ? 'active' : '' }}"
+                            href="{{ route('profile') }}">
+                            <i class="icon-layout menu-icon"></i>
+                            <span class="menu-title">Profile</span>
+                        </a>
+                    </li>
                     <li class="nav-item">
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
