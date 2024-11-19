@@ -60,26 +60,7 @@ class SessionController extends Controller
     //     return view('admin.create');
     // }
 
-    public function store(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'email' => 'required|email|unique:users,email',
-            'number' => 'required',
-            'usertype' => 'required|in:admin,owner,karyawan',
-            'password' => 'required|min:8',
-        ]);
 
-        User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'number' => $request->number,
-            'usertype' => $request->usertype,
-            'password' => bcrypt($request->password),
-        ]);
-
-        return redirect()->route('admin.user')->with('success', 'User created successfully.');
-    }
 
     public function profile()
     {
@@ -87,36 +68,7 @@ class SessionController extends Controller
     }
 
 
-    // public function updateProfile(Request $request)
-    // {
-    //     $request->validate([
-    //         'name' => 'required|string|max:255',
-    //         'number' => 'required|string|max:255',
-    //         'profile_image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-    //     ]);
-    //     /** @var \App\Models\User $user **/
-    //     $user = Auth::user();
-    //     $user->name = $request->name;
-    //     $user->number = $request->number;
-    //     if ($request->hasFile('profile_image')) {
-    //         $profileImage = $request->file('profile_image');
-    //         $profileImageName = time() . '.' . $profileImage->getClientOriginalExtension();
-    //         $profileImage->move(public_path('images/profile'), $profileImageName);
 
-    //         // delete old profile image if exists
-    //         if ($user->profile_image) {
-    //             $oldImagePath = public_path('images/profile/' . $user->profile_image);
-    //             if (file_exists($oldImagePath)) {
-    //                 unlink($oldImagePath);
-    //             }
-    //         }
-
-    //         $user->profile_image = $profileImageName;
-    //     }
-    //     $user->save();
-
-    //     return redirect()->route('profile')->with('message', 'Profile berhasil diperbarui');
-    // }
 
     // public function changeProfilePhoto(Request $request)
     // {

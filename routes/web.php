@@ -5,6 +5,7 @@ use App\Http\Controllers\KaryawanController;
 use App\Http\Controllers\KehadiranController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
 use App\Http\Middleware\AdminMiddleware;
@@ -15,7 +16,7 @@ use App\Models\User;
 use App\Models\Attendance;
 use App\Models\Kehadiran;
 use Illuminate\Support\Facades\Route;
-
+use Symfony\Component\HttpKernel\Profiler\Profile;
 
 // kalo mau tambah user pertama ini di komen dulu
 Route::get('/', function () {
@@ -27,12 +28,8 @@ Route::post('/sesi/login', [SessionController::class, 'login'])->name('sesi.logi
 // Route::post('/admin/user', [SessionController::class, 'store'])->name('sesi.store');
 
 Route::middleware(['auth'])->group(function () {
-    Route::match(['get', 'post'], '/profile', [SessionController::class, 'profile'])->name('profile');
-    Route::post('/profile/update', [SessionController::class, 'updateProfile'])->name('profile.update');
-    Route::post('/profile/change-photo', [SessionController::class, 'changeProfilePhoto'])->name('profile.changePhoto');
+    Route::get('/profile', [ProfileController::class, 'showProfile'])->name('profile');
     Route::post('/logout', [SessionController::class, 'logout'])->name('logout');
-    Route::get('/profile/editpassword', [SessionController::class, 'password'])->name('profile.password');
-    Route::post('/profile/changepasswod', [SessionController::class, 'changePassword'])->name('password.changePassword');
 });
 
 
@@ -40,14 +37,12 @@ Route::middleware(['auth'])->group(function () {
 // Rute khusus admin
 Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/dashboard', [AdminController::class, 'showDashboard'])->name('admin.dashboard');
-    Route::get('/admin/profile', [UserController::class, 'showProfile'])->name('admin.profile');
-    Route::post('/admin/profile', [PageController::class, 'updateProfile'])->name('admin.profile.update');
+
     Route::get('/admin/user', [AdminController::class, 'showUserList'])->name('admin.user');
     // kalo mau tambah user ini di komen dulu
-    Route::post('/admin/user', [SessionController::class, 'store'])->name('sesi.store');
-    Route::post('/users', [AdminController::class, 'store'])->name('admin.users.store');
-    Route::put('/users/{id}', [AdminController::class, 'update'])->name('admin.users.update');
-    Route::delete('/users/{id}', [AdminController::class, 'destroy'])->name('admin.users.destroy');
+    Route::post('/admin/user', [AdminController::class, 'store'])->name('admin.store');
+    Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
+    Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
 
     // Absensi and Kehadiran routes
     Route::get('/admin/absensi', [KehadiranController::class, 'showAbsensi'])->name('admin.absensi');
@@ -63,8 +58,15 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/admin/cuti/reject/{id}', [KehadiranController::class, 'rejectCuti'])->name('admin.cuti.reject');
 
 
-    // Additional admin routes
+    // Rekruitmen
     Route::get('/admin/pelamar', [AdminController::class, 'showPelamar'])->name('admin.pelamar');
+    Route::post('/admin/pelamar', [AdminController::class, 'storePelamar'])->name('admin.pelamar.storePelamar');
+    //Route::get('/admin/pelamar/{id}/edit', [AdminController::class, 'editPelamar'])->name('admin.pelamar.editPelamar');
+    Route::put('/admin/pelamar/{id}', [AdminController::class, 'updatePelamar'])->name('admin.pelamar.updatePelamar');
+    Route::delete('/admin/pelamar/{id}', [AdminController::class, 'destroyPelamar'])->name('admin.pelamar.destroyPelamar');
+    
+
+
     Route::get('/admin/lowongan', [AdminController::class, 'showLowongan'])->name('admin.lowongan');
     Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
     Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
