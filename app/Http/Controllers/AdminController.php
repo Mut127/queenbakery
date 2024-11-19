@@ -26,11 +26,7 @@ class AdminController extends Controller
 
         return view('admin.dashboard');
     }
-    public function showProfile(Request $request)
-    {
 
-        return view('admin.profile');
-    }
     public function updateProfile(Request $request)
     {
         // Validate the form data
@@ -101,61 +97,57 @@ class AdminController extends Controller
 
     public function store(Request $request)
     {
-        // Validate the request data
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users',
-            'role' => 'required|string',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'required',
+            'email' => 'required|email|unique:users,email',
+            'number' => 'required',
+            'usertype' => 'required|in:admin,owner,karyawan',
+            'password' => 'required|min:8',
         ]);
 
-        // Create a new User instance
-        $user = new User();
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role = $request->role;
+        User::create([
+            'name' => $request->name,
+            'email' => $request->email,
+            'number' => $request->number,
+            'usertype' => $request->usertype,
+            'password' => bcrypt($request->password),
+        ]);
 
-        // Handle the picture file upload
-        if ($request->hasFile('picture')) {
-            $file = $request->file('picture');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('profile_pictures', $filename, 'public');
-            $user->picture = $path;
-        }
-
-        // Save the user to the database
-        $user->save();
-
-        // Redirect to the user list with a success message
         return redirect()->route('admin.user')->with('success', 'User created successfully.');
     }
 
+    public function edit($id)
+    {
+        $user = User::findOrFail($id); // Menemukan pengguna berdasarkan ID
+        return response()->json($user); // Mengembalikan data pengguna dalam format JSON
+    }
 
     // Update the specified user in storage
     public function update(Request $request, $id)
     {
+        // Validasi input
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255',
-            'role' => 'required|string',
-            'picture' => 'nullable|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'name' => 'required',
+            'number' => 'required',
+            'usertype' => 'required|in:admin,owner,karyawan',
+            'password' => 'nullable|min:8',
         ]);
 
-        $user = User::findOrFail($id);
-        $user->name = $request->name;
-        $user->email = $request->email;
-        $user->role = $request->role;
+        // Cari user berdasarkan ID
+        $user = User::find($id);
 
-        if ($request->hasFile('picture')) {
-            $file = $request->file('picture');
-            $filename = time() . '.' . $file->getClientOriginalExtension();
-            $path = $file->storeAs('profile_pictures', $filename, 'public');
-            $user->picture = $path;
-        }
-        $user->save();
+        // Update data user
+        $user->update([
+            'name' => $request->name,
+            'number' => $request->number,
+            'usertype' => $request->usertype,
+            'password' => $request->password ? bcrypt($request->password) : $user->password,
+        ]);
 
+        // Redirect dengan pesan sukses
         return redirect()->route('admin.user')->with('success', 'User updated successfully.');
     }
+
 
     // Remove the specified user from storage
     public function destroy($id)
