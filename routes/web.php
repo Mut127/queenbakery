@@ -2,9 +2,12 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\KaryawanController;
+use App\Http\Controllers\KategorilokerController;
 use App\Http\Controllers\KehadiranController;
+use App\Http\Controllers\LowonganController;
 use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PageController;
+use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
@@ -14,6 +17,7 @@ use App\Http\Middleware\OwnerMiddleware;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Attendance;
+use App\Models\Kategoriloker;
 use App\Models\Kehadiran;
 use Illuminate\Support\Facades\Route;
 use Symfony\Component\HttpKernel\Profiler\Profile;
@@ -66,13 +70,26 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/admin/pelamar/{id}', [AdminController::class, 'updatePelamar'])->name('admin.pelamar.updatePelamar');
     Route::delete('/admin/pelamar/{id}', [AdminController::class, 'destroyPelamar'])->name('admin.pelamar.destroyPelamar');
 
+    Route::get('/admin/kategoriloker', [KategorilokerController::class, 'index'])->name('admin.kategoriloker');
+    Route::post('/admin/kategoriloker', [KategorilokerController::class, 'storeKategoriLoker'])->name('admin.storeKategoriLoker');
+    Route::put('/kategoriloker/{ketegoriloker}', [KategorilokerController::class, 'updateKategoriLoker'])->name('admin.updateKategoriLoker');
+    Route::delete('/kategoriloker/{ketegoriloker}', [KategorilokerController::class, 'destroyKategoriLoker'])->name('admin.destroyKategoriLoker');
+
+    Route::get('/admin/lowongan', [LowonganController::class, 'showLowongan'])->name('admin.lowongan');
+    Route::post('/admin/lowongan', [LowonganController::class, 'storeLowongan'])->name('admin.storeLowongan');
+    Route::post('/admin/lowongan/{id}', [LowonganController::class, 'editLowongan'])->name('admin.editLowongan');
+    Route::put('/admin/lowongan/{id}/update', [LowonganController::class, 'updateLowongan'])->name('admin.updateLowongan');
+    Route::delete('/admin/lowongan/{id}/delete', [LowonganController::class, 'destroyLowongan'])->name('admin.destroyLowongan');
 
 
-    Route::get('/admin/lowongan', [AdminController::class, 'showLowongan'])->name('admin.lowongan');
     Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
     Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
     Route::get('/admin/izin', [AdminController::class, 'showIzin'])->name('admin.izin');
-    Route::get('/admin/penilaian', [AdminController::class, 'showPenilaian'])->name('admin.penilaian');
+    Route::get('/admin/penilaian', [PenilaianController::class, 'showPenilaian'])->name('admin.penilaian');
+    Route::post('/admin/penilaian', [PenilaianController::class, 'storePenilaian'])->name('admin.storePenilaian');
+    Route::post('/admin/penilaian/{id}', [PenilaianController::class, 'editPenilaian'])->name('admin.editPenilaian');
+    Route::put('/admin/penilaian/{id}/update', [PenilaianController::class, 'updatePenilaian'])->name('admin.updatePenilaian');
+    Route::delete('/admin/penilaian/{id}/delete', [PenilaianController::class, 'destroyPenilaian'])->name('admin.destroyPenilaian');
 });
 
 Route::middleware(['auth', OwnerMiddleware::class])->group(function () {

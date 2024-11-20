@@ -8,93 +8,79 @@
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
                         <div class="card-body">
-                            <!-- Header Penilaian Kinerja -->
-                            <div class="d-flex justify-content-between align-items-center mb-4">
-                                <h4 class="card-title mb-0">Penilaian Kinerja</h4>
-                            </div>
-
-                            <!-- Navigasi Periode Bulan -->
-                            <div class="d-flex align-items-center mb-3">
-                                <button class="btn btn-sm btn-primary" id="prevMonth" style="width: 30px; height: 30px; padding: 0;">
-                                    &lt;
-                                </button>
-                                <h6 class="mx-2" id="currentMonth" style="margin-bottom: 0;"></h6>
-                                <button class="btn btn-sm btn-primary" id="nextMonth" style="width: 30px; height: 30px; padding: 0;">
-                                    &gt;
-                                </button>
-                            </div>
-
-                            <!-- Dropdown Pilih Pegawai -->
-                            <div class="mb-4">
-                                <label for="employeeSelect" style="font-size: 14px;">Pilih Pegawai</label>
-                                <select id="employeeSelect" class="form-control">
-                                    <option value="">-- Pilih Pegawai --</option>
-                                    <option value="1">Alice</option>
-                                    <option value="2">Bob</option>
-                                    <option value="3">Charlie</option>
-                                    <option value="4">David</option>
-                                    <option value="5">Eve</option>
-                                    <option value="6">Frank</option>
-                                    <option value="7">Grace</option>
-                                    <option value="8">Hank</option>
-                                </select>
-                            </div>
-
-                            <!-- Input Tanggal Penilaian (initially hidden) -->
-                            <div class="mb-4" id="dateInput" style="display: none;">
-                                <label for="evaluationDate" style="font-size: 14px;">Tanggal Penilaian</label>
-                                <input type="date" id="evaluationDate" class="form-control">
-                            </div>
+                            <h4 class="card-title">Penilaian Kinerja</h4>
 
                             <!-- Form Penilaian Kinerja -->
-                            <div id="performanceForm" style="display: none;">
-                                <form id="evaluationForm">
-                                    <div class="form-group">
-                                        <label for="description" style="font-size: 14px;">Catatan</label>
-                                        <textarea class="form-control" id="description" rows="3"></textarea>
-                                    </div>
-                                    <div class="form-group">
-                                        <label for="score" style="font-size: 14px;">Penilaian</label>
-                                        <select class="form-control" id="score">
-                                            <option value="Baik Sekali">Baik Sekali</option>
-                                            <option value="Baik">Baik</option>
-                                            <option value="Cukup">Cukup</option>
-                                            <option value="Kurang">Kurang</option>
-                                        </select>
-                                    </div>
-                                    <button type="submit" class="btn btn-purple btn-lg" style="font-size: 14px; padding: 14px 18px;">Simpan</button>
-                                </form>
-                            </div>
-                            <style>
-                                .btn-purple {
-                                    background-color: #6f42c1; /* Warna ungu */
-                                    color: white;
-                                    border-color: #6f42c1;
-                                }
-                            
-                                .btn-purple:hover {
-                                    background-color: #5a30a0; /* Warna ungu yang lebih gelap saat hover */
-                                    border-color: #5a30a0;
-                                }
-                            </style>
+                            <form id="penilaianForm" method="POST" action="{{ route('admin.storePenilaian') }}">
+                                @csrf
+                                <div class="form-group">
+                                    <label for="user_id">Pilih Pegawai</label>
+                                    <select name="user_id" class="form-control" required>
+                                        <option value="">-- Pilih Pegawai --</option>
+                                        @foreach($users as $user)
+                                        <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label for="tgl_nilai">Tanggal Penilaian</label>
+                                    <input type="date" name="tgl_nilai" class="form-control" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="catatan">Catatan</label>
+                                    <textarea name="catatan" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group">
+                                    <label for="nilai">Penilaian</label>
+                                    <select name="nilai" class="form-control @error('nilai') is-invalid @enderror" required>
+                                        <option value="">-- Pilih Penilaian --</option>
+                                        <option value="baiksekali">Baik Sekali</option>
+                                        <option value="baik">Baik</option>
+                                        <option value="cukup">Cukup</option>
+                                        <option value="kurang">Kurang</option>
+                                    </select>
+                                    @error('nilai')
+                                    <span class="invalid-feedback" role="alert">
+                                        <strong>{{ $message }}</strong>
+                                    </span>
+                                    @enderror
+                                </div>
+                                <button type="submit" class="btn btn-primary">Simpan</button>
+                            </form>
 
-                            <!-- Tabel Penilaian Kinerja -->
-                            <div class="table-responsive mt-4">
-                                <table class="table table-striped">
-                                    <thead>
-                                        <tr>
-                                            <th>Tanggal</th>
-                                            <th>Nama</th>
-                                            <th>Catatan</th>
-                                            <th>Penilaian</th>
-                                            <th>Aksi</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody id="performanceTable">
-                                        <!-- Data penilaian akan ditampilkan di sini -->
-                                    </tbody>
-                                </table>
-                            </div>
+                            <!-- Tabel Penilaian -->
+                            <table class="table table-striped mt-4">
+                                <thead>
+                                    <tr>
+                                        <th>Tanggal</th>
+                                        <th>Nama Pegawai</th>
+                                        <th>Catatan</th>
+                                        <th>Penilaian</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @foreach($kinerjas as $kinerja)
+                                    <tr>
+                                        <td>{{ $kinerja->tgl_nilai }}</td>
+                                        <td>{{ $kinerja->user->name }}</td>
+                                        <td>{{ $kinerja->catatan }}</td>
+                                        <td>{{ $kinerja->nilai }}</td>
+                                        <td>
+                                            <button class="btn btn-sm btn-secondary edit-btn"
+                                                data-id="{{ $kinerja->id }}"
+                                                data-toggle="modal"
+                                                data-target="#editModal">Edit</button>
+                                            <form action="{{ route('admin.destroyPenilaian', $kinerja->id) }}" method="POST" style="display:inline;">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Apakah Anda yakin ingin menghapus?')">Hapus</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
                         </div>
                     </div>
                 </div>
@@ -103,105 +89,104 @@
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script> <!-- Include SweetAlert2 -->
+<!-- Modal Edit Penilaian -->
+<div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editModalLabel">Edit Penilaian</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form id="editPenilaianForm" method="POST">
+                @csrf
+                @method('PUT')
+                <div class="modal-body">
+                    <div class="form-group">
+                        <label for="edit_catatan">Catatan</label>
+                        <textarea name="catatan" id="edit_catatan" class="form-control"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="edit_nilai">Penilaian</label>
+                        <select name="nilai" id="edit_nilai" class="form-control" required>
+                            <option value="baiksekali">Baik Sekali</option>
+                            <option value="baik">Baik</option>
+                            <option value="cukup">Cukup</option>
+                            <option value="kurang">Kurang</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Batal</button>
+                    <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
 
-<script>
-    // Script untuk navigasi bulan
-    let currentDate = new Date();
-    let selectedEmployee = null;
-
-    function updateMonthDisplay() {
-        const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni", "Juli", "Agustus", "September", "Oktober", "November", "Desember"];
-        document.getElementById('currentMonth').textContent = monthNames[currentDate.getMonth()] + ' ' + currentDate.getFullYear();
-        loadPerformanceData();
-    }
-
-    document.getElementById('prevMonth').addEventListener('click', function () {
-        currentDate.setMonth(currentDate.getMonth() - 1);
-        updateMonthDisplay();
-    });
-
-    document.getElementById('nextMonth').addEventListener('click', function () {
-        currentDate.setMonth(currentDate.getMonth() + 1);
-        updateMonthDisplay();
-    });
-
-    // Event listener untuk memilih pegawai
-    document.getElementById('employeeSelect').addEventListener('change', function () {
-        selectedEmployee = this.value;
-        if (selectedEmployee) {
-            document.getElementById('performanceForm').style.display = 'block';  // Show the form
-            document.getElementById('dateInput').style.display = 'block';  // Show the date picker
-        } else {
-            document.getElementById('performanceForm').style.display = 'none';  // Hide the form
-            document.getElementById('dateInput').style.display = 'none';  // Hide the date picker
-        }
-    });
-
-    // Simulasi data penilaian
-    const data = [
-        { date: '2024-11-05', name: 'Alice', description: 'Disiplin, kerja sesuai jobdesc', score: 'Baik Sekali' },
-        { date: '2024-11-10', name: 'Bob', description: 'Kerja cepat dan tepat', score: 'Baik' }
-    ];
-
-    // Filter data berdasarkan bulan
-    function loadPerformanceData() {
-        const tableBody = document.getElementById('performanceTable');
-        tableBody.innerHTML = '';
-
-        // Filter data berdasarkan bulan
-        const filteredData = data.filter(item => {
-            const itemDate = new Date(item.date);
-            const itemMonth = itemDate.getMonth();
-            const itemYear = itemDate.getFullYear();
-
-            return itemMonth === currentDate.getMonth() && itemYear === currentDate.getFullYear();
-        });
-
-        filteredData.forEach(item => {
-            const row = `<tr>
-                <td>${item.date}</td>
-                <td>${item.name}</td>
-                <td>${item.description}</td>
-                <td>${item.score}</td>
-                <td>
-                    <button class="btn btn-sm btn-outline-secondary">Edit</button>
-                    <button class="btn btn-sm btn-outline-danger">Hapus</button>
-                </td>
-            </tr>`;
-            tableBody.insertAdjacentHTML('beforeend', row);
-        });
-    }
-
-    // Event listener untuk menyimpan penilaian
-    document.getElementById('evaluationForm').addEventListener('submit', function (event) {
-        event.preventDefault();
-        const name = document.getElementById('employeeSelect').selectedOptions[0].text;
-        const description = document.getElementById('description').value;
-        const score = document.getElementById('score').value;
-        const date = document.getElementById('evaluationDate').value || new Date().toISOString().split('T')[0]; // Use the selected date or current date
-        data.push({ date, name, description, score });
-        loadPerformanceData();
-
-        // Using SweetAlert2 to show a success message
-        Swal.fire({
-            title: 'Penilaian Berhasil!',
-            text: 'Penilaian telah disimpan dengan sukses.',
-            icon: 'success',
-            confirmButtonText: 'OK',
-            background: '#f7f7f7',
-            color: '#333',
-            showCancelButton: false,
-            focusConfirm: true
-        });
-
-        this.reset();
-        document.getElementById('performanceForm').style.display = 'none';
-        document.getElementById('employeeSelect').value = '';
-        document.getElementById('dateInput').style.display = 'none'; // Hide date picker after submission
-    });
-
-    // Inisialisasi tampilan bulan saat halaman dimuat
-    updateMonthDisplay();
-</script>
 @endsection
+
+@push('scripts')
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        // Handle Edit Button Click
+        $('.edit-btn').on('click', function() {
+            var kinerjaId = $(this).data('id');
+
+            // AJAX to retrieve the existing record details
+            $.ajax({
+                url: '{{ route("admin.editPenilaian", ":id") }}'.replace(':id', kinerjaId),
+                method: 'GET',
+                success: function(response) {
+                    // Fill the modal fields with the retrieved data
+                    $('#edit_catatan').val(response.catatan);
+                    $('#edit_nilai').val(response.nilai);
+
+                    // Update the form's action URL dynamically
+                    $('#editPenilaianForm').attr(
+                        'action',
+                        '{{ route("admin.updatePenilaian", ":id") }}'.replace(':id', kinerjaId)
+                    );
+                },
+                error: function(xhr) {
+                    alert('Gagal mengambil data. Silakan coba lagi.');
+                }
+            });
+        });
+
+        // Handle Edit Form Submission via AJAX
+        $('#editPenilaianForm').on('submit', function(e) {
+            e.preventDefault(); // Prevent the default form submission behavior
+
+            var form = $(this);
+            var formData = form.serialize();
+
+            $.ajax({
+                url: form.attr('action'),
+                method: 'POST',
+                data: formData,
+                success: function(response) {
+                    // Notify the user and refresh the page to reflect changes
+                    alert(response.message || 'Data berhasil diperbarui.');
+                    location.reload();
+                },
+                error: function(xhr) {
+                    // Provide detailed error messages
+                    if (xhr.responseJSON && xhr.responseJSON.errors) {
+                        var errors = xhr.responseJSON.errors;
+                        var errorMessage = Object.values(errors).join("\n");
+                        alert('Error: ' + errorMessage);
+                    } else {
+                        alert('Gagal memperbarui data. Silakan coba lagi.');
+                    }
+                }
+            });
+        });
+    });
+</script>
+
+@endpush
