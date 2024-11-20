@@ -9,9 +9,17 @@ class Pelamar extends Model
 {
     use HasFactory;
 
+    /**
+     * fillable
+     *
+     * @var array
+     */
     protected $fillable = [
-        'name', 'dob', 'address', 'education', 'institution_name', 
-        'entry_year', 'exit_year', 'position', 'company_name', 
-        'work_entry_year', 'work_exit_year', 'photo',
+        'name',
+        'dob',
+        'address',
+        'education',
+        'position',
+        'photo',
     ];
 }
