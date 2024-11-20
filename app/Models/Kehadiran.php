@@ -19,4 +19,9 @@ class Kehadiran extends Model
         'user_id',
         'created_at',
     ];
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }

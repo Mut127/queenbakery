@@ -12,7 +12,13 @@ class KehadiranController extends Controller
 
     public function showAbsensi()
     {
-        return view('admin.absensi'); // Sesuaikan dengan path view absensi
+        // Mengambil data absensi berdasarkan bulan berjalan
+        $kehadiran = Kehadiran::with('user')
+            ->whereMonth('tanggal', now()->month)
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        return view('admin.absensi', compact('kehadiran'));
     }
 
     public function showKehadiran(Request $request)
@@ -103,6 +109,4 @@ class KehadiranController extends Controller
 
         return redirect()->route('admin.cuti')->with('success', 'Cuti berhasil ditolak.');
     }
-
-
 }

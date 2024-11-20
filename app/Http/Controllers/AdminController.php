@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Admin;
+use App\Models\Kinerja;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -174,10 +175,5 @@ class AdminController extends Controller
     public function showPengumuman()
     {
         return view('admin.pengumuman');
-    }
-
-    public function showPenilaian()
-    {
-        return view('admin.penilaian');
     }
 }
