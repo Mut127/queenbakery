@@ -35,7 +35,7 @@ class NilaiController extends Controller
 
         Nilai::create($validated);
 
-        return redirect()->route('admin.nilai.indexNilai')->with('success', 'Nilai berhasil ditambahkan.');
+        return redirect()->route('admin.nilai')->with('success', 'Nilai berhasil ditambahkan.');
     }
 
     /**
@@ -57,7 +57,7 @@ class NilaiController extends Controller
         $nilai = Nilai::findOrFail($id);
         $nilai->update($validated);
 
-        return redirect()->route('admin.nilai.indexNilai')->with('success', 'Nilai berhasil diperbarui.');
+        return redirect()->route('admin.nilai')->with('success', 'Nilai berhasil diperbarui.');
     }
 
 
@@ -71,6 +71,6 @@ class NilaiController extends Controller
     {
         $nilai = Nilai::findOrFail($id);
         $nilai->delete();
-        return redirect()->route('admin.nilai.indexNilai')->with('success', 'Data berhasil dihapus');
+        return redirect()->route('admin.nilai')->with('success', 'Data berhasil dihapus');
     }
 }

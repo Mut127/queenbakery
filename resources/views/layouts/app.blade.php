@@ -101,6 +101,7 @@
                                         Kelola Lowongan</a> </li>
                             </ul>
                         </div>
+
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('admin.kategoriloker') ? 'active' : '' }}" href="{{ route('admin.kategoriloker') }}">

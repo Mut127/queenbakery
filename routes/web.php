@@ -78,12 +78,12 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::delete('/admin/pelamar/{id}', [PelamarController::class, 'destroyPelamar'])->name('admin.pelamar.destroyPelamar');
 
     // Kelola Nilai
-    Route::get('/admin/nilai', [NilaiController::class, 'indexNilai'])->name('admin.nilai.indexNilai');
+    Route::get('/admin/nilai', [NilaiController::class, 'indexNilai'])->name('admin.nilai');
     Route::post('/admin/nilai', [NilaiController::class, 'storeNilai'])->name('admin.nilai.storeNilai');
     Route::get('/admin/nilai/{id}/edit', [NilaiController::class, 'editNilai'])->name('admin.nilai.editNilai');
     Route::put('/admin/nilai/{id}', [NilaiController::class, 'updateNilai'])->name('admin.nilai.updateNilai');
     Route::delete('/admin/nilai/{id}', [NilaiController::class, 'destroyNilai'])->name('admin.nilai.destroyNilai');
-       
+
 
     Route::get('/admin/kategoriloker', [KategorilokerController::class, 'index'])->name('admin.kategoriloker');
     Route::post('/admin/kategoriloker', [KategorilokerController::class, 'storeKategoriLoker'])->name('admin.storeKategoriLoker');
@@ -96,24 +96,9 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::put('/admin/lowongan/{id}/update', [LowonganController::class, 'updateLowongan'])->name('admin.updateLowongan');
     Route::delete('/admin/lowongan/{id}/delete', [LowonganController::class, 'destroyLowongan'])->name('admin.destroyLowongan');
 
-    Route::get('/admin/kategoriloker', [KategorilokerController::class, 'index'])->name('admin.kategoriloker');
-    Route::post('/admin/kategoriloker', [KategorilokerController::class, 'storeKategoriLoker'])->name('admin.storeKategoriLoker');
-    Route::put('/kategoriloker/{ketegoriloker}', [KategorilokerController::class, 'updateKategoriLoker'])->name('admin.updateKategoriLoker');
-    Route::delete('/kategoriloker/{ketegoriloker}', [KategorilokerController::class, 'destroyKategoriLoker'])->name('admin.destroyKategoriLoker');
-
-    Route::get('/admin/lowongan', [LowonganController::class, 'showLowongan'])->name('admin.lowongan');
-    Route::post('/admin/lowongan', [LowonganController::class, 'storeLowongan'])->name('admin.storeLowongan');
-    Route::post('/admin/lowongan/{id}', [LowonganController::class, 'editLowongan'])->name('admin.editLowongan');
-    Route::put('/admin/lowongan/{id}/update', [LowonganController::class, 'updateLowongan'])->name('admin.updateLowongan');
-    Route::delete('/admin/lowongan/{id}/delete', [LowonganController::class, 'destroyLowongan'])->name('admin.destroyLowongan');
-
-    
-    Route::get('/admin/lowongan', [AdminController::class, 'showLowongan'])->name('admin.lowongan');
-    Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
-    Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
 
 
-    Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
+
     Route::get('/admin/pengumuman', [PengumumanController::class, 'showPengumuman'])->name('admin.pengumuman');
     Route::post('/admin/pengumuman', [PengumumanController::class, 'storePengumuman'])->name('admin.storePengumuman');
     Route::put('/admin/pengumuman/{id}/update', [PengumumanController::class, 'updatePengumuman'])->name('admin.updatePengumuman');
