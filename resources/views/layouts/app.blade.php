@@ -110,7 +110,7 @@
                         </div>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.nilai.indexNilai') ? 'active' : '' }}" href="{{ route('admin.nilai.indexNilai') }}">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.nilai') ? 'active' : '' }}" href="{{ route('admin.nilai') }}">
                                         Kelola Nilai</a> </li>
                             </ul>
                         </div>
