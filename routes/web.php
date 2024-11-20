@@ -9,6 +9,7 @@ use App\Http\Controllers\OwnerController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\PenilaianController;
 use App\Http\Controllers\PelamarController;
+use App\Http\Controllers\PengumumanController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\SessionController;
 use App\Http\Controllers\UserController;
@@ -88,7 +89,12 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
 
     Route::get('/admin/nilai', [AdminController::class, 'showNilai'])->name('admin.nilai');
-    Route::get('/admin/pengumuman', [AdminController::class, 'showPengumuman'])->name('admin.pengumuman');
+    Route::get('/admin/pengumuman', [PengumumanController::class, 'showPengumuman'])->name('admin.pengumuman');
+    Route::post('/admin/pengumuman', [PengumumanController::class, 'storePengumuman'])->name('admin.storePengumuman');
+    Route::put('/admin/pengumuman/{id}/update', [PengumumanController::class, 'updatePengumuman'])->name('admin.updatePengumuman');
+    Route::delete('/admin/pengumuman/{id}/delete', [PengumumanController::class, 'destroyPengumuman'])->name('admin.destroyPengumuman');
+
+
     Route::get('/admin/izin', [AdminController::class, 'showIzin'])->name('admin.izin');
     Route::get('/admin/penilaian', [PenilaianController::class, 'showPenilaian'])->name('admin.penilaian');
     Route::post('/admin/penilaian', [PenilaianController::class, 'storePenilaian'])->name('admin.storePenilaian');
