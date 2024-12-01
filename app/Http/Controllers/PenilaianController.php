@@ -50,20 +50,26 @@ class PenilaianController extends Controller
     }
 
     // Update data penilaian kinerja
+
     public function updatePenilaian(Request $request, $id)
     {
-        $validated = $request->validate([
-            'catatan' => 'nullable|string|max:1000',
-            'nilai' => 'required|string|in:Baik Sekali,Baik,Cukup,Kurang',
+        // Validasi input
+        $request->validate([
+            'catatan' => 'required',
+            'nilai' => 'required|in:baiksekali,baik,cukup,buruk',
         ]);
 
-        $kinerja = Kinerja::findOrFail($id);
+        // Cari user berdasarkan ID
+        $kinerja = Kinerja::find($id);
+
+        // Update data user
         $kinerja->update([
-            'catatan' => $request->catatan, // Ubah dari description
-            'nilai' => $request->nilai, // Ubah dari score
+            'catatan' => $request->catatan,
+            'nilai' => $request->nilai,
         ]);
 
-        return redirect()->route('admin.penilaian')->with('success', 'Penilaian berhasil disimpan.');
+        // Redirect dengan pesan sukses
+        return redirect()->route('admin.penilaian')->with('success', 'User updated successfully.');
     }
 
     // Hapus data penilaian kinerja
