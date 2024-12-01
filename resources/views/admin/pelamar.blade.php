@@ -89,7 +89,7 @@
                                             <td>
                                                 @if ($item->photo)
                                                     <img src="{{ asset('images/pelamar/' . $item->photo) }}"
-                                                        alt="Photo" class="img-thumbnail" width="50">
+                                                        alt="Photo" width="100">
                                                 @else
                                                     No Photo
                                                 @endif
