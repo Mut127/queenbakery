@@ -59,34 +59,42 @@ class PelamarController extends Controller
 
     public function updatePelamar(Request $request, $id)
     {
-        // Menemukan pelamar berdasarkan ID
-        $pelamars = Pelamar::findOrFail($id);
-
-        // Validasi data yang masuk
         $request->validate([
-            'name' => 'required|string',
-            'dob' => 'required|string',
+            'name' => 'required|string|max:255',
+            'dob' => 'required|date',
             'address' => 'required|string',
-            'education' => 'required|string',
-            'position' => 'required|string',
-            'photo' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
+            'education' => 'required|string|max:255',
+            'position' => 'required|string|max:255',
+            'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
-        // Menyimpan data yang telah diupdate
-        $pelamars->update($request->except('photo')); // Mengecualikan 'photo' dari data update
+        $pelamar = Pelamar::findOrFail($id);
+
+        // Update data pelamar
+        $pelamar->name = $request->input('name');
+        $pelamar->dob = $request->input('dob');
+        $pelamar->address = $request->input('address');
+        $pelamar->education = $request->input('education');
+        $pelamar->position = $request->input('position');
 
         // Menangani upload foto jika ada
         if ($request->hasFile('photo')) {
             // Hapus foto lama jika ada
-            if ($pelamars->photo) {
-                unlink(storage_path('app/public/' . $pelamars->photo));
+            if ($pelamar->photo && file_exists(public_path('images/pelamar/' . $pelamar->photo))) {
+                unlink(public_path('images/pelamar/' . $pelamar->photo));
             }
+
             // Simpan foto baru
-            $pelamars->photo = $request->file('photo')->store('photos', 'public');
-            $pelamars->save();
+            $photo = $request->file('photo');
+            $photoName = time() . '.' . $photo->getClientOriginalExtension();
+            $photo->move(public_path('images/pelamar'), $photoName);
+
+            $pelamar->photo = $photoName;
         }
 
-        return redirect()->route('admin.pelamar.indexPelamar')->with('success', 'Pelamar updated successfully!');
+        $pelamar->save();
+
+        return redirect()->route('admin.pelamar.indexPelamar')->with('success', 'Data pelamar berhasil diperbarui.');
     }
 
     public function destroyPelamar($id)
