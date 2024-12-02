@@ -265,19 +265,24 @@
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
                             <i class="icon-bar-graph menu-icon"></i>
-                            <span class="menu-title">Absensi</span>
+                            <span class="menu-title">Rekam Kehadiran</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="charts">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
                                     <a class="nav-link {{ Route::is('karyawan.absensi') ? 'active' : '' }}" href="{{ route('karyawan.absensi') }}">
-                                        Absensi
+                                        Rekap Kehadiran
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ Route::is('karyawan.kehadiran') ? 'active' : '' }}" href="{{ route('karyawan.kehadiran') }}">
-                                        Kehadiran
+                                        Presensi
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('karyawan.izin') ? 'active' : '' }}" href="{{ route('karyawan.izin') }}">
+                                        Pengajuan Cuti
                                     </a>
                                 </li>
                             </ul>
@@ -293,7 +298,7 @@
                         <div class="collapse" id="icons">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('karyawan.cuti') ? 'active' : '' }}" href="{{ route('karyawan.cuti') }}">
-                                        Input Cuti</a> </li>
+                                        Konfirmasi Cuti</a> </li>
                             </ul>
                         </div>
                     </li>

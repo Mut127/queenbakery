@@ -140,7 +140,11 @@ Route::middleware(['auth', OwnerMiddleware::class])->group(function () {
 Route::middleware(['auth', KaryawanMiddleware::class])->group(function () {
     // Absensi and Kehadiran routes
     Route::get('/karyawan/absensi', [KaryawanController::class, 'karyawanAbsensi'])->name('karyawan.absensi');
-    Route::get('/karyawan/kehadiran', [KaryawanController::class, 'karyawanKehadiran'])->name('karyawan.kehadiran');
+    Route::get('/karyawan/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('karyawan.kehadiran');
+    Route::post('/karyawan/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('karyawan.kehadiran');
+    Route::get('/karyawan/kehadiran', [KaryawanController::class, 'karyawanIzin'])->name('karyawan.izin');
+    Route::post('/karyawan/cuti', [KehadiranController::class, 'submitCuti'])->name('admin.cuti');
+    Route::post('/store-izin', [KehadiranController::class, 'storeIzin'])->name('karyawan.storeIzin');
     Route::get('/karyawan/cuti', [KaryawanController::class, 'karyawanCuti'])->name('karyawan.cuti');
     Route::get('/karyawan/penilaian', [KaryawanController::class, 'karyawanPenilaian'])->name('karyawan.penilaian');
 });

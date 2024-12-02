@@ -1,63 +1,78 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container-fluid">
-    <div class="row">
-        <!-- Konten Utama -->
-        <main class="flex-fill">
-            <div class="body-content">
-                <h4 class="text-center mt-4">Tabel Absensi</h4>
-                <div class="d-flex align-items-center justify-content-center mb-3">
-                    <button class="btn btn-primary me-2">&lt;</button>
-                    <span class="btn btn-outline-secondary mx-3">Oktober</span>
-                    <button class="btn btn-primary ms-2">&gt;</button>
-                </div>
-                <div class="table-responsive mt-4">
-                    <table class="table table-striped">
-                        <thead class="thead-light"> <!-- Mengganti kelas thead-dark menjadi thead-light -->
-                            <tr>
-                                <th class="bg-white">Tanggal</th> <!-- Menambahkan kelas bg-white -->
-                                <th class="bg-white">Nama</th> <!-- Menambahkan kelas bg-white -->
-                                <th class="bg-white">Status</th> <!-- Menambahkan kelas bg-white -->
-                                <th class="bg-white">Keterangan</th> <!-- Menambahkan kelas bg-white -->
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <tr>
-                                <td>1/10/2024</td>
-                                <td>Muthia Khanza</td>
-                                <td><span class="badge bg-success">Hadir</span></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>2/10/2024</td>
-                                <td>Muthia Khanza</td>
-                                <td><span class="badge bg-warning text-dark">Izin</span></td>
-                                <td>Sakit</td>
-                            </tr>
-                            <tr>
-                                <td>3/10/2024</td>
-                                <td>Muthia Khanza</td>
-                                <td><span class="badge bg-success">Hadir</span></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>4/10/2024</td>
-                                <td>Muthia Khanza</td>
-                                <td><span class="badge bg-success">Hadir</span></td>
-                                <td></td>
-                            </tr>
-                            <tr>
-                                <td>5/10/2024</td>
-                                <td>Muthia Khanza</td>
-                                <td><a href="{{ route('admin.kehadiran') }}" class="text-primary">Kehadiran</a></td>
-                                <td></td>
-                            </tr>
-                        </tbody>
-                    </table>
+<div class="container-scroller">
+    <div class="main-panel">
+        <div class="ml-2 mr-2 content-wrapper">
+            <div class="row">
+                <div class="col-lg-12 grid-margin stretch-card">
+                    <div class="card shadow-sm border-light">
+                        <div class="card-body">
+                            <h4 class="card-title mb-3 text-center">Rekap Kehadiran Karyawan</h4>
+                            <p class="card-description text-center text-muted">
+                                Daftar kehadiran karyawan untuk bulan berjalan.
+                            </p>
+
+                            <!-- Form filter bulan dan tahun -->
+                            <div class="d-flex justify-content-center mb-4">
+                                <form method="GET" action="{{ route('karyawan.absensi') }}" class="d-flex align-items-center">
+                                    <select name="bulan" class="form-control form-control-sm mr-2" style="width: 150px;" onchange="this.form.submit()">
+                                        @foreach(range(1, 12) as $bulanOption)
+                                        <option value="{{ $bulanOption }}" @if($bulanOption==$bulan) selected @endif>
+                                            {{ \Carbon\Carbon::create()->month($bulanOption)->format('F') }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <select name="tahun" class="form-control form-control-sm" style="width: 120px;" onchange="this.form.submit()">
+                                        @foreach(range(now()->year - 2, now()->year) as $tahunOption)
+                                        <option value="{{ $tahunOption }}" @if($tahunOption==$tahun) selected @endif>
+                                            {{ $tahunOption }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </form>
+                            </div>
+
+                            <!-- Tabel absensi -->
+                            <div class="table-responsive">
+                                <table class="table table-hover table-bordered table-striped">
+                                    <thead class="thead-light">
+                                        <tr>
+                                            <th>Tanggal</th>
+                                            <th>Waktu</th>
+                                            <th>Nama Karyawan</th>
+                                            <th>Status Kehadiran</th>
+                                            <th>Keterangan</th>
+                                            <th>Gambar</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($kehadiran as $kehadiranItem)
+                                        <tr>
+                                            <td>{{ \Carbon\Carbon::parse($kehadiranItem->tanggal)->timezone('Asia/Jakarta')->format('d F Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($kehadiranItem->date)->timezone('Asia/Jakarta')->format('H:i:s') }}</td>
+                                            <td>{{ $kehadiranItem->user->name }}</td>
+                                            <td>{{ $kehadiranItem->status }}</td>
+                                            <td>{{ $kehadiranItem->ket ?? '-' }}</td>
+                                            <td>
+                                                @if ($kehadiranItem->image_path)
+                                                <a href="{{ asset('storage/' . $kehadiranItem->image_path) }}" target="_blank" class="btn btn-sm btn-success">
+                                                    <i class="mdi mdi-eye"></i> Lihat Bukti
+                                                </a>
+                                                @else
+                                                <span class="text-muted">Tidak ada gambar</span>
+                                                @endif
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </main>
+        </div>
     </div>
 </div>
 @endsection
