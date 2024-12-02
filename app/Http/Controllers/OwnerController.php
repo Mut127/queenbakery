@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cuti;
+use App\Models\Kehadiran;
+use App\Models\Kinerja;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -112,9 +115,34 @@ class OwnerController extends Controller
     }
 
     // Di dalam ownerController.php
-    public function ownerAbsensi()
+    public function ownerAbsensi(Request $request)
     {
-        return view('owner.absensi'); // Sesuaikan dengan path view absensi
+        // Ambil bulan dan tahun dari request atau gunakan bulan dan tahun saat ini sebagai default
+        $bulan = $request->input('bulan', now()->month); // Default ke bulan berjalan
+        $tahun = $request->input('tahun', now()->year); // Default ke tahun berjalan
+
+        // Ambil data absensi berdasarkan bulan dan tahun yang dipilih
+        $kehadiran = Kehadiran::with('user')
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
+            ->orderBy('tanggal', 'asc')
+            ->get();
+
+        // Kirim data ke view
+        return view('owner.absensi', compact('kehadiran', 'bulan', 'tahun'));
+    }
+
+
+    public function ownerIzin()
+    {
+        return view('owner.izin'); // Page izin
+    }
+    public function ownerCuti()
+    {
+        $cuti = Cuti::all();
+
+        // Kirim data ke view
+        return view('owner.cuti', compact('cuti'));
     }
 
     public function ownerKehadiran()
@@ -142,13 +170,18 @@ class OwnerController extends Controller
         return view('owner.pengumuman');
     }
 
-    public function ownerCuti()
-    {
-        return view('owner.cuti');
-    }
 
     public function ownerPenilaian()
     {
-        return view('owner.penilaian');
+        // Ambil semua pegawai
+        $users = User::where('usertype', 'karyawan')->get();
+
+        // Ambil data penilaian
+        $kinerjas = Kinerja::with('user')
+            ->whereMonth('tgl_nilai', now()->month)
+            ->orderBy('tgl_nilai', 'asc')
+            ->get();
+
+        return view('owner.penilaian', compact('users', 'kinerjas'));
     }
 }

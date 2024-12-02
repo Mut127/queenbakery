@@ -105,9 +105,16 @@ class AdminController extends Controller
             'password' => bcrypt($request->password),
         ]);
 
-        return redirect()->route('admin.user')->with('success', 'User created successfully.');
-    }
+        // Mengarahkan berdasarkan jenis pengguna yang login
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+        }
 
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
+    }
     public function edit($id)
     {
         $user = User::findOrFail($id); // Menemukan pengguna berdasarkan ID
@@ -136,8 +143,15 @@ class AdminController extends Controller
             'password' => $request->password ? bcrypt($request->password) : $user->password,
         ]);
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('admin.user')->with('success', 'User updated successfully.');
+        // Mengarahkan berdasarkan jenis pengguna yang login
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+        }
+
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
     }
 
 
@@ -147,9 +161,16 @@ class AdminController extends Controller
         $user = User::findOrFail($id);
         $user->delete();
 
-        return redirect()->route('admin.user')->with('success', 'User deleted successfully.');
-    }
+        // Mengarahkan berdasarkan jenis pengguna yang login
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+        }
 
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
+    }
     // Di dalam AdminController.php
 
     public function showIzin()

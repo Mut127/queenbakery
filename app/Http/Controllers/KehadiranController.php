@@ -35,35 +35,56 @@ class KehadiranController extends Controller
 
         // Jika request method adalah POST (misalnya pengajuan kehadiran)
         if ($request->isMethod('post')) {
-            // Lakukan validasi data
+            // Validate the form data
             $request->validate([
                 'status' => 'required|string|in:Hadir,Izin,Sakit',
                 'ket' => 'nullable|string|max:1000',
-                'image_path' => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:2048', // Validasi file (opsional)
+                'image_path' => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:2048', // Validate file (optional)
+                'user_id' => 'required|exists:users,id', // Ensure the user exists
             ]);
 
             $imagePath = $request->file('image_path') ? $request->file('image_path')->store('izin', 'public') : null;
 
-            // Simpan data absensi ke database
-            $kehadiran = Kehadiran::create([
-                'user_id' => $user->id,
+            // Save the attendance for the selected user
+            Kehadiran::create([
+                'user_id' => $request->user_id, // Save the selected user's ID
                 'status' => $request->status,
                 'ket' => $request->ket ?? null,
-                'image_path' => $imagePath, // Simpan path file jika ada
-                'date' => now()->toTimeString(), // Waktu saat ini
-                'tanggal' => now()->toDateString(), // Tanggal saat ini
+                'image_path' => $imagePath, // Save file path if present
+                'date' => now()->toTimeString(), // Current time
+                'tanggal' => now()->toDateString(), // Current date
             ]);
 
             // Redirect dengan pesan sukses
-            return redirect()->route('admin.kehadiran')->with('success', 'Absensi berhasil disimpan.');
+            // After successfully saving the attendance
+            if (Auth::user()->usertype == 'admin') {
+                return redirect()->route('admin.kehadiran')->with('success', 'Absensi berhasil disimpan.');
+            } elseif (Auth::user()->usertype == 'owner') {
+                return redirect()->route('owner.kehadiran')->with('success', 'Absensi berhasil disimpan.');
+            } else {
+                return redirect()->route('karyawan.kehadiran')->with('success', 'Absensi berhasil disimpan.');
+            }
         }
 
-        // Ambil data kehadiran yang sudah ada untuk ditampilkan
-        $kehadiran = Kehadiran::where('user_id', $user->id)->get();
+        // Ambil data kehadiran yang sudah ada untuk ditampilkan berdasarkan peran pengguna
+        if (Auth::check()) {
+            if ($user->usertype == 'admin') {
+                // Fetch all users for admin
+                $users = \App\Models\User::all();
+                return view('admin.kehadiran', compact('user', 'users')); // Pass users to the view
+            } elseif ($user->usertype == 'owner') {
+                $users = \App\Models\User::all();
+                return view('owner.kehadiran', compact('user', 'users'));
+            } elseif ($user->usertype == 'karyawan') {
+                $kehadiran = Kehadiran::where('user_id', $user->id)->get();
+                return view('karyawan.kehadiran', compact('user', 'kehadiran'));
+            }
+        }
 
-        // Kirim data kehadiran ke view
-        return view('admin.kehadiran', compact('user', 'kehadiran'));
+        // Jika tidak ada pengguna yang terautentikasi, redirect atau tampilkan error
+        return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
+
 
 
     public function showCuti()
@@ -76,7 +97,6 @@ class KehadiranController extends Controller
     }
 
 
-    // Method untuk menyimpan pengajuan cuti
     public function submitCuti(Request $request)
     {
         // Validasi inputan form
@@ -89,35 +109,66 @@ class KehadiranController extends Controller
             'description' => 'nullable|string|max:1000',
         ]);
 
-        // Simpan data cuti ke dalam database
-        Cuti::create([
-            'tgl_awal' => $request->start_date,
-            'tgl_akhir' => $request->end_date,
-            'jml_cuti' => $request->leave_days,
-            'jenis' => $request->leave_type,
-            'ket' => $request->description,
-            'user_id' => Auth::id(),  // Mengambil ID pengguna yang sedang login
-        ]);
+        // Jika pengguna adalah admin, simpan data cuti untuk pegawai yang dipilih
+        if (Auth::user()->usertype == 'admin') {
+            Cuti::create([
+                'tgl_awal' => $request->start_date,
+                'tgl_akhir' => $request->end_date,
+                'jml_cuti' => $request->leave_days,
+                'jenis' => $request->leave_type,
+                'ket' => $request->description,
+                'user_id' => $request->user_id,  // Ambil ID pengguna dari form
+            ]);
+        } else {
+            // Untuk pengguna lain (owner atau karyawan), hanya menyimpan data cuti untuk mereka sendiri
+            Cuti::create([
+                'tgl_awal' => $request->start_date,
+                'tgl_akhir' => $request->end_date,
+                'jml_cuti' => $request->leave_days,
+                'jenis' => $request->leave_type,
+                'ket' => $request->description,
+                'user_id' => Auth::id(),  // ID pengguna yang sedang login
+            ]);
+        }
 
         // Redirect setelah berhasil menyimpan data
-        return redirect()->route('admin.cuti')->with('success', 'Pengajuan cuti berhasil disimpan.');
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.cuti')->with('success', 'Pengajuan cuti berhasil disimpan.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.cuti')->with('success', 'Pengajuan cuti berhasil disimpan.');
+        } else {
+            return redirect()->route('karyawan.cuti')->with('success', 'Pengajuan cuti berhasil disimpan.');
+        }
     }
+
 
     public function approveCuti($id)
     {
         $cuti = Cuti::findOrFail($id);
         $cuti->status = 'Disetujui';
         $cuti->save();
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.cuti')->with('success',  'Cuti berhasil disetujui.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.cuti')->with('success',  'Cuti berhasil disetujui.');
+        }
 
-        return redirect()->route('admin.cuti')->with('success', 'Cuti berhasil disetujui.');
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
     }
-
     public function rejectCuti($id)
     {
         $cuti = Cuti::findOrFail($id);
         $cuti->status = 'Ditolak';
         $cuti->save();
 
-        return redirect()->route('admin.cuti')->with('success', 'Cuti berhasil ditolak.');
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.cuti')->with('success',  'Cuti berhasil ditolak.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.cuti')->with('success',  'Cuti berhasil ditolak.');
+        }
+
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
     }
 }

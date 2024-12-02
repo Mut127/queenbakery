@@ -79,7 +79,19 @@
                                         <td>{{ $kinerja->tgl_nilai }}</td>
                                         <td>{{ $kinerja->user->name }}</td>
                                         <td>{{ $kinerja->catatan }}</td>
-                                        <td>{{ $kinerja->nilai }}</td>
+                                        <td>
+                                            @if($kinerja->nilai == 'baiksekali')
+                                            Baik Sekali
+                                            @elseif($kinerja->nilai == 'baik')
+                                            Baik
+                                            @elseif($kinerja->nilai == 'cukup')
+                                            Cukup
+                                            @elseif($kinerja->nilai == 'buruk')
+                                            Buruk
+                                            @else
+                                            -
+                                            @endif
+                                        </td>
                                         <td>
                                             <button class="btn btn-sm btn-outline-secondary edit-btn mr-2"
                                                 data-id="{{ $kinerja->id }}"
