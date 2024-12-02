@@ -46,6 +46,7 @@
                                                 @endif
                                             </td>
                                             <td>
+                                                @if($cutiItem->status == 'Pending')
                                                 <form action="{{ route('admin.cuti.approve', $cutiItem->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('PUT')
@@ -56,7 +57,12 @@
                                                     @method('PUT')
                                                     <button class="btn btn-danger btn-sm">Tolak</button>
                                                 </form>
+                                                @else
+                                                <button class="btn btn-success btn-sm" disabled>Setujui</button>
+                                                <button class="btn btn-danger btn-sm" disabled>Tolak</button>
+                                                @endif
                                             </td>
+
                                         </tr>
                                         @endforeach
                                     </tbody>

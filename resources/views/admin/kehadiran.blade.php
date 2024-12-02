@@ -44,31 +44,35 @@
                                             <label class="col-sm-4 col-form-label text-end">Status :</label>
                                             <div class="col-sm-8">
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="status" id="statusHadir" value="Hadir">
+                                                    <input class="form-check-input" type="radio" name="status" id="statusHadir" value="Hadir" onclick="toggleFields()">
                                                     <label class="form-check-label" for="statusHadir">Hadir</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="status" id="statusIzin" value="Izin">
+                                                    <input class="form-check-input" type="radio" name="status" id="statusIzin" value="Izin" onclick="toggleFields()">
                                                     <label class="form-check-label" for="statusIzin">Izin</label>
                                                 </div>
                                                 <div class="form-check">
-                                                    <input class="form-check-input" type="radio" name="status" id="statusSakit" value="Sakit">
+                                                    <input class="form-check-input" type="radio" name="status" id="statusSakit" value="Sakit" onclick="toggleFields()">
                                                     <label class="form-check-label" for="statusSakit">Sakit</label>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="mb-3 row" id="suratDokterField" style="display: none;">
-                                            <label class="col-sm-4 col-form-label text-end">Surat Dokter:</label>
-                                            <div class="col-sm-8">
-                                                <input type="file" class="form-control" name="surat" accept=".pdf,.jpg,.png">
-                                            </div>
-                                        </div>
+
+                                        <!-- Tambahan input untuk Izin/Sakit -->
                                         <div class="mb-3 row" id="alasanIzinField" style="display: none;">
-                                            <label class="col-sm-4 col-form-label text-end">Alasan Izin/Sakit:</label>
+                                            <label class="col-sm-4 col-form-label text-end">Keterengan:</label>
                                             <div class="col-sm-8">
-                                                <textarea name="reason" class="form-control" rows="3"></textarea>
+                                                <textarea name="ket" class="form-control" rows="3"></textarea>
                                             </div>
                                         </div>
+                                        <div class="mb-3 row" id="uploadField" style="display: none;">
+                                            <label class="col-sm-4 col-form-label text-end">Upload Surat:</label>
+                                            <div class="col-sm-8">
+                                                <input id="image_path" type="file" class="form-control" name="image_path" accept="image/*">
+                                            </div>
+                                        </div>
+
+
                                         <div class="text-center mt-4">
                                             <button type="submit" class="btn btn-primary me-2">Simpan</button>
                                             <button type="button" class="btn btn-danger">Batal</button>
@@ -121,17 +125,20 @@
 
     function toggleFields() {
         const status = document.querySelector('input[name="status"]:checked').value;
+
+        // Elemen input tambahan
+        const alasanField = document.getElementById('alasanIzinField');
+        const uploadField = document.getElementById('uploadField');
+
         if (status === 'Izin' || status === 'Sakit') {
-            document.getElementById('alasanIzinField').style.display = 'block';
-            if (status === 'Sakit') {
-                document.getElementById('suratDokterField').style.display = 'block';
-            } else {
-                document.getElementById('suratDokterField').style.display = 'none';
-            }
+            alasanField.style.display = 'block'; // Tampilkan alasan
+            uploadField.style.display = 'block'; // Tampilkan input file
         } else {
-            document.getElementById('alasanIzinField').style.display = 'none';
-            document.getElementById('suratDokterField').style.display = 'none';
+            alasanField.style.display = 'none'; // Sembunyikan alasan
+            uploadField.style.display = 'none'; // Sembunyikan input file
         }
     }
 </script>
+
+
 @endsection

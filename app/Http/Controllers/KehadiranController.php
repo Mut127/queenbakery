@@ -10,50 +10,61 @@ use App\Models\Cuti;
 class KehadiranController extends Controller
 {
 
-    public function showAbsensi()
+    public function showAbsensi(Request $request)
     {
-        // Mengambil data absensi berdasarkan bulan berjalan
+        // Ambil bulan dan tahun dari request atau gunakan bulan dan tahun saat ini sebagai default
+        $bulan = $request->input('bulan', now()->month); // Default ke bulan berjalan
+        $tahun = $request->input('tahun', now()->year); // Default ke tahun berjalan
+
+        // Ambil data absensi berdasarkan bulan dan tahun yang dipilih
         $kehadiran = Kehadiran::with('user')
-            ->whereMonth('tanggal', now()->month)
+            ->whereMonth('tanggal', $bulan)
+            ->whereYear('tanggal', $tahun)
             ->orderBy('tanggal', 'asc')
             ->get();
 
-        return view('admin.absensi', compact('kehadiran'));
+        // Kirim data ke view
+        return view('admin.absensi', compact('kehadiran', 'bulan', 'tahun'));
     }
+
 
     public function showKehadiran(Request $request)
     {
         // Ambil data pengguna yang sedang login
         $user = Auth::user();
 
-        // Jika request method adalah POST (misalnya pengajuan izin)
+        // Jika request method adalah POST (misalnya pengajuan kehadiran)
         if ($request->isMethod('post')) {
-            // Lakukan validasi data jika perlu
+            // Lakukan validasi data
             $request->validate([
                 'status' => 'required|string|in:Hadir,Izin,Sakit',
                 'ket' => 'nullable|string|max:1000',
+                'image_path' => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:2048', // Validasi file (opsional)
             ]);
+
+            $imagePath = $request->file('image_path') ? $request->file('image_path')->store('izin', 'public') : null;
 
             // Simpan data absensi ke database
             $kehadiran = Kehadiran::create([
                 'user_id' => $user->id,
                 'status' => $request->status,
                 'ket' => $request->ket ?? null,
+                'image_path' => $imagePath, // Simpan path file jika ada
                 'date' => now()->toTimeString(), // Waktu saat ini
                 'tanggal' => now()->toDateString(), // Tanggal saat ini
             ]);
-
 
             // Redirect dengan pesan sukses
             return redirect()->route('admin.kehadiran')->with('success', 'Absensi berhasil disimpan.');
         }
 
-        // Ambil data kehadiran yang sudah ada untuk ditampilkan (jika ada)
+        // Ambil data kehadiran yang sudah ada untuk ditampilkan
         $kehadiran = Kehadiran::where('user_id', $user->id)->get();
 
         // Kirim data kehadiran ke view
         return view('admin.kehadiran', compact('user', 'kehadiran'));
     }
+
 
     public function showCuti()
     {

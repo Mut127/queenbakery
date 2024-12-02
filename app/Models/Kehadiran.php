@@ -16,6 +16,7 @@ class Kehadiran extends Model
         'date',
         'status',
         'ket',
+        'image_path',
         'user_id',
         'created_at',
     ];

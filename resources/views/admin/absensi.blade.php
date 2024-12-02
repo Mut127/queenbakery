@@ -13,10 +13,26 @@
                                 Daftar kehadiran karyawan untuk bulan berjalan.
                             </p>
                             <div class="d-flex align-items-center justify-content-between mb-3">
-                                <button class="btn btn-primary me-2">&lt;</button>
-                                <span class="btn btn-outline-secondary mx-3">{{ now()->format('F Y') }}</span>
-                                <button class="btn btn-primary ms-2">&gt;</button>
+                                <!-- Form filter bulan dan tahun -->
+                                <form method="GET" action="{{ route('admin.absensi') }}">
+                                    <select name="bulan" class="form-control d-inline" style="width: 150px;" onchange="this.form.submit()">
+                                        @foreach(range(1, 12) as $bulanOption)
+                                        <option value="{{ $bulanOption }}" @if($bulanOption==$bulan) selected @endif>
+                                            {{ \Carbon\Carbon::create()->month($bulanOption)->format('F') }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                    <select name="tahun" class="form-control d-inline" style="width: 120px;" onchange="this.form.submit()">
+                                        @foreach(range(now()->year - 2, now()->year) as $tahunOption)
+                                        <option value="{{ $tahunOption }}" @if($tahunOption==$tahun) selected @endif>
+                                            {{ $tahunOption }}
+                                        </option>
+                                        @endforeach
+                                    </select>
+                                </form>
                             </div>
+
+                            <!-- Tabel absensi -->
                             <div class="table-responsive">
                                 <table class="table table-striped">
                                     <thead>
@@ -26,6 +42,7 @@
                                             <th>Nama Karyawan</th>
                                             <th>Status Kehadiran</th>
                                             <th>Keterangan</th>
+                                            <th>Gambar</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -34,10 +51,19 @@
                                             <td>{{ $kehadiranItem->tanggal }}</td>
                                             <td>{{ $kehadiranItem->date }}</td>
                                             <td>{{ $kehadiranItem->user->name }}</td>
-                                            <td>
-                                                {{ $kehadiranItem->status }}
-                                            </td>
+                                            <td>{{ $kehadiranItem->status }}</td>
                                             <td>{{ $kehadiranItem->ket ?? '-' }}</td>
+                                            <td>
+                                                @if ($kehadiranItem->image_path)
+                                                <a href="{{ asset('storage/' . $kehadiranItem->image_path) }}"
+                                                    target="_blank"
+                                                    class="btn btn-sm btn-success">
+                                                    Lihat Bukti
+                                                </a>
+                                                @else
+                                                <span class="text-muted">Tidak ada gambar</span>
+                                                @endif
+                                            </td>
                                         </tr>
                                         @endforeach
                                     </tbody>
