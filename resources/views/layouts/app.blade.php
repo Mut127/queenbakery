@@ -161,6 +161,45 @@
                     </li>
 
                     <li class="nav-item">
+                        <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false"
+                            aria-controls="tables">
+                            <i class="icon-grid-2 menu-icon"></i>
+                            <span class="menu-title">Rekrutmen</span>
+                            <i class="menu-arrow"></i>
+                        </a>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a class="nav-link {{ Route::is('owner.pelamar.indexPelamar') ? 'active' : '' }}" href="{{ route('admin.pelamar.indexPelamar') }}">
+                                        Kelola Pelamar</a></li>
+                            </ul>
+                        </div>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.lowongan') ? 'active' : '' }}" href="{{ route('admin.lowongan') }}">
+                                        Kelola Lowongan</a> </li>
+                            </ul>
+                        </div>
+
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.kategoriloker') ? 'active' : '' }}" href="{{ route('admin.kategoriloker') }}">
+                                        Kelola Ketegori Lowongan</a> </li>
+                            </ul>
+                        </div>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.nilai') ? 'active' : '' }}" href="{{ route('admin.nilai') }}">
+                                        Kelola Nilai</a> </li>
+                            </ul>
+                        </div>
+                        <div class="collapse" id="tables">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.pengumuman') ? 'active' : '' }}" href="{{ route('admin.pengumuman') }}">
+                                        Kelola Pengumuman</a> </li>
+                            </ul>
+                        </div>
+                    </li>
+                    <li class="nav-item">
                         <a class="nav-link {{ request()->is('owner/user*') ? 'active' : '' }}" data-toggle="collapse"
                             href="#form-elements" aria-expanded="false" aria-controls="form-elements">
                             <i class="icon-columns menu-icon"></i>
@@ -176,58 +215,30 @@
                             </ul>
                         </div>
                     </li>
-
                     <!-- Bagian Absensi -->
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
                             <i class="icon-bar-graph menu-icon"></i>
-                            <span class="menu-title">Absensi</span>
+                            <span class="menu-title">Rekam Kehadiran</span>
                             <i class="menu-arrow"></i>
                         </a>
                         <div class="collapse" id="charts">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item">
                                     <a class="nav-link {{ Route::is('owner.absensi') ? 'active' : '' }}" href="{{ route('owner.absensi') }}">
-                                        Absensi
+                                        Rekap Kehadiran
                                     </a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link {{ Route::is('owner.kehadiran') ? 'active' : '' }}" href="{{ route('owner.kehadiran') }}">
-                                        Kehadiran
+                                        Presensi
                                     </a>
                                 </li>
-                            </ul>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false"
-                            aria-controls="tables">
-                            <i class="icon-grid-2 menu-icon"></i>
-                            <span class="menu-title">Rekrutmen</span>
-                            <i class="menu-arrow"></i>
-                        </a>
-                        <div class="collapse" id="tables">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link {{ Route::is('owner.pelamar') ? 'active' : '' }}" href="{{ route('owner.pelamar') }}">
-                                        Kelola Pelamar</a></li>
-                            </ul>
-                        </div>
-                        <div class="collapse" id="tables">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.lowongan') ? 'active' : '' }}" href="{{ route('owner.lowongan') }}">
-                                        Kelola Lowongan</a> </li>
-                            </ul>
-                        </div>
-                        <div class="collapse" id="tables">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.nilai') ? 'active' : '' }}" href="{{ route('owner.nilai') }}">
-                                        Kelola Nilai</a> </li>
-                            </ul>
-                        </div>
-                        <div class="collapse" id="tables">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ Route::is('owner.pengumuman') ? 'active' : '' }}" href="{{ route('owner.pengumuman') }}">
-                                        Kelola Pengumuman</a> </li>
+                                <li class="nav-item">
+                                    <a class="nav-link {{ Route::is('owner.izin') ? 'active' : '' }}" href="{{ route('owner.izin') }}">
+                                        Pengajuan Cuti
+                                    </a>
+                                </li>
                             </ul>
                         </div>
                     </li>
@@ -241,7 +252,7 @@
                         <div class="collapse" id="icons">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('owner.cuti') ? 'active' : '' }}" href="{{ route('owner.cuti') }}">
-                                        Input Cuti</a> </li>
+                                        Konfirmasi Cuti</a> </li>
                             </ul>
                         </div>
                     </li>

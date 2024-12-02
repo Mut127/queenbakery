@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Kinerja;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PenilaianController extends Controller
 {
@@ -38,8 +39,14 @@ class PenilaianController extends Controller
             'catatan' => $request->catatan, // Ubah dari description ke catatan
             'nilai' => $request->nilai, // Perbaiki typo 'niali' menjadi 'nilai', ubah dari score
         ]);
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.penilaian')->with('success',   'Penilaian berhasil disimpan.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.penilaian')->with('success',   'Penilaian berhasil disimpan.');
+        }
 
-        return redirect()->route('admin.penilaian')->with('success', 'Penilaian berhasil disimpan.');
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
     }
 
     // Edit data penilaian kinerja
@@ -68,9 +75,16 @@ class PenilaianController extends Controller
             'nilai' => $request->nilai,
         ]);
 
-        // Redirect dengan pesan sukses
-        return redirect()->route('admin.penilaian')->with('success', 'User updated successfully.');
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.penilaian')->with('success',   'Penilaian berhasil diedit.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.penilaian')->with('success',   'Penilaian berhasil diedit.');
+        }
+
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
     }
+
 
     // Hapus data penilaian kinerja
     public function destroyPenilaian($id)
@@ -78,6 +92,13 @@ class PenilaianController extends Controller
         $kinerja = Kinerja::findOrFail($id);
         $kinerja->delete();
 
-        return redirect()->route('admin.penilaian')->with('success', 'Penilaian berhasil disimpan.');
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.penilaian')->with('success',   'Penilaian berhasil dihapus.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.penilaian')->with('success',   'Penilaian berhasil dihapus.');
+        }
+
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
     }
 }

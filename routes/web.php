@@ -115,18 +115,22 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
 Route::middleware(['auth', OwnerMiddleware::class])->group(function () {
     Route::get('/owner/dashboard', [OwnerController::class, 'ownerDashboard'])->name('owner.dashboard');
-    Route::get('/owner/profile', [OwnerController::class, 'ownerProfile'])->name('owner.profile');
-    Route::post('/owner/profile', [PageController::class, 'updateProfile'])->name('owner.profile.update');
-    Route::get('/owner/user', [OwnerController::class, 'ownerUserList'])->name('owner.user');
+    Route::get('/owner/user', [AdminController::class, 'showUserList'])->name('owner.user');
     // kalo mau tambah user ini di komen dulu
-    Route::post('/owner/user', [SessionController::class, 'store'])->name('sesi.store');
-    Route::post('/users', [OwnerController::class, 'store'])->name('owner.users.store');
-    Route::put('/users/{id}', [OwnerController::class, 'update'])->name('owner.users.update');
-    Route::delete('/users/{id}', [OwnerController::class, 'destroy'])->name('owner.users.destroy');
+    Route::post('/owner/user', [AdminController::class, 'store'])->name('owner.store');
+    Route::put('/owner/{id}', [AdminController::class, 'update'])->name('owner.update');
+    Route::delete('/owner/{id}', [AdminController::class, 'destroy'])->name('owner.destroy');;
 
     // Absensi and Kehadiran routes
     Route::get('/owner/absensi', [OwnerController::class, 'ownerAbsensi'])->name('owner.absensi');
-    Route::get('/owner/kehadiran', [OwnerController::class, 'ownerKehadiran'])->name('owner.kehadiran');
+    Route::get('/owner/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('owner.kehadiran');
+    Route::post('/owner/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('owner.kehadiran');
+    Route::get('/owner/izin', [OwnerController::class, 'ownerIzin'])->name('owner.izin');
+    Route::post('/owner/cuti', [KehadiranController::class, 'submitCuti'])->name('owner.cuti');
+    Route::post('/store-izin', [KehadiranController::class, 'storeIzin'])->name('owner.storeIzin');
+    Route::get('/owner/cuti', [OwnerController::class, 'ownerCuti'])->name('owner.cuti');
+    Route::put('/owner/cuti/approve/{id}', [KehadiranController::class, 'approveCuti'])->name('owner.cuti.approve');
+    Route::put('/owner/cuti/reject/{id}', [KehadiranController::class, 'rejectCuti'])->name('owner.cuti.reject');
 
     // Additional admin routes
     Route::get('/owner/pelamar', [OwnerController::class, 'ownerPelamar'])->name('owner.pelamar');
@@ -134,7 +138,12 @@ Route::middleware(['auth', OwnerMiddleware::class])->group(function () {
     Route::get('/owner/nilai', [OwnerController::class, 'ownerNilai'])->name('owner.nilai');
     Route::get('/owner/pengumuman', [OwnerController::class, 'ownerPengumuman'])->name('owner.pengumuman');
     Route::get('/owner/cuti', [OwnerController::class, 'ownerCuti'])->name('owner.cuti');
+
     Route::get('/owner/penilaian', [OwnerController::class, 'ownerPenilaian'])->name('owner.penilaian');
+    Route::post('/owner/penilaian', [PenilaianController::class, 'storePenilaian'])->name('owner.storePenilaian');
+    Route::post('/owner/penilaian/{id}', [PenilaianController::class, 'editPenilaian'])->name('owner.editPenilaian');
+    Route::put('/owner/penilaian/{id}/update', [PenilaianController::class, 'updatePenilaian'])->name('owner.updatePenilaian');
+    Route::delete('/owner/penilaian/{id}/delete', [PenilaianController::class, 'destroyPenilaian'])->name('owner.destroyPenilaian');
 });
 
 Route::middleware(['auth', KaryawanMiddleware::class])->group(function () {
