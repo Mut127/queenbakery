@@ -11,9 +11,4 @@ class Kategoriloker extends Model
     protected $fillable = [
         'name',
     ];
-
-    public function lowongan()
-    {
-        return $this->hasMany(Lowongan::class);
-    }
 }

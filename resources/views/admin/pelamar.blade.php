@@ -56,7 +56,7 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                                 <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </form>
@@ -96,7 +96,7 @@
                                             </td>
                                             <td>
                                                 <!-- Edit Button -->
-                                                <button class="btn btn-sm btn-outline-secondary edit-pelamar mr-2"
+                                                <button class="btn btn-sm btn-outline-secondary edit-pelamar mr-1"
                                                     data-toggle="modal" data-target="#editPelamarModal"
                                                     data-id="{{ $item->id }}"
                                                     data-name="{{ $item->name }}"
@@ -174,8 +174,8 @@
                                                 </div>
                                             </div>
                                             <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">Update Pelamar</button>
+                                                <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                                <button type="submit" class="btn btn-primary">Save</button>
                                             </div>
                                         </form>
                                     </div>

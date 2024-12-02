@@ -47,23 +47,16 @@
                         </a>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"><a class="nav-link {{ Route::is('admin.pelamar.indexPelamar') ? 'active' : '' }}" href="{{ route('admin.pelamar.indexPelamar') }}">
-                                        Kelola Pelamar</a></li>
-                            </ul>
-                        </div>
-                        <div class="collapse" id="tables">
-                            <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.lowongan') ? 'active' : '' }}" href="{{ route('admin.lowongan') }}">
+                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.kategoriloker') ? 'active' : '' }}" href="{{ route('admin.kategoriloker') }}">
                                         Kelola Lowongan</a> </li>
                             </ul>
                         </div>
-
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
-                                <li class="nav-item"> <a class="nav-link {{ Route::is('admin.kategoriloker') ? 'active' : '' }}" href="{{ route('admin.kategoriloker') }}">
-                                        Kelola Ketegori Lowongan</a> </li>
+                                <li class="nav-item"><a class="nav-link {{ Route::is('admin.pelamar.indexPelamar') ? 'active' : '' }}" href="{{ route('admin.pelamar.indexPelamar') }}">
+                                        Kelola Pelamar</a></li>
                             </ul>
-                        </div>
+                        </div>   
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('admin.nilai') ? 'active' : '' }}" href="{{ route('admin.nilai') }}">
