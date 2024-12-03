@@ -170,7 +170,7 @@ class KehadiranController extends Controller
 
         if ($cuti->status === 'Pending') {
             $cuti->delete(); // Soft delete
-            return redirect()->back()->with('success', 'Permintaan cuti berhasil dibatalkan.');
+            return redirect()->back()->with('success_cancel', 'Permintaan cuti berhasil dibatalkan.');
         }
 
         return redirect()->back()->with('error', 'Hanya permintaan dengan status Pending yang dapat dibatalkan.');
@@ -182,7 +182,7 @@ class KehadiranController extends Controller
 
         if ($cuti->trashed()) {
             $cuti->restore(); // Mengembalikan data
-            return redirect()->back()->with('success', 'Permintaan cuti berhasil diaktifkan kembali.');
+            return redirect()->back()->with('success_request', 'Permintaan cuti berhasil diaktifkan kembali.');
         }
 
         return redirect()->back()->with('error', 'Data tidak dapat diaktifkan kembali.');

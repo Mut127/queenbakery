@@ -4,6 +4,14 @@
 <div class="container-scroller">
     <div class="main-panel">
         <div class="content-wrapper">
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
@@ -70,6 +78,8 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Set the current date in the date input field in the format: dd MMMM yyyy (e.g., 02 Desember 2024)
     document.getElementById('currentDate').value = formatDate(new Date());
@@ -99,5 +109,12 @@
             uploadField.style.display = 'none'; // Hide file upload input
         }
     }
+</script>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $(".alert").alert('close');
+        }, 3000); // 3000 ms = 3 detik
+    });
 </script>
 @endsection

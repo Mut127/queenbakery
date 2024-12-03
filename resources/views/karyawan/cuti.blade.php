@@ -4,6 +4,22 @@
 <div class="container-scroller">
     <div class="main-panel">
         <div class="ml-2 mr-2 content-wrapper">
+            @if(session('success_cancel'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('success_cancel') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+            @if(session('success_request'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success_request') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
@@ -75,3 +91,13 @@
     </div>
 </div>
 @endsection
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $(".alert").alert('close');
+        }, 3000); // 3000 ms = 3 detik
+    });
+</script>
