@@ -60,7 +60,7 @@
                                         Kelola Pelamar</a></li>
                             </ul>
                         </div>
-                        <div class="collapse" id="tables">
+                        <!-- <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('admin.nilai') ? 'active' : '' }}" href="{{ route('admin.nilai') }}">
                                         Kelola Nilai</a> </li>
@@ -71,7 +71,7 @@
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('admin.pengumuman') ? 'active' : '' }}" href="{{ route('admin.pengumuman') }}">
                                         Kelola Pengumuman</a> </li>
                             </ul>
-                        </div>
+                        </div> -->
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/user*') ? 'active' : '' }}" data-toggle="collapse"
