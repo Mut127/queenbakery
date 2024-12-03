@@ -75,7 +75,7 @@ class OwnerController extends Controller
         $user->save();
 
         // Redirect to the user list with a success message
-        return redirect()->route('owner.user')->with('success', 'User created successfully.');
+        return redirect()->route('owner.user')->with('success', 'Pengguna berhasil ditambah.');
     }
 
 
@@ -102,7 +102,7 @@ class OwnerController extends Controller
         }
         $user->save();
 
-        return redirect()->route('owner.user')->with('success', 'User updated successfully.');
+        return redirect()->route('owner.user')->with('success', 'Pengguna berhasil diedit.');
     }
 
     // Remove the specified user from storage
