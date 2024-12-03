@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Pelamar extends Model
 {
+    const STATUS_DITERIMA = 'diterima';
+    const STATUS_DITOLAK = 'ditolak';
     use HasFactory;
 
     /**
@@ -19,13 +21,22 @@ class Pelamar extends Model
         'dob',
         'address',
         'education',
-        'position',
+        'kategori_id',
         'photo',
-        'kategoriloker_id',
+        'status',
+        'email',
+
     ];
 
     public function kategoriloker()
     {
         return $this->belongsTo(Kategoriloker::class);
+    }
+    public function setStatus($status)
+    {
+        if (in_array($status, [self::STATUS_DITERIMA, self::STATUS_DITOLAK])) {
+            $this->status = $status;
+            $this->save();
+        }
     }
 }
