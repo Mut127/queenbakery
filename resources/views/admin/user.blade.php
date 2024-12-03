@@ -80,10 +80,10 @@
                                                     </span>
                                                     @enderror
                                                 </div>
-                                                <div class="form-group">
+                                                <div class="form-group position-relative">
                                                     <label for="password">Password</label>
                                                     <input id="password" type="password" class="form-control @error('password') is-invalid @enderror" name="password" required autocomplete="new-password">
-                                                    <i class="eye-icon bi bi-eye-slash-fill" id="togglePassword" onclick="togglePasswordVisibility()" style="position: absolute; right: 24px; top: 50%; transform: translateY(-50%);"></i>
+                                                    <i class="eye-icon bi bi-eye-slash-fill" id="togglePassword" onclick="togglePasswordVisibility()" style="position: absolute; right: 24px; top: 73%; transform: translateY(-50%); cursor: pointer;"></i>
                                                     @error('password')
                                                     <span class="invalid-feedback" role="alert">
                                                         <strong>{{ $message }}</strong>
@@ -364,6 +364,23 @@
             $(".alert").alert('close');
         }, 3000); // 3000 ms = 3 detik
     });
+</script>
+
+<script>
+    function togglePasswordVisibility() {
+        var passwordField = document.getElementById("password");
+        var toggleIcon = document.getElementById("togglePassword");
+
+        if (passwordField.type === "password") {
+            passwordField.type = "text";
+            toggleIcon.classList.remove("bi-eye-slash-fill");
+            toggleIcon.classList.add("bi-eye-fill");
+        } else {
+            passwordField.type = "password";
+            toggleIcon.classList.remove("bi-eye-fill");
+            toggleIcon.classList.add("bi-eye-slash-fill");
+        }
+    }
 </script>
 
 
