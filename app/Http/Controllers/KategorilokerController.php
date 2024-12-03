@@ -3,7 +3,6 @@
 namespace App\Http\Controllers;
 
 use App\Models\Kategoriloker;
-use App\Models\Ketegoriloker;
 use Illuminate\Http\Request;
 
 class KategorilokerController extends Controller

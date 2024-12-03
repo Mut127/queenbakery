@@ -11,4 +11,9 @@ class Kategoriloker extends Model
     protected $fillable = [
         'name',
     ];
+
+    public function pelamars()
+    {
+        return $this->hasMany(Pelamar::class);
+    }
 }

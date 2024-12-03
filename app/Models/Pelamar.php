@@ -21,5 +21,11 @@ class Pelamar extends Model
         'education',
         'position',
         'photo',
+        'kategoriloker_id',
     ];
+
+    public function kategoriloker()
+    {
+        return $this->belongsTo(Kategoriloker::class);
+    }
 }
