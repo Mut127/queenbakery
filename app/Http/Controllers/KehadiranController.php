@@ -58,11 +58,11 @@ class KehadiranController extends Controller
             // Redirect dengan pesan sukses
             // After successfully saving the attendance
             if (Auth::user()->usertype == 'admin') {
-                return redirect()->route('admin.kehadiran')->with('success', 'Absensi berhasil disimpan.');
+                return redirect()->route('admin.kehadiran')->with('success', 'Presensi berhasil disimpan.');
             } elseif (Auth::user()->usertype == 'owner') {
-                return redirect()->route('owner.kehadiran')->with('success', 'Absensi berhasil disimpan.');
+                return redirect()->route('owner.kehadiran')->with('success', 'Presensi berhasil disimpan.');
             } else {
-                return redirect()->route('karyawan.kehadiran')->with('success', 'Absensi berhasil disimpan.');
+                return redirect()->route('karyawan.kehadiran')->with('success', 'Presensi berhasil disimpan.');
             }
         }
 
@@ -125,11 +125,11 @@ class KehadiranController extends Controller
 
         // Redirect setelah berhasil menyimpan data
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.cuti')->with('success', 'Pengajuan cuti berhasil disimpan.');
+            return redirect()->route('admin.cuti')->with('success_save', 'Pengajuan cuti berhasil disimpan.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.cuti')->with('success', 'Pengajuan cuti berhasil disimpan.');
+            return redirect()->route('owner.cuti')->with('success_save', 'Pengajuan cuti berhasil disimpan.');
         } else {
-            return redirect()->route('karyawan.cuti')->with('success', 'Pengajuan cuti berhasil disimpan.');
+            return redirect()->route('karyawan.cuti')->with('success_save', 'Pengajuan cuti berhasil disimpan.');
         }
     }
 
@@ -155,9 +155,9 @@ class KehadiranController extends Controller
         $cuti->save();
 
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.cuti')->with('success',  'Cuti berhasil ditolak.');
+            return redirect()->route('admin.cuti')->with('success_reject',  'Cuti berhasil ditolak.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.cuti')->with('success',  'Cuti berhasil ditolak.');
+            return redirect()->route('owner.cuti')->with('success_reject',  'Cuti berhasil ditolak.');
         }
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
@@ -191,6 +191,6 @@ class KehadiranController extends Controller
     {
         $cuti = Cuti::withTrashed()->findOrFail($id); // Termasuk data yang dihapus (soft delete)
         $cuti->forceDelete(); // Hapus permanen
-        return redirect()->back()->with('success', 'Data cuti berhasil dihapus secara permanen.');
+        return redirect()->back()->with('success_delete', 'Data cuti berhasil dihapus secara permanen.');
     }
 }
