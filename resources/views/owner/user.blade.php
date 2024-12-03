@@ -4,6 +4,30 @@
 <div class="container-scroller">
     <div class="main-panel">
         <div class="ml-6 mr-2 content-wrapper">
+            @if(session('success_delete'))
+            <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                {{ session('success_delete') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
+            @if(session('success_edit'))
+            <div class="alert alert-warning alert-dismissible fade show" role="alert">
+                {{ session('success_edit') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
@@ -336,6 +360,13 @@
             modal.find('#detailNumber').text(number);
             modal.find('#detailUsertype').text(usertype);
         });
+    });
+</script>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $(".alert").alert('close');
+        }, 3000); // 3000 ms = 3 detik
     });
 </script>
 

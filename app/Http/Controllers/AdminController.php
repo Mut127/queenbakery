@@ -177,9 +177,9 @@ class AdminController extends Controller
 
         $user->forceDelete(); // Menghapus data secara permanen
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.userhistory')->with('success', 'User created successfully.');
+            return redirect()->route('admin.userhistory')->with('success_permanent', 'Pengguna berhasil dihapus secara permanen.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.userhistory')->with('success', 'User created successfully.');
+            return redirect()->route('owner.userhistory')->with('success_permanent', 'Pengguna berhasil dihapus secara permanen.');
         }
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
@@ -194,9 +194,9 @@ class AdminController extends Controller
 
         // Mengarahkan berdasarkan jenis pengguna yang login
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+            return redirect()->route('admin.user')->with('success_restore', 'Pengguna berhasil dipulihkan.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+            return redirect()->route('owner.user')->with('success_restore', 'Pengguna berhasil dipulihkan.');
         }
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
