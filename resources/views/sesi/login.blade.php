@@ -67,12 +67,15 @@
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
-                                <input type="email" name="email" class="form-control" id="email" placeholder="Masukkan email">
+                                <input type="email" name="email" class="form-control" id="email"
+                                    placeholder="Masukkan email">
                             </div>
                             <div class="form-group position-relative">
                                 <label for="password">Password</label>
-                                <input type="password" name="password" class="form-control" id="password" placeholder="Masukkan password">
-                                <i class="fas fa-eye eye-toggle" id="login-toggleBtn" style="position: absolute; right: 10px; top: 58%; cursor: pointer;"></i>
+                                <input type="password" name="password" class="form-control" id="password"
+                                    placeholder="Masukkan password">
+                                <i class="fas fa-eye eye-toggle" id="login-toggleBtn"
+                                    style="position: absolute; right: 10px; top: 58%; cursor: pointer;"></i>
                             </div>
                             <div class="form-check d-flex justify-content-between align-items-center">
                                 <div>
@@ -86,7 +89,8 @@
                         </form>
 
                         <div class="signup-container">
-                            <p class="mt-3">Belum punya akun? <span class="toggle-link" id="toggleRegister">Buat akun</span></p>
+                            <p class="mt-3">Belum punya akun? <span class="toggle-link" id="toggleRegister">Buat
+                                    akun</span></p>
                         </div>
                     </div>
 
@@ -96,7 +100,8 @@
 
             <!-- Right side: Image -->
             <div class="col-lg-6 d-none d-lg-block login-image ml-10">
-                <img src="/images/logo.png" alt="Login/Register Image" class="img-fluid" style="width: 50%; height: auto; object-fit: cover; margin-left: 100px;">
+                <img src="/images/logo.png" alt="Login/Register Image" class="img-fluid"
+                    style="width: 50%; height: auto; object-fit: cover; margin-left: 100px;">
             </div>
 
         </div>
@@ -190,20 +195,22 @@
         });
 
         document.addEventListener("DOMContentLoaded", function() {
-            const loginPasswordField = document.getElementById('login-password');
-            const loginToggleBtn = document.getElementById('login-toggleBtn');
-            loginToggleBtn.onclick = function() {
-                // Toggle the eye icon between eye and eye-slash
-                if (loginPasswordField.type === 'password') {
-                    loginPasswordField.setAttribute('type', 'text');
-                    loginToggleBtn.classList.remove('fa-eye');
-                    loginToggleBtn.classList.add('fa-eye-slash');
+            const passwordField = document.getElementById('password'); // Mengambil elemen input password
+            const toggleBtn = document.getElementById('login-toggleBtn'); // Mengambil elemen ikon mata
+
+            // Fungsi toggle password visibility saat ikon mata diklik
+            toggleBtn.onclick = function() {
+                if (passwordField.type === 'password') {
+                    passwordField.setAttribute('type', 'text'); // Ubah menjadi teks (password terlihat)
+                    toggleBtn.classList.remove('fa-eye'); // Mengganti ikon mata terbuka
+                    toggleBtn.classList.add('fa-eye-slash'); // Menampilkan ikon mata tertutup
                 } else {
-                    loginPasswordField.setAttribute('type', 'password');
-                    loginToggleBtn.classList.remove('fa-eye-slash');
-                    loginToggleBtn.classList.add('fa-eye');
+                    passwordField.setAttribute('type',
+                    'password'); // Ubah kembali menjadi password (tersembunyi)
+                    toggleBtn.classList.remove('fa-eye-slash'); // Mengganti ikon mata tertutup
+                    toggleBtn.classList.add('fa-eye'); // Menampilkan ikon mata terbuka
                 }
-            }
+            };
         });
     </script>
 
