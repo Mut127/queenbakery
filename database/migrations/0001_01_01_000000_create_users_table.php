@@ -1,3 +1,5 @@
+ini source buat migrate user len
+
 <?php
 
 use Illuminate\Database\Migrations\Migration;

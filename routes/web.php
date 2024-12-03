@@ -59,7 +59,7 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
 
 
 
-
+    
     // Absensi and Kehadiran routes
     Route::get('/admin/absensi', [KehadiranController::class, 'showAbsensi'])->name('admin.absensi');
     Route::get('/admin/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('admin.kehadiran');
