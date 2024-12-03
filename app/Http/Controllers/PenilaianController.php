@@ -76,9 +76,9 @@ class PenilaianController extends Controller
         ]);
 
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.penilaian')->with('success',   'Penilaian berhasil diedit.');
+            return redirect()->route('admin.penilaian')->with('success_edit',   'Penilaian berhasil diedit.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.penilaian')->with('success',   'Penilaian berhasil diedit.');
+            return redirect()->route('owner.penilaian')->with('success_edit',   'Penilaian berhasil diedit.');
         }
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
@@ -93,9 +93,9 @@ class PenilaianController extends Controller
         $kinerja->delete();
 
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.penilaian')->with('success',   'Penilaian berhasil dihapus.');
+            return redirect()->route('admin.penilaian')->with('success_delete',   'Penilaian berhasil dihapus.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.penilaian')->with('success',   'Penilaian berhasil dihapus.');
+            return redirect()->route('owner.penilaian')->with('success_delete',   'Penilaian berhasil dihapus.');
         }
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya

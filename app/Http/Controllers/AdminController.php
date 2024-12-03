@@ -107,9 +107,9 @@ class AdminController extends Controller
 
         // Mengarahkan berdasarkan jenis pengguna yang login
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+            return redirect()->route('admin.user')->with('success', 'User berhasil ditambah.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+            return redirect()->route('owner.user')->with('success', 'User berhasil ditambah.');
         }
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
@@ -145,9 +145,9 @@ class AdminController extends Controller
 
         // Mengarahkan berdasarkan jenis pengguna yang login
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+            return redirect()->route('admin.user')->with('success_edit', 'User berhasil diedit.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+            return redirect()->route('owner.user')->with('success_edit', 'User berhasil diedit.');
         }
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
@@ -163,11 +163,10 @@ class AdminController extends Controller
 
         // Mengarahkan berdasarkan jenis pengguna yang login
         if (Auth::user()->usertype == 'admin') {
-            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+            return redirect()->route('admin.user')->with('success_delete', 'User berhasil dihapus.');
         } elseif (Auth::user()->usertype == 'owner') {
-            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+            return redirect()->route('owner.user')->with('success_delete', 'User berhasil dihapus.');
         }
-
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
         return redirect()->route('login')->with('error', 'Unknown user type.');
     }
