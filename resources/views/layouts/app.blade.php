@@ -43,7 +43,7 @@
                             <span class="menu-title">Dashboard</span>
                         </a>
                     </li>
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false"
                             aria-controls="tables">
                             <i class="icon-grid-2 menu-icon"></i>
@@ -62,7 +62,7 @@
                                         Kelola Pelamar</a></li>
                             </ul>
                         </div>
-                        <!-- <div class="collapse" id="tables">
+                        <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('admin.nilai') ? 'active' : '' }}" href="{{ route('admin.nilai') }}">
                                         Kelola Nilai</a> </li>
@@ -73,8 +73,8 @@
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('admin.pengumuman') ? 'active' : '' }}" href="{{ route('admin.pengumuman') }}">
                                         Kelola Pengumuman</a> </li>
                             </ul>
-                        </div> -->
-                    </li>
+                        </div>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('admin/user*') ? 'active' : '' }}" data-toggle="collapse"
                             href="#form-elements" aria-expanded="false" aria-controls="form-elements">
@@ -87,7 +87,7 @@
                                 <li class="nav-item"><a
                                         class="nav-link {{ request()->is('admin/user') ? 'active' : '' }}"
                                         href="{{ route('admin.user') }}">Pegawai List</a></li>
-                                <!-- Add more sub-menu items if needed -->
+
                             </ul>
                         </div>
                         <div class="collapse {{ request()->is('admin/userhistory*') ? 'show' : '' }}" id="form-elements">
@@ -95,7 +95,7 @@
                                 <li class="nav-item"><a
                                         class="nav-link {{ request()->is('admin/userhistory') ? 'active' : '' }}"
                                         href="{{ route('admin.userhistory') }}">History Pegawai</a></li>
-                                <!-- Add more sub-menu items if needed -->
+
                             </ul>
                         </div>
                     </li>
@@ -166,7 +166,7 @@
                         </a>
                     </li>
 
-                    <li class="nav-item">
+                    <!-- <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#tables" aria-expanded="false"
                             aria-controls="tables">
                             <i class="icon-grid-2 menu-icon"></i>
@@ -204,7 +204,7 @@
                                         Kelola Pengumuman</a> </li>
                             </ul>
                         </div>
-                    </li>
+                    </li> -->
                     <li class="nav-item">
                         <a class="nav-link {{ request()->is('owner/user*') ? 'active' : '' }}" data-toggle="collapse"
                             href="#form-elements" aria-expanded="false" aria-controls="form-elements">
