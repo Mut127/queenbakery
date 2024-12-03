@@ -159,7 +159,8 @@ class AdminController extends Controller
     public function destroy($id)
     {
         $user = User::findOrFail($id);
-        $user->delete();
+        $user->delete(); // Soft delete
+        return redirect()->back()->with('success', 'User berhasil dihapus.');
 
         // Mengarahkan berdasarkan jenis pengguna yang login
         if (Auth::user()->usertype == 'admin') {
@@ -171,6 +172,45 @@ class AdminController extends Controller
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
         return redirect()->route('login')->with('error', 'Unknown user type.');
     }
+    public function hardDestroy($id)
+    {
+        $user = User::withTrashed()->findOrFail($id); // Mengambil user yang sudah di-soft delete (termasuk yang sudah terhapus)
+
+        $user->forceDelete(); // Menghapus data secara permanen
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.userhistory')->with('success', 'User created successfully.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.userhistory')->with('success', 'User created successfully.');
+        }
+
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
+    }
+
+
+    public function restore($id)
+    {
+        $user = User::withTrashed()->findOrFail($id); // Cari user termasuk yang terhapus
+        $user->restore(); // Pulihkan user
+
+        // Mengarahkan berdasarkan jenis pengguna yang login
+        if (Auth::user()->usertype == 'admin') {
+            return redirect()->route('admin.user')->with('success', 'User created successfully.');
+        } elseif (Auth::user()->usertype == 'owner') {
+            return redirect()->route('owner.user')->with('success', 'User created successfully.');
+        }
+
+        // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
+        return redirect()->route('login')->with('error', 'Unknown user type.');
+    }
+
+    public function showDeletedUsers()
+    {
+        $users = User::onlyTrashed()->get();
+        return view('admin.userhistory', compact('users'));
+    }
+
+
     // Di dalam AdminController.php
 
     public function showIzin()

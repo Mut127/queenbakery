@@ -111,26 +111,17 @@ class KehadiranController extends Controller
         ]);
 
         // Jika pengguna adalah admin, simpan data cuti untuk pegawai yang dipilih
-        if (Auth::user()->usertype == 'admin') {
-            Cuti::create([
-                'tgl_awal' => $request->start_date,
-                'tgl_akhir' => $request->end_date,
-                'jml_cuti' => $request->leave_days,
-                'jenis' => $request->leave_type,
-                'ket' => $request->description,
-                'user_id' => $request->user_id,  // Ambil ID pengguna dari form
-            ]);
-        } else {
-            // Untuk pengguna lain (owner atau karyawan), hanya menyimpan data cuti untuk mereka sendiri
-            Cuti::create([
-                'tgl_awal' => $request->start_date,
-                'tgl_akhir' => $request->end_date,
-                'jml_cuti' => $request->leave_days,
-                'jenis' => $request->leave_type,
-                'ket' => $request->description,
-                'user_id' => Auth::id(),  // ID pengguna yang sedang login
-            ]);
-        }
+
+        // Untuk pengguna lain (owner atau karyawan), hanya menyimpan data cuti untuk mereka sendiri
+        Cuti::create([
+            'tgl_awal' => $request->start_date,
+            'tgl_akhir' => $request->end_date,
+            'jml_cuti' => $request->leave_days,
+            'jenis' => $request->leave_type,
+            'ket' => $request->description,
+            'user_id' => Auth::id(),  // ID pengguna yang sedang login
+        ]);
+
 
         // Redirect setelah berhasil menyimpan data
         if (Auth::user()->usertype == 'admin') {

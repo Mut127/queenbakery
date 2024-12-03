@@ -106,13 +106,19 @@ class OwnerController extends Controller
     }
 
     // Remove the specified user from storage
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
+    // public function destroy($id)
+    // {
+    //     $user = User::findOrFail($id);
+    //     $user->delete();
 
-        return redirect()->route('owner.user')->with('success', 'User deleted successfully.');
+    //     return redirect()->route('owner.user')->with('success', 'User deleted successfully.');
+    // }
+    public function showDeletedUsersOwner()
+    {
+        $users = User::onlyTrashed()->get();
+        return view('owner.userhistory', compact('users'));
     }
+
 
     // Di dalam ownerController.php
     public function ownerAbsensi(Request $request)

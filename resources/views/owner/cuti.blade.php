@@ -12,8 +12,8 @@
                             <p class="card-description">
                                 Daftar pengajuan cuti karyawan untuk persetujuan.
                             </p>
-                            <div class="table-responsive">
-                                <table class="table table-striped">
+                            <div class="table-responsive" style="max-width: 100%; overflow-x: auto;">
+                                <table class="table table-striped table-sm" style="width: 100%; max-width: 800px; margin: auto;">
                                     <thead>
                                         <tr>
                                             <th>Nama Karyawan</th>
@@ -29,7 +29,6 @@
                                     <tbody>
                                         @foreach($cuti as $cutiItem)
                                         <tr>
-                                            <!-- Menampilkan nama karyawan menggunakan relasi user -->
                                             <td>{{ $cutiItem->user->name }}</td>
                                             <td>{{ $cutiItem->jenis }}</td>
                                             <td>{{ $cutiItem->tgl_awal }}</td>
@@ -50,19 +49,23 @@
                                                 <form action="{{ route('owner.cuti.approve', $cutiItem->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button class="btn btn-success btn-sm">Setujui</button>
+                                                    <button class="btn btn-success btn-sm" style="font-size: 10px;">Setujui</button>
                                                 </form>
                                                 <form action="{{ route('owner.cuti.reject', $cutiItem->id) }}" method="POST" style="display:inline;">
                                                     @csrf
                                                     @method('PUT')
-                                                    <button class="btn btn-danger btn-sm">Tolak</button>
+                                                    <button class="btn btn-danger btn-sm" style="font-size: 10px;">Tolak</button>
                                                 </form>
                                                 @else
-                                                <button class="btn btn-success btn-sm" disabled>Setujui</button>
-                                                <button class="btn btn-danger btn-sm" disabled>Tolak</button>
+                                                <button class="btn btn-success btn-sm" disabled style="font-size: 10px;">Setujui</button>
+                                                <button class="btn btn-danger btn-sm" disabled style="font-size: 10px;">Tolak</button>
                                                 @endif
+                                                <form action="{{ route('owner.cuti.destroy', $cutiItem->id) }}" method="POST" style="display:inline;">
+                                                    @csrf
+                                                    @method('DELETE')
+                                                    <button class="btn btn-danger btn-sm" style="font-size: 10px;" onclick="return confirm('Apakah Anda yakin ingin menghapus data ini secara permanen?')">Hapus</button>
+                                                </form>
                                             </td>
-
                                         </tr>
                                         @endforeach
                                     </tbody>

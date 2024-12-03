@@ -19,9 +19,12 @@
     <!-- End plugin css for this page -->
     <!-- inject:css -->
     <link rel="stylesheet" href="/css/vertical-layout-light/style.css">
+
     <!-- endinject -->
     <link rel="shortcut icon" href="/images/favicon.png" />
     <link href="{{ asset('css/login.css') }}" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons/font/bootstrap-icons.css" rel="stylesheet">
+
 </head>
 
 <body class="parent" style="padding-top: 5%;">
@@ -56,7 +59,7 @@
                                 <li class="nav-item"><a class="nav-link {{ Route::is('admin.pelamar.indexPelamar') ? 'active' : '' }}" href="{{ route('admin.pelamar.indexPelamar') }}">
                                         Kelola Pelamar</a></li>
                             </ul>
-                        </div>   
+                        </div>
                         <div class="collapse" id="tables">
                             <ul class="nav flex-column sub-menu">
                                 <li class="nav-item"> <a class="nav-link {{ Route::is('admin.nilai') ? 'active' : '' }}" href="{{ route('admin.nilai') }}">
@@ -82,6 +85,14 @@
                                 <li class="nav-item"><a
                                         class="nav-link {{ request()->is('admin/user') ? 'active' : '' }}"
                                         href="{{ route('admin.user') }}">Pegawai List</a></li>
+                                <!-- Add more sub-menu items if needed -->
+                            </ul>
+                        </div>
+                        <div class="collapse {{ request()->is('admin/userhistory*') ? 'show' : '' }}" id="form-elements">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a
+                                        class="nav-link {{ request()->is('admin/userhistory') ? 'active' : '' }}"
+                                        href="{{ route('admin.userhistory') }}">History Pegawai</a></li>
                                 <!-- Add more sub-menu items if needed -->
                             </ul>
                         </div>
@@ -207,7 +218,16 @@
                                 <!-- Add more sub-menu items if needed -->
                             </ul>
                         </div>
+                        <div class="collapse {{ request()->is('owner/userhistory*') ? 'show' : '' }}" id="form-elements">
+                            <ul class="nav flex-column sub-menu">
+                                <li class="nav-item"><a
+                                        class="nav-link {{ request()->is('owner/userhistory') ? 'active' : '' }}"
+                                        href="{{ route('owner.userhistory') }}">History Pegawai</a></li>
+                                <!-- Add more sub-menu items if needed -->
+                            </ul>
+                        </div>
                     </li>
+
                     <!-- Bagian Absensi -->
                     <li class="nav-item">
                         <a class="nav-link" data-toggle="collapse" href="#charts" aria-expanded="false" aria-controls="charts">
