@@ -374,7 +374,15 @@
             </main>
         </div>
     </div>
-    @include('partials.footer')
+    <footer class="footer bg-white text-dark py-4 mt-4 shadow">
+    <div class="container text-center">
+        <p><strong>Contact Us:</strong></p>
+        <p>Email: <a href="mailto:info@example.com">queenbakery@gmail.com</a></p>
+        <p>Address: Jl. Ahmad Yani No.32-34</p>
+        <p>&copy; 2024 Queen Bakery Purbalingga. All Rights Reserved.</p>
+    </div>
+</footer>
+    
 
     <!-- plugins:js -->
     <script src="/vendors/js/vendor.bundle.base.js"></script>

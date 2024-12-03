@@ -209,7 +209,7 @@ class AdminController extends Controller
         return view('admin.userhistory', compact('users'));
     }
 
-
+        
     // Di dalam AdminController.php
 
     public function showIzin()
