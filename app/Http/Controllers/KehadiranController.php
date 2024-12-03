@@ -92,6 +92,7 @@ class KehadiranController extends Controller
         // Ambil semua pengajuan cuti dari database
         $cuti = Cuti::all();
 
+
         // Kirim data ke view
         return view('admin.cuti', compact('cuti'));
     }
@@ -170,5 +171,35 @@ class KehadiranController extends Controller
 
         // Jika jenis pengguna tidak teridentifikasi, kembali ke halaman sebelumnya
         return redirect()->route('login')->with('error', 'Unknown user type.');
+    }
+
+    public function cancelRequest($id)
+    {
+        $cuti = Cuti::findOrFail($id);
+
+        if ($cuti->status === 'Pending') {
+            $cuti->delete(); // Soft delete
+            return redirect()->back()->with('success', 'Permintaan cuti berhasil dibatalkan.');
+        }
+
+        return redirect()->back()->with('error', 'Hanya permintaan dengan status Pending yang dapat dibatalkan.');
+    }
+
+    public function restoreRequest($id)
+    {
+        $cuti = Cuti::withTrashed()->findOrFail($id);
+
+        if ($cuti->trashed()) {
+            $cuti->restore(); // Mengembalikan data
+            return redirect()->back()->with('success', 'Permintaan cuti berhasil diaktifkan kembali.');
+        }
+
+        return redirect()->back()->with('error', 'Data tidak dapat diaktifkan kembali.');
+    }
+    public function destroyCuti($id)
+    {
+        $cuti = Cuti::withTrashed()->findOrFail($id); // Termasuk data yang dihapus (soft delete)
+        $cuti->forceDelete(); // Hapus permanen
+        return redirect()->back()->with('success', 'Data cuti berhasil dihapus secara permanen.');
     }
 }

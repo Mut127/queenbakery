@@ -66,6 +66,8 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     // Rute untuk persetujuan dan penolakan cuti
     Route::put('/admin/cuti/approve/{id}', [KehadiranController::class, 'approveCuti'])->name('admin.cuti.approve');
     Route::put('/admin/cuti/reject/{id}', [KehadiranController::class, 'rejectCuti'])->name('admin.cuti.reject');
+    Route::delete('admin/cuti/{id}', [KehadiranController::class, 'destroyCuti'])->name('admin.cuti.destroy');
+
 
 
     // Rekrutmen
@@ -156,4 +158,6 @@ Route::middleware(['auth', KaryawanMiddleware::class])->group(function () {
     Route::post('/store-izin', [KehadiranController::class, 'storeIzin'])->name('karyawan.storeIzin');
     Route::get('/karyawan/cuti', [KaryawanController::class, 'karyawanCuti'])->name('karyawan.cuti');
     Route::get('/karyawan/penilaian', [KaryawanController::class, 'karyawanPenilaian'])->name('karyawan.penilaian');
+    Route::post('/cuti/{id}/cancel', [KehadiranController::class, 'cancelRequest'])->name('cuti.cancel');
+    Route::post('/cuti/{id}/restore', [KehadiranController::class, 'restoreRequest'])->name('cuti.restore');
 });

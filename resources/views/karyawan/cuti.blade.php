@@ -23,12 +23,12 @@
                                             <th>Jumlah Hari</th>
                                             <th>Keterangan</th>
                                             <th>Status</th>
+                                            <th>Aksi </th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         @foreach($cuti as $cutiItem)
                                         <tr>
-                                            <!-- Menampilkan nama karyawan menggunakan relasi user -->
                                             <td>{{ $cutiItem->user->name }}</td>
                                             <td>{{ $cutiItem->jenis }}</td>
                                             <td>{{ $cutiItem->tgl_awal }}</td>
@@ -45,10 +45,26 @@
                                                 @endif
                                             </td>
 
+                                            <td>
+                                                @if($cutiItem->trashed()) <!-- Jika data sudah dihapus (soft delete) -->
+                                                <form action="{{ route('cuti.restore', $cutiItem->id) }}" method="POST" style="display:inline-block;">
+                                                    @csrf
+                                                    <button class="btn btn-success btn-sm">Aktifkan</button>
+                                                </form>
+                                                @else <!-- Jika data belum dihapus -->
+                                                @if($cutiItem->status == 'Pending') <!-- Hanya muncul untuk status Pending -->
+                                                <form action="{{ route('cuti.cancel', $cutiItem->id) }}" method="POST" style="display:inline-block;">
+                                                    @csrf
+                                                    <button class="btn btn-warning btn-sm">Batalkan</button>
+                                                </form>
+                                                @endif
+                                                @endif
+                                            </td>
 
                                         </tr>
                                         @endforeach
                                     </tbody>
+
                                 </table>
                             </div>
                         </div>

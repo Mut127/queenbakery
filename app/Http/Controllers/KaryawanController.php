@@ -47,6 +47,7 @@ class KaryawanController extends Controller
     {
         $user = Auth::user();
         $cuti = Cuti::where('user_id', $user->id)->get();
+        $cuti = Cuti::where('user_id', $user->id)->withTrashed()->get();
 
         // Kirim data ke view
         return view('karyawan.cuti', compact('user', 'cuti'));
