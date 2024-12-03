@@ -183,10 +183,15 @@ class OwnerController extends Controller
         $users = User::where('usertype', 'karyawan')->get();
 
         // Ambil data penilaian
+
         $kinerjas = Kinerja::with('user')
             ->whereMonth('tgl_nilai', now()->month)
             ->orderBy('tgl_nilai', 'asc')
-            ->get();
+            ->get()
+            ->filter(function ($kinerja) {
+                return $kinerja->user !== null; // Hanya ambil yang memiliki relasi user
+            });
+
 
         return view('owner.penilaian', compact('users', 'kinerjas'));
     }

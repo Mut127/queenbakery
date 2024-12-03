@@ -84,6 +84,11 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::get('/admin/pelamar/{id}/edit', [PelamarController::class, 'editPelamar'])->name('admin.pelamar.editPelamar');
     Route::put('/admin/pelamar/{id}', [PelamarController::class, 'updatePelamar'])->name('admin.pelamar.updatePelamar');
     Route::delete('/admin/pelamar/{id}', [PelamarController::class, 'destroyPelamar'])->name('admin.pelamar.destroyPelamar');
+    Route::get('/admin/pelamar/{id}/status', [PelamarController::class, 'updateStatus'])->name('admin.pelamar');
+    Route::put('/admin/pelamar/{id}/status', [PelamarController::class, 'updateStatus'])->name('admin.updateStatus');
+
+
+
 
     // Kelola Nilai
     Route::get('/admin/nilai', [NilaiController::class, 'indexNilai'])->name('admin.nilai');

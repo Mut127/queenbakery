@@ -2,8 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Kategoriloker;
 use App\Models\Pelamar;
+use App\Models\PelamarAcceptedMail;
+use App\Models\PelamarRejectedMail;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Log;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Validator;
 
 class PelamarController extends Controller
 {
@@ -11,17 +17,21 @@ class PelamarController extends Controller
     {
         // Mengambil semua pelamar
         $pelamars = Pelamar::all();
-        return view('admin.pelamar', compact('pelamars'));
+        $kategorilokers = Kategoriloker::all();
+
+        return view('admin.pelamar', compact('pelamars', 'kategorilokers'));
     }
 
     public function storePelamar(Request $request)
     {
         $validatedData = $request->validate([
             'name' => 'required|string|max:255',
+            'email' => 'required|email',
             'dob' => 'required|date',
             'address' => 'required|string|max:500',
             'education' => 'required|string|max:255',
-            'position' => 'required|string|max:255',
+
+            'kategori_id' => 'required|exists:kategorilokers,id', // Tambahkan validasi kategori
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -40,10 +50,12 @@ class PelamarController extends Controller
 
         Pelamar::create([
             'name' => $validatedData['name'],
+            'email' => $validatedData['email'],
             'dob' => $validatedData['dob'],
             'address' => $validatedData['address'],
             'education' => $validatedData['education'],
-            'position' => $validatedData['position'],
+
+            'kategori_id' => $validatedData['kategori_id'], // Tambahkan kategori loker
             'photo' => $photoName,
         ]);
 
@@ -54,7 +66,9 @@ class PelamarController extends Controller
     {
         // Menemukan pelamar berdasarkan ID
         $pelamars = Pelamar::findOrFail($id);
-        return view('admin.pelamar_edit', compact('pelamars'));
+        $kategorilokers = Kategoriloker::all();
+
+        return view('admin.pelamar_edit', compact('pelamars', 'kategorilokers'));
     }
 
     public function updatePelamar(Request $request, $id)
@@ -64,7 +78,7 @@ class PelamarController extends Controller
             'dob' => 'required|date',
             'address' => 'required|string',
             'education' => 'required|string|max:255',
-            'position' => 'required|string|max:255',
+            'kategori_id' => 'required|exists:kategorilokers,id',
             'photo' => 'nullable|image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
@@ -75,7 +89,7 @@ class PelamarController extends Controller
         $pelamar->dob = $request->input('dob');
         $pelamar->address = $request->input('address');
         $pelamar->education = $request->input('education');
-        $pelamar->position = $request->input('position');
+        $pelamar->kategori_id = $request->input('kategori_id');
 
         // Menangani upload foto jika ada
         if ($request->hasFile('photo')) {
@@ -111,5 +125,40 @@ class PelamarController extends Controller
         $pelamars->delete();
 
         return redirect()->route('admin.pelamar.indexPelamar')->with('success', 'Pelamar deleted successfully!');
+    }
+
+
+    public function updateStatus(Request $request, $id)
+    {
+        try {
+            $pelamar = Pelamar::findOrFail($id);
+            $pelamar->status = $request->status;
+            $pelamar->save();
+
+            // Logging sebelum mengirim email
+            Log::info('Mencoba mengirim email', [
+                'pelamar_id' => $pelamar->id,
+                'email' => $pelamar->email,
+                'status' => $pelamar->status
+            ]);
+
+            if ($pelamar->status === 'diterima') {
+                Mail::to($pelamar->email)->send(new PelamarAcceptedMail($pelamar));
+                Log::info('Email penerimaan berhasil dikirim');
+            } elseif ($pelamar->status === 'ditolak') {
+                Mail::to($pelamar->email)->send(new PelamarRejectedMail($pelamar));
+                Log::info('Email penolakan berhasil dikirim');
+            }
+
+            return redirect()->route('admin.pelamar.indexPelamar')->with('success', 'Status pelamar berhasil diperbarui.');
+        } catch (\Exception $e) {
+            // Logging error
+            Log::error('Gagal mengirim email', [
+                'error' => $e->getMessage(),
+                'pelamar_id' => $id
+            ]);
+
+            return redirect()->route('admin.pelamar.indexPelamar')->with('error', 'Terjadi kesalahan: ' . $e->getMessage());
+        }
     }
 }
