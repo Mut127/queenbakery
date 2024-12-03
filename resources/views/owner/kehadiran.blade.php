@@ -4,6 +4,14 @@
 <div class="container-scroller">
     <div class="main-panel">
         <div class="content-wrapper">
+            @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            @endif
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card">
                     <div class="card">
@@ -14,21 +22,15 @@
                             <form action="{{ route('owner.kehadiran') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label text-end">Nama:</label>
+                                    <label class="col-sm-4 col-form-label text-end">Pilih Karyawan:</label>
                                     <div class="col-sm-8">
-                                        <!-- Admin can select a user from a dropdown -->
-                                        @if(Auth::user()->usertype == 'owner')
-                                        <select class="form-control" name="user_id">
-                                            <option value="">--Select Pegawai--</option>
-                                            @foreach($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <select name="user_id" class="form-control" required>
+                                            <option value="">Pilih Karyawan</option>
+                                            @foreach($users as $karyawan)
+                                            <option value="{{ $karyawan->id }}">{{ $karyawan->name }}</option>
                                             @endforeach
                                         </select>
-                                        @else
-                                        <input type="text" class="form-control" value="{{ $user->name }}" readonly>
-                                        @endif
                                     </div>
-
                                 </div>
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label text-end">Tanggal:</label>
@@ -81,6 +83,8 @@
     </div>
 </div>
 
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
     // Set the current date in the date input field in the format: dd MMMM yyyy (e.g., 02 Desember 2024)
     document.getElementById('currentDate').value = formatDate(new Date());
@@ -110,5 +114,12 @@
             uploadField.style.display = 'none'; // Hide file upload input
         }
     }
+</script>
+<script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $(".alert").alert('close');
+        }, 3000); // 3000 ms = 3 detik
+    });
 </script>
 @endsection

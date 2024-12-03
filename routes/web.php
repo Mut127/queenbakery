@@ -53,6 +53,12 @@ Route::middleware(['auth', AdminMiddleware::class])->group(function () {
     Route::post('/admin/user', [AdminController::class, 'store'])->name('admin.store');
     Route::put('/admin/{id}', [AdminController::class, 'update'])->name('admin.update');
     Route::delete('/admin/{id}', [AdminController::class, 'destroy'])->name('admin.destroy');
+    Route::get('/admin/userhistory', [AdminController::class, 'showDeletedUsers'])->name('admin.userhistory');
+    Route::patch('/admin/restore/{id}', [AdminController::class, 'restore'])->name('admin.restore');
+    Route::delete('/admin/userhistory/{id}', [AdminController::class, 'hardDestroy'])->name('admin.hardDestroy');
+
+
+
 
     // Absensi and Kehadiran routes
     Route::get('/admin/absensi', [KehadiranController::class, 'showAbsensi'])->name('admin.absensi');
@@ -122,6 +128,9 @@ Route::middleware(['auth', OwnerMiddleware::class])->group(function () {
     Route::post('/owner/user', [AdminController::class, 'store'])->name('owner.store');
     Route::put('/owner/{id}', [AdminController::class, 'update'])->name('owner.update');
     Route::delete('/owner/{id}', [AdminController::class, 'destroy'])->name('owner.destroy');;
+    Route::get('/owner/userhistory', [OwnerController::class, 'showDeletedUsersOwner'])->name('owner.userhistory');
+    Route::patch('/owner/restore/{id}', [AdminController::class, 'restore'])->name('owner.restore');
+    Route::delete('/owner/userhistory/{id}', [AdminController::class, 'hardDestroy'])->name('owner.hardDestroy');
 
     // Absensi and Kehadiran routes
     Route::get('/owner/absensi', [OwnerController::class, 'ownerAbsensi'])->name('owner.absensi');
@@ -140,6 +149,9 @@ Route::middleware(['auth', OwnerMiddleware::class])->group(function () {
     Route::get('/owner/nilai', [OwnerController::class, 'ownerNilai'])->name('owner.nilai');
     Route::get('/owner/pengumuman', [OwnerController::class, 'ownerPengumuman'])->name('owner.pengumuman');
     Route::get('/owner/cuti', [OwnerController::class, 'ownerCuti'])->name('owner.cuti');
+    Route::put('/owner/cuti/approve/{id}', [KehadiranController::class, 'approveCuti'])->name('owner.cuti.approve');
+    Route::put('/owner/cuti/reject/{id}', [KehadiranController::class, 'rejectCuti'])->name('owner.cuti.reject');
+    Route::delete('owner/cuti/{id}', [KehadiranController::class, 'destroyCuti'])->name('owner.cuti.destroy');
 
     Route::get('/owner/penilaian', [OwnerController::class, 'ownerPenilaian'])->name('owner.penilaian');
     Route::post('/owner/penilaian', [PenilaianController::class, 'storePenilaian'])->name('owner.storePenilaian');
@@ -153,7 +165,7 @@ Route::middleware(['auth', KaryawanMiddleware::class])->group(function () {
     Route::get('/karyawan/absensi', [KaryawanController::class, 'karyawanAbsensi'])->name('karyawan.absensi');
     Route::get('/karyawan/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('karyawan.kehadiran');
     Route::post('/karyawan/kehadiran', [KehadiranController::class, 'showKehadiran'])->name('karyawan.kehadiran');
-    Route::get('/karyawan/kehadiran', [KaryawanController::class, 'karyawanIzin'])->name('karyawan.izin');
+    Route::get('/karyawan/izin', [KaryawanController::class, 'karyawanIzin'])->name('karyawan.izin');
     Route::post('/karyawan/cuti', [KehadiranController::class, 'submitCuti'])->name('karyawan.cuti');
     Route::post('/store-izin', [KehadiranController::class, 'storeIzin'])->name('karyawan.storeIzin');
     Route::get('/karyawan/cuti', [KaryawanController::class, 'karyawanCuti'])->name('karyawan.cuti');

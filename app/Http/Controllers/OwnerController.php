@@ -75,7 +75,7 @@ class OwnerController extends Controller
         $user->save();
 
         // Redirect to the user list with a success message
-        return redirect()->route('owner.user')->with('success', 'User created successfully.');
+        return redirect()->route('owner.user')->with('success', 'Pengguna berhasil ditambah.');
     }
 
 
@@ -102,17 +102,23 @@ class OwnerController extends Controller
         }
         $user->save();
 
-        return redirect()->route('owner.user')->with('success', 'User updated successfully.');
+        return redirect()->route('owner.user')->with('success', 'Pengguna berhasil diedit.');
     }
 
     // Remove the specified user from storage
-    public function destroy($id)
-    {
-        $user = User::findOrFail($id);
-        $user->delete();
+    // public function destroy($id)
+    // {
+    //     $user = User::findOrFail($id);
+    //     $user->delete();
 
-        return redirect()->route('owner.user')->with('success', 'User deleted successfully.');
+    //     return redirect()->route('owner.user')->with('success', 'User deleted successfully.');
+    // }
+    public function showDeletedUsersOwner()
+    {
+        $users = User::onlyTrashed()->get();
+        return view('owner.userhistory', compact('users'));
     }
+
 
     // Di dalam ownerController.php
     public function ownerAbsensi(Request $request)
