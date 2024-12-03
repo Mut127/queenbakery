@@ -39,41 +39,42 @@ class KehadiranController extends Controller
             $request->validate([
                 'status' => 'required|string|in:Hadir,Izin,Sakit',
                 'ket' => 'nullable|string|max:1000',
-                'image_path' => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:2048', // Validate file (optional)
-                'user_id' => 'required|exists:users,id', // Ensure the user exists
+                'image_path' => 'nullable|file|mimes:jpg,png,jpeg,pdf|max:2048',
+                'user_id' => ($user->usertype != 'karyawan') ? 'required|exists:users,id' : 'sometimes', // Tambahan validasi untuk admin/owner
             ]);
+
+            // Tentukan user_id yang akan dipresensi
+            $presensiUserId = $user->usertype == 'karyawan' ? $user->id : $request->user_id;
 
             $imagePath = $request->file('image_path') ? $request->file('image_path')->store('izin', 'public') : null;
 
-            // Save the attendance for the selected user
+            // Simpan kehadiran
             Kehadiran::create([
-                'user_id' => $request->user_id, // Save the selected user's ID
+                'user_id' => $presensiUserId,
                 'status' => $request->status,
                 'ket' => $request->ket ?? null,
-                'image_path' => $imagePath, // Save file path if present
-                'date' => now()->toTimeString(), // Current time
-                'tanggal' => now()->toDateString(), // Current date
+                'image_path' => $imagePath,
+                'date' => now()->toTimeString(),
+                'tanggal' => now()->toDateString(),
             ]);
 
-            // Redirect dengan pesan sukses
-            // After successfully saving the attendance
-            if (Auth::user()->usertype == 'admin') {
+            // Redirect berdasarkan tipe user
+            if ($user->usertype == 'admin') {
                 return redirect()->route('admin.kehadiran')->with('success', 'Presensi berhasil disimpan.');
-            } elseif (Auth::user()->usertype == 'owner') {
+            } elseif ($user->usertype == 'owner') {
                 return redirect()->route('owner.kehadiran')->with('success', 'Presensi berhasil disimpan.');
             } else {
                 return redirect()->route('karyawan.kehadiran')->with('success', 'Presensi berhasil disimpan.');
             }
         }
 
-        // Ambil data kehadiran yang sudah ada untuk ditampilkan berdasarkan peran pengguna
+        // Untuk semua role, kirim $user dan daftar users ke view
         if (Auth::check()) {
             if ($user->usertype == 'admin') {
-                // Fetch all users for admin
-                $users = \App\Models\User::all();
-                return view('admin.kehadiran', compact('user', 'users')); // Pass users to the view
+                $users = \App\Models\User::where('usertype', 'karyawan')->get();
+                return view('admin.kehadiran', compact('user', 'users'));
             } elseif ($user->usertype == 'owner') {
-                $users = \App\Models\User::all();
+                $users = \App\Models\User::where('usertype', 'karyawan')->get();
                 return view('owner.kehadiran', compact('user', 'users'));
             } elseif ($user->usertype == 'karyawan') {
                 $kehadiran = Kehadiran::where('user_id', $user->id)->get();
@@ -81,11 +82,8 @@ class KehadiranController extends Controller
             }
         }
 
-        // Jika tidak ada pengguna yang terautentikasi, redirect atau tampilkan error
         return redirect()->route('login')->with('error', 'Silakan login terlebih dahulu.');
     }
-
-
 
     public function showCuti()
     {

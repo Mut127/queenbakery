@@ -22,10 +22,13 @@
                             <form action="{{ route('karyawan.kehadiran') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label text-end">Pengguna:</label>
+                                    <label class="col-sm-4 col-form-label text-end">Nama:</label>
                                     <div class="col-sm-8">
+
                                         <input type="text" class="form-control" value="{{ $user->name }}" readonly>
+
                                     </div>
+
                                 </div>
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label text-end">Tanggal:</label>
@@ -81,6 +84,13 @@
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js"></script>
 <script>
+    $(document).ready(function() {
+        setTimeout(function() {
+            $(".alert").alert('close');
+        }, 3000); // 3000 ms = 3 detik
+    });
+</script>
+<script>
     // Set the current date in the date input field in the format: dd MMMM yyyy (e.g., 02 Desember 2024)
     document.getElementById('currentDate').value = formatDate(new Date());
 
@@ -109,12 +119,5 @@
             uploadField.style.display = 'none'; // Hide file upload input
         }
     }
-</script>
-<script>
-    $(document).ready(function() {
-        setTimeout(function() {
-            $(".alert").alert('close');
-        }, 3000); // 3000 ms = 3 detik
-    });
 </script>
 @endsection

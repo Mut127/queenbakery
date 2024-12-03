@@ -22,21 +22,15 @@
                             <form action="{{ route('owner.kehadiran') }}" method="POST" enctype="multipart/form-data">
                                 @csrf
                                 <div class="mb-3 row">
-                                    <label class="col-sm-4 col-form-label text-end">Nama:</label>
+                                    <label class="col-sm-4 col-form-label text-end">Pilih Karyawan:</label>
                                     <div class="col-sm-8">
-                                        <!-- Admin can select a user from a dropdown -->
-                                        @if(Auth::user()->usertype == 'owner')
-                                        <select class="form-control" name="user_id">
-                                            <option value="">--Select Pegawai--</option>
-                                            @foreach($users as $user)
-                                            <option value="{{ $user->id }}">{{ $user->name }}</option>
+                                        <select name="user_id" class="form-control" required>
+                                            <option value="">Pilih Karyawan</option>
+                                            @foreach($users as $karyawan)
+                                            <option value="{{ $karyawan->id }}">{{ $karyawan->name }}</option>
                                             @endforeach
                                         </select>
-                                        @else
-                                        <input type="text" class="form-control" value="{{ $user->name }}" readonly>
-                                        @endif
                                     </div>
-
                                 </div>
                                 <div class="mb-3 row">
                                     <label class="col-sm-4 col-form-label text-end">Tanggal:</label>
