@@ -28,8 +28,8 @@
                             <p class="card-description">
                                 Daftar pengajuan cuti karyawan untuk persetujuan.
                             </p>
-                            <div class="table-responsive">
-                                <table class="table table-striped">
+                            <div class="table-responsive" style="max-width: 100%; overflow-x: auto;">
+                                <table class="table table-striped table-sm" style="width: 100%; max-width: 800px; margin: auto;">
                                     <thead>
                                         <tr>
                                             <th>Nama Karyawan</th>

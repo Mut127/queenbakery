@@ -118,11 +118,11 @@
                                         Presensi
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link {{ Route::is('admin.izin') ? 'active' : '' }}" href="{{ route('admin.izin') }}">
                                         Pengajuan Cuti
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </li>
@@ -249,11 +249,11 @@
                                         Presensi
                                     </a>
                                 </li>
-                                <li class="nav-item">
+                                <!-- <li class="nav-item">
                                     <a class="nav-link {{ Route::is('owner.izin') ? 'active' : '' }}" href="{{ route('owner.izin') }}">
                                         Pengajuan Cuti
                                     </a>
-                                </li>
+                                </li> -->
                             </ul>
                         </div>
                     </li>
@@ -374,15 +374,8 @@
             </main>
         </div>
     </div>
-    <footer class="footer bg-white text-dark py-4 mt-4 shadow">
-    <div class="container text-center">
-        <p><strong>Contact Us:</strong></p>
-        <p>Email: <a href="mailto:info@example.com">queenbakery@gmail.com</a></p>
-        <p>Address: Jl. Ahmad Yani No.32-34</p>
-        <p>&copy; 2024 Queen Bakery Purbalingga. All Rights Reserved.</p>
-    </div>
-</footer>
-    
+    @include('partials.footer')
+
 
     <!-- plugins:js -->
     <script src="/vendors/js/vendor.bundle.base.js"></script>
