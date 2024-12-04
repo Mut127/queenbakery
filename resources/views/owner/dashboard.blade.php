@@ -20,27 +20,7 @@
                 <div class="col-lg-4 mb-4">
                 <div class="card shadow-lg rounded-lg border-0 h-100">
                         <div class="card-body text-center">
-                            <h4 class="card-title mb-4">Visi</h4>
-
-                            <!-- Visi Text -->
-                            <p class="h5"><strong></strong> Menjadi toko roti terkemuka yang dikenal dengan kualitas terbaik, </p>
-                            <p class="h5"><strong></strong> inovasi rasa, dan pelayanan yang ramah, </p>
-                            <p class="h5"><strong></strong> untuk memberikan kebahagiaan dan kehangatan di setiap produk yang kami buat.</p>
-                            <br>
-                            <h4 class="card-title mb-4">Misi</h4>
-                            <p class="h5"><strong></strong> Menawarkan produk roti dan kue berkualitas tinggi dengan bahan-bahan pilihan, aman, dan sehat.</p>
-                            <p class="h5"><strong></strong> Selalu berinovasi dengan menghadirkan varian produk yang menarik dan sesuai dengan selera pelanggan. </p>
-                            <p class="h5"><strong></strong> Menjadi bagian dari komunitas dengan mendukung kegiatan sosial dan lingkungan sekitar</p>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Lokasi Toko -->
-                <div class="col-lg-4 mb-4 d-flex flex-column">
-                <div class="card shadow-lg rounded-lg border-0 mb-4 h-100">
-                        <div class="card-body text-center d-flex flex-column justify-content-center align-items-center">
-                            <h4 class="card-title mb-4"><i class="fas fa-users fa-2x text-primary"></i> Jumlah Pegawai</h4>
+                        <h4 class="card-title mb-4"><i class="fas fa-users fa-2x text-primary"></i> Jumlah Pegawai</h4>
                             <p class="h1 text-primary font-weight-bold">
                                 {{ \App\Models\User::count() }}
                             </p>
@@ -48,14 +28,15 @@
                         </div>
                     </div>
 
-                    <div class="card shadow-lg rounded-lg border-0 h-100">
+                </div>
+                <div class="col-lg-4 mb-4">
+                <div class="card shadow-lg rounded-lg border-0 h-100">
                         <div class="card-body text-center">
-                            <h4 class="card-title mb-4">Jam kerja</h4>
+                        <h4 class="card-title mb-4">Jam kerja</h4>
                             <p class="h5"><strong>Hari:</strong> Senin - Minggu</p>
                             <p class="h5"><strong>Waktu:</strong> 07.30 - 21.00 WIB</p>
                         </div>
                     </div>
-
 
                 </div>
 
