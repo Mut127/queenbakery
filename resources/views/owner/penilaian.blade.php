@@ -131,6 +131,12 @@
                                     @endforeach
                                 </tbody>
                             </table>
+                             <!-- Jika Tidak Ada Data -->
+                            @if ($kinerjas->isEmpty())
+                            <div class="text-center mt-3">
+                                <p class="text-muted">Tidak ada data penilaian kinerja</p>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

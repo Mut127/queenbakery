@@ -68,6 +68,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Jika Tidak Ada Data -->
+                            @if ($kehadiran->isEmpty())
+                            <div class="text-center mt-3">
+                                <p class="text-muted">Tidak ada data daftar kehadiran karyawan</p>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

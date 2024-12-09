@@ -73,6 +73,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Jika Tidak Ada Data -->
+                            @if ($users->isEmpty())
+                            <div class="text-center mt-3">
+                                <p class="text-muted">Tidak ada data history pegawai</p>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

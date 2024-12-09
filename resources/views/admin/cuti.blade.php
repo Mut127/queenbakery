@@ -103,6 +103,12 @@
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Jika Tidak Ada Data -->
+                            @if ($cuti->isEmpty())
+                            <div class="text-center mt-3">
+                                <p class="text-muted">Tidak ada data persetujuan cuti</p>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>
