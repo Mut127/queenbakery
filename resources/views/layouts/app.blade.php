@@ -352,16 +352,6 @@
                             <span class="menu-title">Profile</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                            @csrf
-                        </form>
-                        <a class="nav-link"
-                            href="#" onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span class="menu-title">Logout</span>
-                        </a>
-                    </li>
                 </ul>
 
             </nav>
