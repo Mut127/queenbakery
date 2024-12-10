@@ -1,6 +1,23 @@
 @extends('layouts.app')
 
 @section('content')
+
+<style>
+    /* Warna teks default untuk elemen select */
+    #leaveType {
+        color: black; /* Warna teks default */
+    }
+
+    /* Warna teks untuk elemen opsi yang belum dipilih */
+    #leaveType option[value=""] {
+        color: gray; /* Warna untuk placeholder */
+    }
+
+    /* Pastikan opsi yang dipilih tetap hitam */
+    #leaveType option {
+        color: black; /* Warna teks untuk semua opsi */
+    }
+</style>
 <div class="container-fluid">
     <div class="row">
         <main class="flex-fill">
@@ -37,16 +54,18 @@
                             <div class="col-md-6">
                                 <div class="form-group">
                                     <label for="leaveDays">Jumlah Cuti</label>
-                                    <input type="number" class="form-control" id="leaveDays" name="leave_days" required>
+                                    <input type="number" class="form-control" id="leaveDays" name="leave_days" readonly required>
                                 </div>
+                                
                                 <div class="form-group">
                                     <label for="leaveType">Jenis Cuti</label>
-                                    <select class="form-control" id="leaveType" name="leave_type" required>
+                                    <select class="form-control" id="leaveType" name="leave_type" required style="border: 2px solid #9932CC;">
                                         <option value="">Pilih Jenis Cuti</option>
                                         <option value="Tahunan">Tahunan</option>
                                         <option value="Sakit">Sakit</option>
                                         <option value="Keluarga">Keluarga</option>
                                     </select>
+
                                 </div>
                                 <div class="form-group">
                                     <label for="description">Keterangan</label>
@@ -73,5 +92,23 @@
         setTimeout(function() {
             $(".alert").alert('close');
         }, 3000); // 3000 ms = 3 detik
+
+        // Fungsi untuk menghitung jumlah cuti berdasarkan tanggal
+        $('#startDate, #endDate').on('change', function() {
+            var startDate = $('#startDate').val();
+            var endDate = $('#endDate').val();
+
+            if (startDate && endDate) {
+                var start = new Date(startDate);
+                var end = new Date(endDate);
+
+                // Hitung jumlah hari antara start dan end
+                var diffTime = end - start;
+                var diffDays = diffTime / (1000 * 3600 * 24) + 1; // Menambahkan 1 untuk menghitung hari terakhir
+
+                // Menampilkan jumlah cuti
+                $('#leaveDays').val(diffDays);
+            }
+        });
     });
 </script>

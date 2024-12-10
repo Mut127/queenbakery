@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-fluid">
-    <div class="main-panel">
+    <div class="">
         <div class="row">
             <!-- Konten Utama -->
             <div class="col-lg-12">

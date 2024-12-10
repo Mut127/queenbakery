@@ -191,4 +191,40 @@ class KehadiranController extends Controller
         $cuti->forceDelete(); // Hapus permanen
         return redirect()->back()->with('success_delete', 'Data cuti berhasil dihapus secara permanen.');
     }
+    public function store(Request $request)
+    {
+        $request->validate([
+            'status' => 'required|string|in:Hadir,Izin,Sakit',
+            'ket' => 'nullable|string|max:1000',
+            'image_path' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
+            'bukti_hadir' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Validasi untuk bukti hadir
+        ]);
+    
+        // Menyimpan bukti Izin/Sakit
+        $imagePath = null;
+        if ($request->hasFile('image_path')) {
+            $imagePath = $request->file('image_path')->store('kehadiran', 'public');
+        }
+    
+        // Menyimpan bukti Kehadiran
+        $buktiHadirPath = null;
+        if ($request->hasFile('bukti_hadir')) {
+            $buktiHadirPath = $request->file('bukti_hadir')->store('kehadiran', 'public');
+        }
+    
+        // Menyimpan data kehadiran
+        Kehadiran::create([
+            'user_id' => auth()->id(),
+            'status' => $request->status,
+            'ket' => $request->ket,
+            'image_path' => $imagePath,
+            'bukti_hadir' => $buktiHadirPath, // Simpan bukti hadir
+            'date' => now()->toTimeString(),
+            'tanggal' => now()->toDateString(),
+        ]);
+    
+        return redirect()->back()->with('success', 'Data kehadiran berhasil disimpan.');
+    }
+    
+
 }

@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-scroller">
-    <div class="main-panel">
+    <div class="">
         <div class="content-wrapper">
             @if(session('success'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">

@@ -1,58 +1,65 @@
 @extends('layouts.app')
 
 @section('content')
+<link rel="stylesheet" href="{{ asset('resources/css/app.css') }}">
+
 <div class="container-scroller">
-    <div class="main-panel">
-        <div class="ml-2 mr-2 content-wrapper">
+    <div class="">
+        <div class="content-wrapper">
             <div class="row">
                 <div class="col-lg-12 grid-margin stretch-card">
-                    <div class="card shadow-sm border-light">
+                    <div class="card shadow border-light">
                         <div class="card-body">
-                            <h4 class="card-title mb-3 text-center">Rekap Kehadiran Karyawan</h4>
-                            <p class="card-description text-center text-muted">
-                                Daftar kehadiran karyawan untuk bulan berjalan.
-                            </p>
+                            <h4 class="card-title text-center text-primary mb-4">Rekap Kehadiran Karyawan</h4>
+                            <p class="text-center text-muted">Daftar kehadiran karyawan untuk bulan berjalan.</p>
 
-                            <!-- Form filter bulan dan tahun -->
+                            <!-- Form Filter Bulan dan Tahun -->
                             <div class="d-flex justify-content-center mb-4">
-                                <form method="GET" action="{{ route('karyawan.absensi') }}" class="d-flex align-items-center">
-                                    <select name="bulan" class="form-control form-control-sm mr-2" style="width: 150px;" onchange="this.form.submit()">
+                                <form method="GET" action="{{ route('karyawan.absensi') }}" class="form-inline">
+                                    <label for="bulan" class="mr-2 text-muted">Bulan:</label>
+                                    <select name="bulan" id="bulan" class="form-control form-control-sm mr-3" onchange="this.form.submit()">
                                         @foreach(range(1, 12) as $bulanOption)
-                                        <option value="{{ $bulanOption }}" @if($bulanOption==$bulan) selected @endif>
-                                            {{ \Carbon\Carbon::create()->month($bulanOption)->format('F') }}
-                                        </option>
+                                            <option value="{{ $bulanOption }}" @if($bulanOption == $bulan) selected @endif>
+                                                {{ \Carbon\Carbon::create()->month($bulanOption)->format('F') }}
+                                            </option>
                                         @endforeach
                                     </select>
-                                    <select name="tahun" class="form-control form-control-sm" style="width: 120px;" onchange="this.form.submit()">
+
+                                    <label for="tahun" class="mr-2 text-muted">Tahun:</label>
+                                    <select name="tahun" id="tahun" class="form-control form-control-sm" onchange="this.form.submit()">
                                         @foreach(range(now()->year - 2, now()->year) as $tahunOption)
-                                        <option value="{{ $tahunOption }}" @if($tahunOption==$tahun) selected @endif>
-                                            {{ $tahunOption }}
-                                        </option>
+                                            <option value="{{ $tahunOption }}" @if($tahunOption == $tahun) selected @endif>
+                                                {{ $tahunOption }}
+                                            </option>
                                         @endforeach
                                     </select>
                                 </form>
                             </div>
 
-                            <!-- Tabel absensi -->
+                            <!-- Tabel Absensi -->
                             <div class="table-responsive">
-                                <table class="table table-hover table-bordered table-striped">
-                                    <thead class="thead-light">
+                                <table class="table table-striped table-bordered">
+                                    <thead class="thead-light text-center">
                                         <tr>
                                             <th>Tanggal</th>
                                             <th>Waktu</th>
                                             <th>Nama Karyawan</th>
                                             <th>Status Kehadiran</th>
                                             <th>Keterangan</th>
-                                            <th>Gambar</th>
+                                            <th>Bukti Izin</th>
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        @foreach($kehadiran as $kehadiranItem)
-                                        <tr>
-                                            <td>{{ \Carbon\Carbon::parse($kehadiranItem->tanggal)->timezone('Asia/Jakarta')->format('d F Y') }}</td>
-                                            <td>{{ \Carbon\Carbon::parse($kehadiranItem->date)->timezone('Asia/Jakarta')->format('H:i:s') }}</td>
+                                        @forelse($kehadiran as $kehadiranItem)
+                                        <tr class="text-center">
+                                            <td>{{ \Carbon\Carbon::parse($kehadiranItem->tanggal)->format('d F Y') }}</td>
+                                            <td>{{ \Carbon\Carbon::parse($kehadiranItem->date)->format('H:i:s') }}</td>
                                             <td>{{ $kehadiranItem->user->name }}</td>
-                                            <td>{{ $kehadiranItem->status }}</td>
+                                            <td>
+                                                <span class="badge badge-{{ $kehadiranItem->status == 'Hadir' ? 'success' : 'warning' }}">
+                                                    {{ $kehadiranItem->status }}
+                                                </span>
+                                            </td>
                                             <td>{{ $kehadiranItem->ket ?? '-' }}</td>
                                             <td>
                                                 @if ($kehadiranItem->image_path)
@@ -64,16 +71,14 @@
                                                 @endif
                                             </td>
                                         </tr>
-                                        @endforeach
+                                        @empty
+                                        <tr>
+                                            <td colspan="6" class="text-center text-muted">Tidak ada data daftar kehadiran karyawan.</td>
+                                        </tr>
+                                        @endforelse
                                     </tbody>
                                 </table>
                             </div>
-                             <!-- Jika Tidak Ada Data -->
-                             @if ($kehadiran->isEmpty())
-                             <div class="text-center mt-3">
-                                 <p class="text-muted">Tidak ada data daftar kehadiran karyawan</p>
-                             </div>
-                             @endif
                         </div>
                     </div>
                 </div>
@@ -81,4 +86,39 @@
         </div>
     </div>
 </div>
+
+<!-- CSS Langsung -->
+<style>
+    .table-striped > tbody > tr:nth-of-type(odd) {
+        background-color: #f9f9f9;
+    }
+
+    .table-hover tbody tr:hover {
+        background-color: #f1f1f1;
+    }
+
+    .badge-success {
+        background-color: #28a745;
+        color: white;
+    }
+
+    .badge-warning {
+        background-color: #ffc107;
+        color: black;
+    }
+
+    .card {
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    h4.card-title {
+        font-weight: bold;
+    }
+
+    thead.thead-light th {
+        background-color: #e9ecef;
+        font-weight: bold;
+    }
+</style>
 @endsection

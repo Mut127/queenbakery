@@ -2,7 +2,7 @@
 
 @section('content')
 <div class="container-scroller">
-    <div class="main-panel">
+    <div class="">
         <div class="ml-6 mr-2 content-wrapper">
             @if(session('success_restore'))
             <div class="alert alert-success alert-dismissible fade show" role="alert">

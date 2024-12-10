@@ -2,7 +2,7 @@
 @section('content')
     <div class="container-fluid p-4">
         <!-- Full-screen Dashboard -->
-        <div class="main-panel">
+        <div class="">
             <!-- Welcome Banner -->
             <div class="row">
                 <div class="col-12">

@@ -2,7 +2,7 @@
 
 @section('content')
     <div class="container-scroller">
-        <div class="main-panel">
+        <div class="">
             <div class="ml-2 mr-2 content-wrapper" style="background-color: transparent;">
                 <div class="row">
                     <div class="col-lg-8 grid-margin stretch-card">
