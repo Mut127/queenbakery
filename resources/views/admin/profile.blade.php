@@ -13,7 +13,7 @@
                     <div class="col-lg-6 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">Admin Information</h4>
+                                <h4 class="card-title">Account Information</h4>
                                 <p><strong>Name:</strong> John Doe</p>
                                 <p><strong>Email:</strong> johndoe@example.com</p>
                                 <p><strong>Bio:</strong> Lorem ipsum dolor sit amet.</p>

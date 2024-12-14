@@ -16,8 +16,10 @@ class KehadiranController extends Controller
         $bulan = $request->input('bulan', now()->month); // Default ke bulan berjalan
         $tahun = $request->input('tahun', now()->year); // Default ke tahun berjalan
 
-        // Ambil data absensi berdasarkan bulan dan tahun yang dipilih
-        $kehadiran = Kehadiran::with('user')
+        // Tambahkan pengecekan relasi user
+        $kehadiran = Kehadiran::with(['user' => function ($query) {
+            $query->whereNotNull('id'); // Pastikan hanya user dengan ID valid
+        }])
             ->whereMonth('tanggal', $bulan)
             ->whereYear('tanggal', $tahun)
             ->orderBy('tanggal', 'asc')
@@ -26,7 +28,6 @@ class KehadiranController extends Controller
         // Kirim data ke view
         return view('admin.absensi', compact('kehadiran', 'bulan', 'tahun'));
     }
-
 
     public function showKehadiran(Request $request)
     {
@@ -199,19 +200,19 @@ class KehadiranController extends Controller
             'image_path' => 'nullable|image|mimes:jpg,png,jpeg|max:2048',
             'bukti_hadir' => 'nullable|image|mimes:jpg,png,jpeg|max:2048', // Validasi untuk bukti hadir
         ]);
-    
+
         // Menyimpan bukti Izin/Sakit
         $imagePath = null;
         if ($request->hasFile('image_path')) {
             $imagePath = $request->file('image_path')->store('kehadiran', 'public');
         }
-    
+
         // Menyimpan bukti Kehadiran
         $buktiHadirPath = null;
         if ($request->hasFile('bukti_hadir')) {
             $buktiHadirPath = $request->file('bukti_hadir')->store('kehadiran', 'public');
         }
-    
+
         // Menyimpan data kehadiran
         Kehadiran::create([
             'user_id' => auth()->id(),
@@ -222,9 +223,7 @@ class KehadiranController extends Controller
             'date' => now()->toTimeString(),
             'tanggal' => now()->toDateString(),
         ]);
-    
+
         return redirect()->back()->with('success', 'Data kehadiran berhasil disimpan.');
     }
-    
-
 }

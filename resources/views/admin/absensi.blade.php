@@ -51,7 +51,7 @@
                                         <tr>
                                             <td>{{ \Carbon\Carbon::parse($kehadiranItem->tanggal)->timezone('Asia/Jakarta')->format('d F Y') }}</td>
                                             <td>{{ \Carbon\Carbon::parse($kehadiranItem->date)->timezone('Asia/Jakarta')->format('H:i:s') }}</td>
-                                            <td>{{ $kehadiranItem->user->name }}</td>
+                                            <td>{{ optional($kehadiranItem->user)->name ?? 'Pengguna Tidak Dikenal' }}</td>
                                             <td>{{ $kehadiranItem->status }}</td>
                                             <td>{{ $kehadiranItem->ket ?? '-' }}</td>
                                             <td>
